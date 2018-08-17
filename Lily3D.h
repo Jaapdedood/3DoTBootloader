@@ -1,6 +1,6 @@
 /*
-             LUFA Library
-     Copyright (C) Dean Camera, 2011.
+  LUFA Library
+  Copyright (C) Dean Camera, 2011.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
@@ -87,11 +87,11 @@ void SetupHardware(void);
 
 void EVENT_USB_Device_ConfigurationChanged(void);
 
-#if defined(INCLUDE_FROM_CATERINA_C) || defined(__DOXYGEN__)
-            #if !defined(NO_BLOCK_SUPPORT)
-            static void    ReadWriteMemoryBlock(const uint8_t Command);
-            #endif
-            static uint8_t FetchNextCommandByte(void);
+#if defined(INCLUDE_FROM_LILY3D_C) || defined(__DOXYGEN__)
+#if !defined(NO_BLOCK_SUPPORT)
+static void    ReadWriteMemoryBlock(const uint8_t Command);
+#endif
+static uint8_t FetchNextCommandByte(void);
             static void    WriteNextResponseByte(const uint8_t Response);
         #endif
 
