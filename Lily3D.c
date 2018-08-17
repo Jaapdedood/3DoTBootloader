@@ -231,8 +231,8 @@ int main(void)
         CDC_Task();
         USB_USBTask();
         /* Time out and start the sketch if one is present */
-        if (Timeout > TIMEOUT_PERIOD)
-               RunBootloader = false;
+        //   if (Timeout > TIMEOUT_PERIOD)
+        //      RunBootloader = false;
 
         // MAH 8/15/12- This used to be a function call- inlining it saves a few bytes.
         LLEDPulse++;
