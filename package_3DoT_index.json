@@ -14,8 +14,8 @@
                 "architecture": "avr",
                 "version": "0.2",
                 "category": "Contributed",
-                "url": ""https://github.com/Jaapdedood/3DoTBootloader/archive/v0.2-beta.zip"
-                "archiveFileName": "3DoTBootloader-0.2-beta.zip"
+                "url": ""https://github.com/Jaapdedood/3DoTBootloader/archive/v0.2-beta.zip",
+                "archiveFileName": "3DoTBootloader-0.2-beta.zip",
                 "checksum": "3873c2c77f88524e70fd8b63248874644101701972b7c4125ca9f75c7a08877f",
                 "size": "4426822",
                 "help": {
