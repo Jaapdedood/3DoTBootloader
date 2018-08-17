@@ -110,7 +110,7 @@ FORMAT = ihex
 
 
 # Target file name (without extension).
-TARGET = Caterina
+TARGET = Lily3D
 
 
 # Object files directory
@@ -369,9 +369,9 @@ AVRDUDE_PORT = usb
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
-AVRDUDE_WRITE_FUSES = -U efuse:w:0xce:m 
-AVRDUDE_WRITE_FUSES += -U hfuse:w:0xd8:m 
-AVRDUDE_WRITE_FUSES += -U lfuse:w:0xff:m
+AVRDUDE_WRITE_FUSES = -U efuse:w:0xc3:m
+AVRDUDE_WRITE_FUSES += -U hfuse:w:0x99:m
+AVRDUDE_WRITE_FUSES += -U lfuse:w:0xE2:m
 
 
 # Uncomment the following if you want avrdude's erase cycle counter.
@@ -698,7 +698,7 @@ checksource:
 			echo "Found Source File: $$f" ; \
 		else \
 			echo "Source File Not Found: $$f" ; \
-		fi; done 
+		fi; done
 
 
 # Create object files directory
@@ -713,4 +713,3 @@ $(shell mkdir $(OBJDIR) 2>/dev/null)
 .PHONY : all begin finish end sizebefore sizeafter gccversion \
 build elf hex eep lss sym coff extcoff doxygen clean          \
 clean_list clean_doxygen program debug gdb-config checksource
-
