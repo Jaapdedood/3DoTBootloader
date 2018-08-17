@@ -33,8 +33,8 @@
  *  Main source file for the CDC class bootloader. This file contains the complete bootloader logic.
  */
 
-#define  INCLUDE_FROM_CATERINA_C
-#include "Caterina.h"
+#define  INCLUDE_FROM_LILY3D_C
+#include "Lily3D.h"
 
 /** Contains the current baud rate and other settings of the first virtual serial port. This must be retained as some
  *  operating systems will not open the port unless the settings can be set successfully.
@@ -231,8 +231,8 @@ int main(void)
         CDC_Task();
         USB_USBTask();
         /* Time out and start the sketch if one is present */
-        //if (Timeout > TIMEOUT_PERIOD)
-        //   RunBootloader = false;
+        if (Timeout > TIMEOUT_PERIOD)
+               RunBootloader = false;
 
         // MAH 8/15/12- This used to be a function call- inlining it saves a few bytes.
         LLEDPulse++;
