@@ -17,7 +17,7 @@
 3DoT.bootloader.low_fuses=0xE2
 3DoT.bootloader.high_fuses=0x99
 3DoT.bootloader.extended_fuses=0xc3
-3DoT.bootloader.file=bootloaders/Lily3D.hex
+3DoT.bootloader.file=Lily3D.hex
 3DoT.bootloader.unlock_bits=0x3F
 3DoT.bootloader.lock_bits=0x2F
 
@@ -27,6 +27,6 @@
 3DoT.build.pid=0x9208
 3DoT.build.usb_product="LilyPad USB"
 3DoT.build.board=AVR_LILYPAD_USB
-3DoT.build.core=arduino
+3DoT.build.core=arduino:arduino
 3DoT.build.variant=leonardo
 3DoT.build.extra_flags={build.usb_flags}

@@ -16,14 +16,23 @@
                     "help": {
                         "online": ""
                     },
-                    "url": "https://github.com/Jaapdedood/3DoTBootloader/archive/v0.2-beta.zip",
-                    "archiveFileName": "3DoTBootloader-0.2-beta.zip",
-                    "checksum": "SHA-256:3873c2c77f88524e70fd8b63248874644101701972b7c4125ca9f75c7a08877f",
-                    "size": "4426822",
+                    "url": "https://github.com/Jaapdedood/3DoTBootloader/archive/v0.3-beta.zip",
+                    "archiveFileName": "3DoTBootloader-0.3-beta.zip",
                     "boards": [
                         {"name": "3DoT"}
                     ],
-                    "toolsDependencies": []
+                    "toolsDependencies": [
+                        {
+                            "packager":"arduino",
+                            "name":"avr-gcc",
+                            "version":"4.8.1-arduino5"
+                        },
+                        {
+                            "packager":"arduino",
+                            "name":"avrdude",
+                            "version":"6.0.1-arduino5"
+                        }
+                    ]
                 }
             ],
             "tools": []
