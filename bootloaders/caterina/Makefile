@@ -49,12 +49,12 @@
 # USB vendor ID (VID)
 # reuse of this VID by others is forbidden by USB-IF
 # official Arduino LLC VID
-# VID = 0x2341
+VID = 0x2341
 
 
 # USB product ID (PID)
 # official Leonardo PID
-# PID = 0x0036
+PID = 0x0036
 # official Micro PID
 # PID = 0x0037
 # official Esplora PID
@@ -71,7 +71,7 @@ ARCH = AVR8
 # Target board (see library "Board Types" documentation, NONE for projects not requiring
 # LUFA board drivers). If USER is selected, put custom board drivers in a directory called
 # "Board" inside the application directory.
-BOARD = USER
+BOARD = LEONARDO
 
 
 # Processor frequency.
@@ -85,7 +85,7 @@ BOARD = USER
 #     does not *change* the processor frequency - it should merely be updated to
 #     reflect the processor speed set externally so that the code can use accurate
 #     software delays.
-F_CPU = 16000000
+F_CPU = 8000000
 
 
 # Input clock frequency.
