@@ -127,7 +127,7 @@ OBJDIR = .
 
 
 # Path to the LUFA library
-LUFA_PATH = ../../../../../../LUFA/LUFA-111009
+LUFA_PATH = ../../LUFA-111009
 
 
 # LUFA library compile-time options and predefined tokens
@@ -714,7 +714,7 @@ checksource:
 			echo "Found Source File: $$f" ; \
 		else \
 			echo "Source File Not Found: $$f" ; \
-		fi; done 
+		fi; done
 
 
 # Create object files directory
@@ -729,4 +729,3 @@ $(shell mkdir $(OBJDIR) 2>/dev/null)
 .PHONY : all begin finish end sizebefore sizeafter gccversion \
 build elf hex eep lss sym coff extcoff doxygen clean          \
 clean_list clean_doxygen program debug gdb-config checksource
-
