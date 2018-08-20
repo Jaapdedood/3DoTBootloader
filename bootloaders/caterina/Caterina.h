@@ -66,7 +66,7 @@
 
 #define CPU_PRESCALE(n)	(CLKPR = 0x80, CLKPR = (n))
 #define BootMode_Init() DDRE &= ~(1 << 2); PORTE |= (1 << 2);
-#define isBootMode() (PINE & (1 << 2) ^ (1 << 2))
+#define isBootMode() ((PINE & (1 << 2)) ^ (1 << 2))
 #define LED_SETUP()		DDRC |= (1<<7); DDRB |= (1<<0); DDRD |= (1<<5);
 #define L_LED_OFF()		PORTC &= ~(1<<7)
 #define L_LED_ON()		PORTC |= (1<<7)

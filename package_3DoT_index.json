@@ -16,23 +16,12 @@
                     "help": {
                         "online": ""
                     },
-                    "url": "file://C:\Users\Hello It's Me\PROJECTS\3DoT\3DoTBootloader.zip",
+                    "url": "file://C:\\Users\\Hello It's Me\\PROJECTS\\3DoT\\3DoTBootloader.zip",
                     "archiveFileName": "3DoTBootloader.zip",
                     "boards": [
                         {"name": "3DoT"}
                     ],
-                    "toolsDependencies": [
-                        {
-                            "packager":"arduino",
-                            "name":"avr-gcc",
-                            "version":"4.8.1-arduino5"
-                        },
-                        {
-                            "packager":"arduino",
-                            "name":"avrdude",
-                            "version":"6.0.1-arduino5"
-                        }
-                    ]
+                    "toolsDependencies": []
                 }
             ],
             "tools": []

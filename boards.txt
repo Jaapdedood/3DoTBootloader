@@ -16,7 +16,7 @@
 3DoT.bootloader.low_fuses=0xE2
 3DoT.bootloader.high_fuses=0x99
 3DoT.bootloader.extended_fuses=0xc3
-3DoT.bootloader.file=caterina/Caterina-3DoT.hex
+3DoT.bootloader.file=caterina/Caterina.hex
 3DoT.bootloader.unlock_bits=0xFF
 3DoT.bootloader.lock_bits=0xEF
 
