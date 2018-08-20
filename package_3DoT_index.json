@@ -16,8 +16,8 @@
                     "help": {
                         "online": ""
                     },
-                    "url": "file:///home/jaap/PROJECTS/3DoTBootloader.zip",
-                    "archiveFileName": "3DoTBootloader.zip",
+                    "url": "https://github.com/Jaapdedood/3DoTBootloader/archive/v1.0.0.zip",
+                    "archiveFileName": "3DoTBootloader-1.0.0.zip",
                     "boards": [
                         {"name": "3DoT"}
                     ],
