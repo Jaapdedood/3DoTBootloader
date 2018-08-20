@@ -77,19 +77,19 @@
   43               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Events.c
-     /tmp/ccukgJd0.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccukgJd0.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccukgJd0.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccukgJd0.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccukgJd0.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccukgJd0.s:13     .text.USB_Event_Stub:0000000000000000 USB_Event_Stub
-     /tmp/ccukgJd0.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_StartOfFrame
-     /tmp/ccukgJd0.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Reset
-     /tmp/ccukgJd0.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_WakeUp
-     /tmp/ccukgJd0.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Suspend
-     /tmp/ccukgJd0.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ConfigurationChanged
-     /tmp/ccukgJd0.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ControlRequest
-     /tmp/ccukgJd0.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Disconnect
-     /tmp/ccukgJd0.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Connect
+     /tmp/ccmsEyMT.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccmsEyMT.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccmsEyMT.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccmsEyMT.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccmsEyMT.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccmsEyMT.s:13     .text.USB_Event_Stub:0000000000000000 USB_Event_Stub
+     /tmp/ccmsEyMT.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_StartOfFrame
+     /tmp/ccmsEyMT.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Reset
+     /tmp/ccmsEyMT.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_WakeUp
+     /tmp/ccmsEyMT.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Suspend
+     /tmp/ccmsEyMT.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ConfigurationChanged
+     /tmp/ccmsEyMT.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ControlRequest
+     /tmp/ccmsEyMT.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Disconnect
+     /tmp/ccmsEyMT.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Connect
 
 NO UNDEFINED SYMBOLS

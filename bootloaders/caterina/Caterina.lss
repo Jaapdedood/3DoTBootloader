@@ -692,8 +692,8 @@ void CDC_Task(void)
         * subsequent requests */
         Timeout = TIMEOUT_PERIOD - 500;
     7328:	81 f4       	brne	.+32     	; 0x734a <CDC_Task+0x64>
-    732a:	8c e4       	ldi	r24, 0x4C	; 76
-    732c:	9d e1       	ldi	r25, 0x1D	; 29
+    732a:	84 ef       	ldi	r24, 0xF4	; 244
+    732c:	9f ef       	ldi	r25, 0xFF	; 255
     732e:	90 93 97 01 	sts	0x0197, r25	; 0x800197 <__data_end+0x1>
     7332:	80 93 96 01 	sts	0x0196, r24	; 0x800196 <__data_end>
 
@@ -1673,8 +1673,8 @@ int main(void)
     77f8:	80 91 96 01 	lds	r24, 0x0196	; 0x800196 <__data_end>
     77fc:	90 91 97 01 	lds	r25, 0x0197	; 0x800197 <__data_end+0x1>
                 RunBootloader = false;
-    7800:	81 34       	cpi	r24, 0x41	; 65
-    7802:	9f 41       	sbci	r25, 0x1F	; 31
+    7800:	89 3e       	cpi	r24, 0xE9	; 233
+    7802:	91 40       	sbci	r25, 0x01	; 1
 
             LEDPulse();
     7804:	10 f0       	brcs	.+4      	; 0x780a <main+0x7e>

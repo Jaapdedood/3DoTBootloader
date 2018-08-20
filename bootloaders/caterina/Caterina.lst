@@ -108,7 +108,7 @@
   95:Caterina.c    **** uint16_t RxLEDPulse = 0; // time remaining for Rx LED pulse
   96:Caterina.c    **** 
   97:Caterina.c    **** /* Bootloader timeout timer */
-  98:Caterina.c    **** #define TIMEOUT_PERIOD	8000
+  98:Caterina.c    **** #define TIMEOUT_PERIOD	488
   99:Caterina.c    **** uint16_t Timeout = 0;
  100:Caterina.c    **** 
  101:Caterina.c    **** /* bootKey may have been made redundant - TODO: Confirm and remove */
@@ -1845,8 +1845,8 @@
  528:Caterina.c    ****         * subsequent requests */
  529:Caterina.c    ****         Timeout = TIMEOUT_PERIOD - 500;
  642               		.loc 1 529 0
- 643 0046 8CE4      		ldi r24,lo8(76)
- 644 0048 9DE1      		ldi r25,lo8(29)
+ 643 0046 84EF      		ldi r24,lo8(-12)
+ 644 0048 9FEF      		ldi r25,lo8(-1)
  645               	.LVL25:
  646 004a 9093 0000 		sts Timeout+1,r25
  647 004e 8093 0000 		sts Timeout,r24
@@ -3818,8 +3818,8 @@
  1619               		.loc 1 182 0
  1620 0072 8091 0000 		lds r24,Timeout
  1621 0076 9091 0000 		lds r25,Timeout+1
- 1622 007a 8134      		cpi r24,65
- 1623 007c 9F41      		sbci r25,31
+ 1622 007a 893E      		cpi r24,-23
+ 1623 007c 9140      		sbci r25,1
  1624 007e 00F0      		brlo .L144
  183:Caterina.c    **** 
  1625               		.loc 1 183 0
@@ -4096,30 +4096,30 @@
  1723               		.file 12 "/usr/lib/avr/include/avr/eeprom.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Caterina.c
-     /tmp/ccfdYI1h.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccfdYI1h.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccfdYI1h.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccfdYI1h.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccfdYI1h.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccfdYI1h.s:12     .text.FetchNextCommandByte:0000000000000000 FetchNextCommandByte
-     /tmp/ccfdYI1h.s:78     .text.WriteNextResponseByte:0000000000000000 WriteNextResponseByte
-     /tmp/ccfdYI1h.s:1696   .bss:0000000000000004 TxLEDPulse
-     /tmp/ccfdYI1h.s:154    .text.StartSketch:0000000000000000 StartSketch
-     /tmp/ccfdYI1h.s:200    .text.LEDPulse:0000000000000000 LEDPulse
+     /tmp/ccQamMa4.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccQamMa4.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccQamMa4.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccQamMa4.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccQamMa4.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccQamMa4.s:12     .text.FetchNextCommandByte:0000000000000000 FetchNextCommandByte
+     /tmp/ccQamMa4.s:78     .text.WriteNextResponseByte:0000000000000000 WriteNextResponseByte
+     /tmp/ccQamMa4.s:1696   .bss:0000000000000004 TxLEDPulse
+     /tmp/ccQamMa4.s:154    .text.StartSketch:0000000000000000 StartSketch
+     /tmp/ccQamMa4.s:200    .text.LEDPulse:0000000000000000 LEDPulse
                             *COM*:0000000000000002 LLEDPulse
-     /tmp/ccfdYI1h.s:247    .text.SetupHardware:0000000000000000 SetupHardware
-     /tmp/ccfdYI1h.s:296    .text.__vector_17:0000000000000000 __vector_17
-     /tmp/ccfdYI1h.s:1691   .bss:0000000000000002 RxLEDPulse
-     /tmp/ccfdYI1h.s:1686   .bss:0000000000000000 Timeout
-     /tmp/ccfdYI1h.s:409    .text.EVENT_USB_Device_ConfigurationChanged:0000000000000000 EVENT_USB_Device_ConfigurationChanged
-     /tmp/ccfdYI1h.s:452    .text.EVENT_USB_Device_ControlRequest:0000000000000000 EVENT_USB_Device_ControlRequest
-     /tmp/ccfdYI1h.s:1707   .data:0000000000000001 LineEncoding
-     /tmp/ccfdYI1h.s:537    .text.CDC_Task:0000000000000000 CDC_Task
+     /tmp/ccQamMa4.s:247    .text.SetupHardware:0000000000000000 SetupHardware
+     /tmp/ccQamMa4.s:296    .text.__vector_17:0000000000000000 __vector_17
+     /tmp/ccQamMa4.s:1691   .bss:0000000000000002 RxLEDPulse
+     /tmp/ccQamMa4.s:1686   .bss:0000000000000000 Timeout
+     /tmp/ccQamMa4.s:409    .text.EVENT_USB_Device_ConfigurationChanged:0000000000000000 EVENT_USB_Device_ConfigurationChanged
+     /tmp/ccQamMa4.s:452    .text.EVENT_USB_Device_ControlRequest:0000000000000000 EVENT_USB_Device_ControlRequest
+     /tmp/ccQamMa4.s:1707   .data:0000000000000001 LineEncoding
+     /tmp/ccQamMa4.s:537    .text.CDC_Task:0000000000000000 CDC_Task
                              .bss:0000000000000006 CurrAddress
-     /tmp/ccfdYI1h.s:1512   .text.startup.main:0000000000000000 main
-     /tmp/ccfdYI1h.s:1701   .data:0000000000000000 RunBootloader
-     /tmp/ccfdYI1h.s:1680   .rodata:0000000000000000 bootKeyPtr
-     /tmp/ccfdYI1h.s:532    .rodata.str1.1:0000000000000000 .LC0
+     /tmp/ccQamMa4.s:1512   .text.startup.main:0000000000000000 main
+     /tmp/ccQamMa4.s:1701   .data:0000000000000000 RunBootloader
+     /tmp/ccQamMa4.s:1680   .rodata:0000000000000000 bootKeyPtr
+     /tmp/ccQamMa4.s:532    .rodata.str1.1:0000000000000000 .LC0
 
 UNDEFINED SYMBOLS
 USB_Init
