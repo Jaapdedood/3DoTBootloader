@@ -537,17 +537,17 @@
  246               		.file 6 "Descriptors.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Descriptors.c
-     /tmp/cc3762Qf.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cc3762Qf.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cc3762Qf.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cc3762Qf.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cc3762Qf.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cc3762Qf.s:13     .text.CALLBACK_USB_GetDescriptor:0000000000000000 CALLBACK_USB_GetDescriptor
-     /tmp/cc3762Qf.s:225    .rodata:0000000000000072 DeviceDescriptor
-     /tmp/cc3762Qf.s:164    .rodata:0000000000000034 ConfigurationDescriptor
-     /tmp/cc3762Qf.s:121    .rodata:0000000000000000 ManufNameString
-     /tmp/cc3762Qf.s:157    .rodata:0000000000000030 LanguageString
-     /tmp/cc3762Qf.s:136    .rodata:0000000000000012 ProductString
+     /tmp/ccX5OPQk.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccX5OPQk.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccX5OPQk.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccX5OPQk.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccX5OPQk.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccX5OPQk.s:13     .text.CALLBACK_USB_GetDescriptor:0000000000000000 CALLBACK_USB_GetDescriptor
+     /tmp/ccX5OPQk.s:225    .rodata:0000000000000072 DeviceDescriptor
+     /tmp/ccX5OPQk.s:164    .rodata:0000000000000034 ConfigurationDescriptor
+     /tmp/ccX5OPQk.s:121    .rodata:0000000000000000 ManufNameString
+     /tmp/ccX5OPQk.s:157    .rodata:0000000000000030 LanguageString
+     /tmp/ccX5OPQk.s:136    .rodata:0000000000000012 ProductString
 
 UNDEFINED SYMBOLS
 __do_copy_data
