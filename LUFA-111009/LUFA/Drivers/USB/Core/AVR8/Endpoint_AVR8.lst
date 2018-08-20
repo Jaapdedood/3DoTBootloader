@@ -1248,15 +1248,15 @@
  317               		.file 7 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../USBTask.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Endpoint_AVR8.c
-     /tmp/ccuoHjYi.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccuoHjYi.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccuoHjYi.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccuoHjYi.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccuoHjYi.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccuoHjYi.s:13     .text.Endpoint_ConfigureEndpoint_Prv:0000000000000000 Endpoint_ConfigureEndpoint_Prv
-     /tmp/ccuoHjYi.s:68     .text.Endpoint_ClearEndpoints:0000000000000000 Endpoint_ClearEndpoints
-     /tmp/ccuoHjYi.s:120    .text.Endpoint_ClearStatusStage:0000000000000000 Endpoint_ClearStatusStage
-     /tmp/ccuoHjYi.s:188    .text.Endpoint_WaitUntilReady:0000000000000000 Endpoint_WaitUntilReady
+     /tmp/cc5vT6aB.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc5vT6aB.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc5vT6aB.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc5vT6aB.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc5vT6aB.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc5vT6aB.s:13     .text.Endpoint_ConfigureEndpoint_Prv:0000000000000000 Endpoint_ConfigureEndpoint_Prv
+     /tmp/cc5vT6aB.s:68     .text.Endpoint_ClearEndpoints:0000000000000000 Endpoint_ClearEndpoints
+     /tmp/cc5vT6aB.s:120    .text.Endpoint_ClearStatusStage:0000000000000000 Endpoint_ClearStatusStage
+     /tmp/cc5vT6aB.s:188    .text.Endpoint_WaitUntilReady:0000000000000000 Endpoint_WaitUntilReady
 
 UNDEFINED SYMBOLS
 USB_ControlRequest

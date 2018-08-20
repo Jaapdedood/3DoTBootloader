@@ -1938,14 +1938,14 @@
  460               		.file 9 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/../DeviceStandardReq.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 USBInterrupt_AVR8.c
-     /tmp/cckowdJo.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cckowdJo.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cckowdJo.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cckowdJo.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cckowdJo.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cckowdJo.s:13     .text.USB_INT_DisableAllInterrupts:0000000000000000 USB_INT_DisableAllInterrupts
-     /tmp/cckowdJo.s:37     .text.USB_INT_ClearAllInterrupts:0000000000000000 USB_INT_ClearAllInterrupts
-     /tmp/cckowdJo.s:56     .text.__vector_10:0000000000000000 __vector_10
+     /tmp/ccMyR9VL.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccMyR9VL.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccMyR9VL.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccMyR9VL.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccMyR9VL.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccMyR9VL.s:13     .text.USB_INT_DisableAllInterrupts:0000000000000000 USB_INT_DisableAllInterrupts
+     /tmp/ccMyR9VL.s:37     .text.USB_INT_ClearAllInterrupts:0000000000000000 USB_INT_ClearAllInterrupts
+     /tmp/ccMyR9VL.s:56     .text.__vector_10:0000000000000000 __vector_10
 
 UNDEFINED SYMBOLS
 EVENT_USB_Device_Connect

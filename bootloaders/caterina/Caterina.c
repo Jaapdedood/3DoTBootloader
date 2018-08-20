@@ -159,7 +159,7 @@ int main(void)
     BootMode_Init();
     _delay_ms(10);    // allow time for caps to charge
 
-    if ((isBootMode() && (!(mcusr_state & (1 << WDRF)))) || (pgm_read_word(0) == 0xFFFF))
+    if ((isBootMode() || (pgm_read_word(0) == 0xFFFF)))
     {
         // Switch is in Boot mode position or there is no sketch
 

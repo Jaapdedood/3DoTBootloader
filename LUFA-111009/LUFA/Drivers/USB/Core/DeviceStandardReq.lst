@@ -2242,12 +2242,12 @@
  569               		.file 10 "../../LUFA-111009/LUFA/Drivers/USB/Core/Events.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 DeviceStandardReq.c
-     /tmp/cc3Pt7eN.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cc3Pt7eN.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cc3Pt7eN.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cc3Pt7eN.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cc3Pt7eN.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cc3Pt7eN.s:13     .text.USB_Device_ProcessControlRequest:0000000000000000 USB_Device_ProcessControlRequest
+     /tmp/ccfEVi99.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccfEVi99.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccfEVi99.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccfEVi99.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccfEVi99.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccfEVi99.s:13     .text.USB_Device_ProcessControlRequest:0000000000000000 USB_Device_ProcessControlRequest
                             *COM*:0000000000000001 USB_Device_ConfigurationNumber
 
 UNDEFINED SYMBOLS
