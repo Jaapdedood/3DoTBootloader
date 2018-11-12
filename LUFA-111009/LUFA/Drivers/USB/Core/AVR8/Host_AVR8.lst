@@ -10,10 +10,10 @@
   10               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Host_AVR8.c
-     /tmp/cclyX30D.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cclyX30D.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cclyX30D.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cclyX30D.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cclyX30D.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cckN2DPh.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cckN2DPh.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cckN2DPh.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cckN2DPh.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cckN2DPh.s:6      *ABS*:0000000000000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS

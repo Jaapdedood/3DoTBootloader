@@ -98,10 +98,6 @@ uint16_t RxLEDPulse = 0; // time remaining for Rx LED pulse
 #define TIMEOUT_PERIOD	488
 uint16_t Timeout = 0;
 
-/* bootKey may have been made redundant - TODO: Confirm and remove */
-static const uint16_t bootKey = 0x7777;
-volatile uint16_t *const bootKeyPtr = (volatile uint16_t *)0x0800;
-
 void StartSketch(void)
 {
     cli();
@@ -144,10 +140,6 @@ void LEDPulse(void)
  */
 int main(void)
 {
-    /* Save the value of the boot key memory before it is overwritten */
-    uint16_t bootKeyPtrVal = *bootKeyPtr;
-    *bootKeyPtr = 0;
-
     /* Check the reason for the reset so we can act accordingly */
     uint8_t  mcusr_state = MCUSR;							// store the initial state of the Status register
     MCUSR &= ~(1 << WDRF);	// clear reset flags that are used by the bootloader
@@ -159,52 +151,48 @@ int main(void)
     BootMode_Init();
     _delay_ms(10);    // allow time for caps to charge
 
-    if ((isBootMode() || (pgm_read_word(0) == 0xFFFF)))
-    {
-        // Switch is in Boot mode position or there is no sketch
+     if ((isBootMode() || (pgm_read_word(0) == 0xFFFF)))
+         {
+             // Switch is in Boot mode position or there is no sketch
 
-        // Clear remaining reset flags so the sketch doesn't see info about an old reset when it runs later.
-        MCUSR = 0;
+             // Clear remaining reset flags so the sketch doesn't see info about an old reset when it runs later.
+             MCUSR = 0;
 
-        /* Setup hardware required for the bootloader */
-        SetupHardware();
+             /* Setup hardware required for the bootloader */
+             SetupHardware();
 
-        /* Enable global interrupts so that the USB stack can function */
-        sei();
+             /* Enable global interrupts so that the USB stack can function */
+             sei();
 
-        Timeout = 0;
+             Timeout = 0;
 
-        while (RunBootloader)
-        {
-            CDC_Task();
-            USB_USBTask();
-            /* Time out and start the sketch if one is present */
-            if (Timeout > TIMEOUT_PERIOD)
-                RunBootloader = false;
+             while (RunBootloader)
+             {
+                 CDC_Task();
+                 USB_USBTask();
+                 if (Timeout > TIMEOUT_PERIOD)
+                     RunBootloader = false;
 
-            LEDPulse();
-        }
+                 LEDPulse();
+             }
 
-        /* Disconnect from the host - USB interface will be reset later along with the AVR */
-        USB_Detach();
+             /* Enable watchdog system reset and wait for it to occur */
+             wdt_enable(WDTO_500MS);
 
-        wdt_enable(WDTO_500MS);
+             while(1);
+         }
 
-        while(1);
-    }
+/* Disconnect from the host - USB interface will be reset later along with the AVR */
+     USB_Detach();
+
 /* Jump to beginning of application space to run the sketch - do not reset */
-    StartSketch();
+     StartSketch();
 }
 
-/** Configures all hardware required for the bootloader. */
+/** Configures all hardware re
+quired for the bootloader. */
 void SetupHardware(void)
 {
-    // This was in the original Caterina, but it shouldn't be necessary because we've already
-    // cleared WDRF and disabled the watchdog timer in main().
-    /* Disable watchdog if enabled by bootloader/fuses */
-    //MCUSR &= ~(1 << WDRF);
-    //wdt_disable();
-
     /* Disable clock division */
     //clock_prescale_set(clock_div_1); // redundant
     CPU_PRESCALE(0);

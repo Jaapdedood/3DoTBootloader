@@ -435,11 +435,10 @@
  330:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 					UENUM = EndpointNumber;
   44               		.loc 2 330 0
   45 000e 1092 E900 		sts 233,__zero_reg__
-  46               	.LVL1:
-  47               	.LBE28:
-  48               	.LBE27:
-  49               	.LBB29:
-  50               	.LBB30:
+  46               	.LBE28:
+  47               	.LBE27:
+  48               	.LBB29:
+  49               	.LBB30:
  331:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#endif
  332:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
  333:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 
@@ -601,58 +600,58 @@
  489:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			static inline bool Endpoint_IsSETUPReceived(void)
  490:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			{
  491:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				return ((UEINTX & (1 << RXSTPI)) ? true : false);
-  51               		.loc 2 491 0
-  52 0012 8091 E800 		lds r24,232
-  53               	.LBE30:
-  54               	.LBE29:
+  50               		.loc 2 491 0
+  51 0012 8091 E800 		lds r24,232
+  52               	.LBE30:
+  53               	.LBE29:
   64:../../LUFA-111009/LUFA/Drivers/USB/Core/USBTask.c **** 	{
   65:../../LUFA-111009/LUFA/Drivers/USB/Core/USBTask.c **** 		uint8_t PrevEndpoint = Endpoint_GetCurrentEndpoint();
   66:../../LUFA-111009/LUFA/Drivers/USB/Core/USBTask.c **** 
   67:../../LUFA-111009/LUFA/Drivers/USB/Core/USBTask.c **** 		Endpoint_SelectEndpoint(ENDPOINT_CONTROLEP);
   68:../../LUFA-111009/LUFA/Drivers/USB/Core/USBTask.c **** 
   69:../../LUFA-111009/LUFA/Drivers/USB/Core/USBTask.c **** 		if (Endpoint_IsSETUPReceived())
-  55               		.loc 1 69 0
-  56 0016 83FD      		sbrc r24,3
+  54               		.loc 1 69 0
+  55 0016 83FD      		sbrc r24,3
   70:../../LUFA-111009/LUFA/Drivers/USB/Core/USBTask.c **** 		  USB_Device_ProcessControlRequest();
-  57               		.loc 1 70 0
-  58 0018 0E94 0000 		call USB_Device_ProcessControlRequest
-  59               	.LVL2:
-  60               	.L3:
-  61               	.LBB31:
-  62               	.LBB32:
+  56               		.loc 1 70 0
+  57 0018 0E94 0000 		call USB_Device_ProcessControlRequest
+  58               	.LVL1:
+  59               	.L3:
+  60               	.LBB31:
+  61               	.LBB32:
  330:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#endif
-  63               		.loc 2 330 0
-  64 001c C093 E900 		sts 233,r28
-  65               	.LVL3:
-  66               	.L1:
-  67               	/* epilogue start */
-  68               	.LBE32:
-  69               	.LBE31:
-  70               	.LBE24:
-  71               	.LBE23:
-  72               	.LBE22:
+  62               		.loc 2 330 0
+  63 001c C093 E900 		sts 233,r28
+  64               	.LVL2:
+  65               	.L1:
+  66               	/* epilogue start */
+  67               	.LBE32:
+  68               	.LBE31:
+  69               	.LBE24:
+  70               	.LBE23:
+  71               	.LBE22:
   58:../../LUFA-111009/LUFA/Drivers/USB/Core/USBTask.c **** 
-  73               		.loc 1 58 0
-  74 0020 CF91      		pop r28
-  75 0022 0895      		ret
-  76               		.cfi_endproc
-  77               	.LFE81:
-  79               		.comm	USB_ControlRequest,8,1
-  80               		.comm	USB_IsInitialized,1,1
-  81               		.text
-  82               	.Letext0:
-  83               		.file 3 "/usr/lib/avr/include/stdint.h"
-  84               		.file 4 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../StdRequestType.h"
-  85               		.file 5 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../Device.h"
-  86               		.file 6 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../DeviceStandardReq.h"
+  72               		.loc 1 58 0
+  73 0020 CF91      		pop r28
+  74 0022 0895      		ret
+  75               		.cfi_endproc
+  76               	.LFE81:
+  78               		.comm	USB_ControlRequest,8,1
+  79               		.comm	USB_IsInitialized,1,1
+  80               		.text
+  81               	.Letext0:
+  82               		.file 3 "/usr/lib/avr/include/stdint.h"
+  83               		.file 4 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../StdRequestType.h"
+  84               		.file 5 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../Device.h"
+  85               		.file 6 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../DeviceStandardReq.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 USBTask.c
-     /tmp/cci2QhNh.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cci2QhNh.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cci2QhNh.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cci2QhNh.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cci2QhNh.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cci2QhNh.s:13     .text.USB_USBTask:0000000000000000 USB_USBTask
+     /tmp/ccgz9MKb.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccgz9MKb.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccgz9MKb.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccgz9MKb.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccgz9MKb.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccgz9MKb.s:13     .text.USB_USBTask:0000000000000000 USB_USBTask
                             *COM*:0000000000000008 USB_ControlRequest
                             *COM*:0000000000000001 USB_IsInitialized
 
