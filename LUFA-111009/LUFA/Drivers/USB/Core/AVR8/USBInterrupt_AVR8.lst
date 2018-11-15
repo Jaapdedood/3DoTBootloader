@@ -1927,14 +1927,14 @@
  449               		.file 9 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/../DeviceStandardReq.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 USBInterrupt_AVR8.c
-     /tmp/ccQCPmcI.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccQCPmcI.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccQCPmcI.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccQCPmcI.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccQCPmcI.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccQCPmcI.s:13     .text.USB_INT_DisableAllInterrupts:0000000000000000 USB_INT_DisableAllInterrupts
-     /tmp/ccQCPmcI.s:37     .text.USB_INT_ClearAllInterrupts:0000000000000000 USB_INT_ClearAllInterrupts
-     /tmp/ccQCPmcI.s:56     .text.__vector_10:0000000000000000 __vector_10
+     /tmp/ccCL9tbO.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccCL9tbO.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccCL9tbO.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccCL9tbO.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccCL9tbO.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccCL9tbO.s:13     .text.USB_INT_DisableAllInterrupts:0000000000000000 USB_INT_DisableAllInterrupts
+     /tmp/ccCL9tbO.s:37     .text.USB_INT_ClearAllInterrupts:0000000000000000 USB_INT_ClearAllInterrupts
+     /tmp/ccCL9tbO.s:56     .text.__vector_10:0000000000000000 __vector_10
 
 UNDEFINED SYMBOLS
 EVENT_USB_Device_Connect

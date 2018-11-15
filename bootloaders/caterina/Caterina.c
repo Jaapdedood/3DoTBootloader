@@ -140,10 +140,8 @@ void LEDPulse(void)
  */
 int main(void)
 {
-    /* Check the reason for the reset so we can act accordingly */
-    uint8_t  mcusr_state = MCUSR;							// store the initial state of the Status register
-    MCUSR &= ~(1 << WDRF);	// clear reset flags that are used by the bootloader
-
+    /* Clear all reset flags - some may be used by sketch */
+    MCUSR = 0;
     /* Watchdog may be configured with a 15 ms period so must disable it before going any further */
     wdt_disable();
 
@@ -151,46 +149,32 @@ int main(void)
     BootMode_Init();
     _delay_ms(10);    // allow time for caps to charge
 
-     if ((isBootMode() || (pgm_read_word(0) == 0xFFFF)))
-         {
-             // Switch is in Boot mode position or there is no sketch
+    if ((isBootMode() || (pgm_read_word(0) == 0xFFFF)))
+    {
+        // Switch is in Boot mode position or there is no sketch
 
-             // Clear remaining reset flags so the sketch doesn't see info about an old reset when it runs later.
-             MCUSR = 0;
+        /* Setup hardware required for the bootloader */
+        SetupHardware();
 
-             /* Setup hardware required for the bootloader */
-             SetupHardware();
+        /* Enable global interrupts so that the USB stack can function */
+        sei();
 
-             /* Enable global interrupts so that the USB stack can function */
-             sei();
+        while(isBootMode()){
+            CDC_Task();
+            USB_USBTask();
 
-             Timeout = 0;
-
-             while (RunBootloader)
-             {
-                 CDC_Task();
-                 USB_USBTask();
-                 if (Timeout > TIMEOUT_PERIOD)
-                     RunBootloader = false;
-
-                 LEDPulse();
-             }
-
-             /* Enable watchdog system reset and wait for it to occur */
-             wdt_enable(WDTO_500MS);
-
-             while(1);
-         }
-
+            LEDPulse();
+        }
+    }
 /* Disconnect from the host - USB interface will be reset later along with the AVR */
-     USB_Detach();
+    USB_Detach();
 
 /* Jump to beginning of application space to run the sketch - do not reset */
-     StartSketch();
+    StartSketch();
 }
 
 /** Configures all hardware re
-quired for the bootloader. */
+    quired for the bootloader. */
 void SetupHardware(void)
 {
     /* Disable clock division */

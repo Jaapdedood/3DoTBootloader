@@ -153,303 +153,295 @@
  140:Caterina.c    ****  */
  141:Caterina.c    **** int main(void)
  142:Caterina.c    **** {
- 143:Caterina.c    ****     /* Check the reason for the reset so we can act accordingly */
- 144:Caterina.c    ****     uint8_t  mcusr_state = MCUSR;							// store the initial state of the Status register
- 145:Caterina.c    ****     MCUSR &= ~(1 << WDRF);	// clear reset flags that are used by the bootloader
- 146:Caterina.c    **** 
- 147:Caterina.c    ****     /* Watchdog may be configured with a 15 ms period so must disable it before going any further *
- 148:Caterina.c    ****     wdt_disable();
- 149:Caterina.c    **** 
- 150:Caterina.c    ****     /* Initialize BootMode switch pin*/
- 151:Caterina.c    ****     BootMode_Init();
- 152:Caterina.c    ****     _delay_ms(10);    // allow time for caps to charge
- 153:Caterina.c    **** 
- 154:Caterina.c    ****      if ((isBootMode() || (pgm_read_word(0) == 0xFFFF)))
- 155:Caterina.c    ****          {
- 156:Caterina.c    ****              // Switch is in Boot mode position or there is no sketch
- 157:Caterina.c    **** 
- 158:Caterina.c    ****              // Clear remaining reset flags so the sketch doesn't see info about an old reset when 
- 159:Caterina.c    ****              MCUSR = 0;
- 160:Caterina.c    **** 
- 161:Caterina.c    ****              /* Setup hardware required for the bootloader */
- 162:Caterina.c    ****              SetupHardware();
- 163:Caterina.c    **** 
- 164:Caterina.c    ****              /* Enable global interrupts so that the USB stack can function */
- 165:Caterina.c    ****              sei();
- 166:Caterina.c    **** 
- 167:Caterina.c    ****              Timeout = 0;
- 168:Caterina.c    **** 
- 169:Caterina.c    ****              while (RunBootloader)
- 170:Caterina.c    ****              {
- 171:Caterina.c    ****                  CDC_Task();
- 172:Caterina.c    ****                  USB_USBTask();
- 173:Caterina.c    ****                  if (Timeout > TIMEOUT_PERIOD)
- 174:Caterina.c    ****                      RunBootloader = false;
- 175:Caterina.c    **** 
- 176:Caterina.c    ****                  LEDPulse();
- 177:Caterina.c    ****              }
- 178:Caterina.c    **** 
- 179:Caterina.c    ****              /* Enable watchdog system reset and wait for it to occur */
- 180:Caterina.c    ****              wdt_enable(WDTO_500MS);
- 181:Caterina.c    **** 
- 182:Caterina.c    ****              while(1);
- 183:Caterina.c    ****          }
- 184:Caterina.c    **** 
- 185:Caterina.c    **** /* Disconnect from the host - USB interface will be reset later along with the AVR */
- 186:Caterina.c    ****      USB_Detach();
- 187:Caterina.c    **** 
- 188:Caterina.c    **** /* Jump to beginning of application space to run the sketch - do not reset */
- 189:Caterina.c    ****      StartSketch();
- 190:Caterina.c    **** }
+ 143:Caterina.c    ****     //uint8_t  mcusr_state = MCUSR;							// store the initial state of the Status register
+ 144:Caterina.c    ****     //MCUSR &= ~(1 << WDRF);	// clear reset flags that are used by the bootloader
+ 145:Caterina.c    **** 
+ 146:Caterina.c    ****     //test
+ 147:Caterina.c    ****     MCUSR = 0;
+ 148:Caterina.c    ****     /* Watchdog may be configured with a 15 ms period so must disable it before going any further *
+ 149:Caterina.c    ****     wdt_disable();
+ 150:Caterina.c    **** 
+ 151:Caterina.c    ****     /* Initialize BootMode switch pin*/
+ 152:Caterina.c    ****     BootMode_Init();
+ 153:Caterina.c    ****     _delay_ms(10);    // allow time for caps to charge
+ 154:Caterina.c    **** 
+ 155:Caterina.c    ****     if ((isBootMode() || (pgm_read_word(0) == 0xFFFF)))
+ 156:Caterina.c    ****     {
+ 157:Caterina.c    ****         // Switch is in Boot mode position or there is no sketch
+ 158:Caterina.c    **** 
+ 159:Caterina.c    ****         // Clear remaining reset flags so the sketch doesn't see info about an old reset when it ru
+ 160:Caterina.c    ****         //MCUSR = 0;
+ 161:Caterina.c    **** 
+ 162:Caterina.c    ****         /* Setup hardware required for the bootloader */
+ 163:Caterina.c    ****         SetupHardware();
+ 164:Caterina.c    **** 
+ 165:Caterina.c    ****         /* Enable global interrupts so that the USB stack can function */
+ 166:Caterina.c    ****         sei();
+ 167:Caterina.c    **** 
+ 168:Caterina.c    ****         while(isBootMode()){
+ 169:Caterina.c    ****             CDC_Task();
+ 170:Caterina.c    ****             USB_USBTask();
+ 171:Caterina.c    ****             if (Timeout > TIMEOUT_PERIOD)
+ 172:Caterina.c    ****             RunBootloader = false;
+ 173:Caterina.c    **** 
+ 174:Caterina.c    ****             LEDPulse();
+ 175:Caterina.c    ****         }
+ 176:Caterina.c    ****     }
+ 177:Caterina.c    **** /* Disconnect from the host - USB interface will be reset later along with the AVR */
+ 178:Caterina.c    ****     USB_Detach();
+ 179:Caterina.c    **** 
+ 180:Caterina.c    **** /* Jump to beginning of application space to run the sketch - do not reset */
+ 181:Caterina.c    ****      StartSketch();
+ 182:Caterina.c    **** }
+ 183:Caterina.c    **** 
+ 184:Caterina.c    **** /** Configures all hardware re
+ 185:Caterina.c    ****     quired for the bootloader. */
+ 186:Caterina.c    **** void SetupHardware(void)
+ 187:Caterina.c    **** {
+ 188:Caterina.c    ****     /* Disable clock division */
+ 189:Caterina.c    ****     //clock_prescale_set(clock_div_1); // redundant
+ 190:Caterina.c    ****     CPU_PRESCALE(0);
  191:Caterina.c    **** 
- 192:Caterina.c    **** /** Configures all hardware re
- 193:Caterina.c    **** quired for the bootloader. */
- 194:Caterina.c    **** void SetupHardware(void)
- 195:Caterina.c    **** {
- 196:Caterina.c    ****     /* Disable clock division */
- 197:Caterina.c    ****     //clock_prescale_set(clock_div_1); // redundant
- 198:Caterina.c    ****     CPU_PRESCALE(0);
- 199:Caterina.c    **** 
- 200:Caterina.c    ****     /* Relocate the interrupt vector table to the bootloader section */
- 201:Caterina.c    ****     MCUCR = (1 << IVCE);
- 202:Caterina.c    ****     MCUCR = (1 << IVSEL);
- 203:Caterina.c    **** 
- 204:Caterina.c    ****     LED_SETUP();
- 205:Caterina.c    ****     L_LED_OFF();
- 206:Caterina.c    ****     TX_LED_OFF();
- 207:Caterina.c    ****     RX_LED_OFF();
- 208:Caterina.c    **** 
- 209:Caterina.c    ****     /* Initialize TIMER1 to handle bootloader timeout and LED tasks.
- 210:Caterina.c    ****      * With 16 MHz clock and 1/64 prescaler, timer 1 is clocked at 250 kHz
- 211:Caterina.c    ****      * Our chosen compare match generates an interrupt every 1 ms.
- 212:Caterina.c    ****      * This interrupt is disabled selectively when doing memory reading, erasing,
- 213:Caterina.c    ****      * or writing since SPM has tight timing requirements.
- 214:Caterina.c    ****      */
- 215:Caterina.c    ****     OCR1AH = 0;
- 216:Caterina.c    ****     OCR1AL = 250;
- 217:Caterina.c    ****     TIMSK1 = (1 << OCIE1A);					// enable timer 1 output compare A match interrupt
- 218:Caterina.c    ****     TCCR1B = ((1 << CS11) | (1 << CS10));	// 1/64 prescaler on timer 1 input
- 219:Caterina.c    **** 
- 220:Caterina.c    ****     /* Initialize USB Subsystem */
- 221:Caterina.c    ****     USB_Init();
- 222:Caterina.c    **** }
- 223:Caterina.c    **** 
- 224:Caterina.c    **** //uint16_t ctr = 0;
- 225:Caterina.c    **** ISR(TIMER1_COMPA_vect, ISR_BLOCK)
- 226:Caterina.c    **** {
- 227:Caterina.c    ****     /* Reset counter */
- 228:Caterina.c    ****     TCNT1H = 0;
- 229:Caterina.c    ****     TCNT1L = 0;
- 230:Caterina.c    **** 
- 231:Caterina.c    ****     /* Check whether the TX or RX LED one-shot period has elapsed.  if so, turn off the LED */
- 232:Caterina.c    ****     if (TxLEDPulse && !(--TxLEDPulse))
- 233:Caterina.c    ****         TX_LED_OFF();
- 234:Caterina.c    ****     if (RxLEDPulse && !(--RxLEDPulse))
- 235:Caterina.c    ****         RX_LED_OFF();
- 236:Caterina.c    **** 
- 237:Caterina.c    ****     if (pgm_read_word(0) != 0xFFFF)
- 238:Caterina.c    ****         Timeout++;
- 239:Caterina.c    **** }
- 240:Caterina.c    **** 
- 241:Caterina.c    **** /** Event handler for the USB_ConfigurationChanged event. This configures the device's endpoints re
- 242:Caterina.c    ****  *  to relay data to and from the attached USB host.
- 243:Caterina.c    ****  */
- 244:Caterina.c    **** void EVENT_USB_Device_ConfigurationChanged(void)
- 245:Caterina.c    **** {
- 246:Caterina.c    ****     /* Setup CDC Notification, Rx and Tx Endpoints */
- 247:Caterina.c    ****     Endpoint_ConfigureEndpoint(CDC_NOTIFICATION_EPNUM, EP_TYPE_INTERRUPT,
- 248:Caterina.c    ****                                ENDPOINT_DIR_IN, CDC_NOTIFICATION_EPSIZE,
+ 192:Caterina.c    ****     /* Relocate the interrupt vector table to the bootloader section */
+ 193:Caterina.c    ****     MCUCR = (1 << IVCE);
+ 194:Caterina.c    ****     MCUCR = (1 << IVSEL);
+ 195:Caterina.c    **** 
+ 196:Caterina.c    ****     LED_SETUP();
+ 197:Caterina.c    ****     L_LED_OFF();
+ 198:Caterina.c    ****     TX_LED_OFF();
+ 199:Caterina.c    ****     RX_LED_OFF();
+ 200:Caterina.c    **** 
+ 201:Caterina.c    ****     /* Initialize TIMER1 to handle bootloader timeout and LED tasks.
+ 202:Caterina.c    ****      * With 16 MHz clock and 1/64 prescaler, timer 1 is clocked at 250 kHz
+ 203:Caterina.c    ****      * Our chosen compare match generates an interrupt every 1 ms.
+ 204:Caterina.c    ****      * This interrupt is disabled selectively when doing memory reading, erasing,
+ 205:Caterina.c    ****      * or writing since SPM has tight timing requirements.
+ 206:Caterina.c    ****      */
+ 207:Caterina.c    ****     OCR1AH = 0;
+ 208:Caterina.c    ****     OCR1AL = 250;
+ 209:Caterina.c    ****     TIMSK1 = (1 << OCIE1A);					// enable timer 1 output compare A match interrupt
+ 210:Caterina.c    ****     TCCR1B = ((1 << CS11) | (1 << CS10));	// 1/64 prescaler on timer 1 input
+ 211:Caterina.c    **** 
+ 212:Caterina.c    ****     /* Initialize USB Subsystem */
+ 213:Caterina.c    ****     USB_Init();
+ 214:Caterina.c    **** }
+ 215:Caterina.c    **** 
+ 216:Caterina.c    **** //uint16_t ctr = 0;
+ 217:Caterina.c    **** ISR(TIMER1_COMPA_vect, ISR_BLOCK)
+ 218:Caterina.c    **** {
+ 219:Caterina.c    ****     /* Reset counter */
+ 220:Caterina.c    ****     TCNT1H = 0;
+ 221:Caterina.c    ****     TCNT1L = 0;
+ 222:Caterina.c    **** 
+ 223:Caterina.c    ****     /* Check whether the TX or RX LED one-shot period has elapsed.  if so, turn off the LED */
+ 224:Caterina.c    ****     if (TxLEDPulse && !(--TxLEDPulse))
+ 225:Caterina.c    ****         TX_LED_OFF();
+ 226:Caterina.c    ****     if (RxLEDPulse && !(--RxLEDPulse))
+ 227:Caterina.c    ****         RX_LED_OFF();
+ 228:Caterina.c    **** 
+ 229:Caterina.c    ****     if (pgm_read_word(0) != 0xFFFF)
+ 230:Caterina.c    ****         Timeout++;
+ 231:Caterina.c    **** }
+ 232:Caterina.c    **** 
+ 233:Caterina.c    **** /** Event handler for the USB_ConfigurationChanged event. This configures the device's endpoints re
+ 234:Caterina.c    ****  *  to relay data to and from the attached USB host.
+ 235:Caterina.c    ****  */
+ 236:Caterina.c    **** void EVENT_USB_Device_ConfigurationChanged(void)
+ 237:Caterina.c    **** {
+ 238:Caterina.c    ****     /* Setup CDC Notification, Rx and Tx Endpoints */
+ 239:Caterina.c    ****     Endpoint_ConfigureEndpoint(CDC_NOTIFICATION_EPNUM, EP_TYPE_INTERRUPT,
+ 240:Caterina.c    ****                                ENDPOINT_DIR_IN, CDC_NOTIFICATION_EPSIZE,
+ 241:Caterina.c    ****                                ENDPOINT_BANK_SINGLE);
+ 242:Caterina.c    **** 
+ 243:Caterina.c    ****     Endpoint_ConfigureEndpoint(CDC_TX_EPNUM, EP_TYPE_BULK,
+ 244:Caterina.c    ****                                ENDPOINT_DIR_IN, CDC_TXRX_EPSIZE,
+ 245:Caterina.c    ****                                ENDPOINT_BANK_SINGLE);
+ 246:Caterina.c    **** 
+ 247:Caterina.c    ****     Endpoint_ConfigureEndpoint(CDC_RX_EPNUM, EP_TYPE_BULK,
+ 248:Caterina.c    ****                                ENDPOINT_DIR_OUT, CDC_TXRX_EPSIZE,
  249:Caterina.c    ****                                ENDPOINT_BANK_SINGLE);
- 250:Caterina.c    **** 
- 251:Caterina.c    ****     Endpoint_ConfigureEndpoint(CDC_TX_EPNUM, EP_TYPE_BULK,
- 252:Caterina.c    ****                                ENDPOINT_DIR_IN, CDC_TXRX_EPSIZE,
- 253:Caterina.c    ****                                ENDPOINT_BANK_SINGLE);
- 254:Caterina.c    **** 
- 255:Caterina.c    ****     Endpoint_ConfigureEndpoint(CDC_RX_EPNUM, EP_TYPE_BULK,
- 256:Caterina.c    ****                                ENDPOINT_DIR_OUT, CDC_TXRX_EPSIZE,
- 257:Caterina.c    ****                                ENDPOINT_BANK_SINGLE);
- 258:Caterina.c    **** }
- 259:Caterina.c    **** 
- 260:Caterina.c    **** /** Event handler for the USB_ControlRequest event. This is used to catch and process control reque
- 261:Caterina.c    ****  *  the device from the USB host before passing along unhandled control requests to the library for
- 262:Caterina.c    ****  *  internally.
- 263:Caterina.c    ****  */
- 264:Caterina.c    **** void EVENT_USB_Device_ControlRequest(void)
- 265:Caterina.c    **** {
- 266:Caterina.c    ****     /* Ignore any requests that aren't directed to the CDC interface */
- 267:Caterina.c    ****     if ((USB_ControlRequest.bmRequestType & (CONTROL_REQTYPE_TYPE | CONTROL_REQTYPE_RECIPIENT)) !=
- 268:Caterina.c    ****         (REQTYPE_CLASS | REQREC_INTERFACE))
- 269:Caterina.c    ****     {
- 270:Caterina.c    ****         return;
- 271:Caterina.c    ****     }
+ 250:Caterina.c    **** }
+ 251:Caterina.c    **** 
+ 252:Caterina.c    **** /** Event handler for the USB_ControlRequest event. This is used to catch and process control reque
+ 253:Caterina.c    ****  *  the device from the USB host before passing along unhandled control requests to the library for
+ 254:Caterina.c    ****  *  internally.
+ 255:Caterina.c    ****  */
+ 256:Caterina.c    **** void EVENT_USB_Device_ControlRequest(void)
+ 257:Caterina.c    **** {
+ 258:Caterina.c    ****     /* Ignore any requests that aren't directed to the CDC interface */
+ 259:Caterina.c    ****     if ((USB_ControlRequest.bmRequestType & (CONTROL_REQTYPE_TYPE | CONTROL_REQTYPE_RECIPIENT)) !=
+ 260:Caterina.c    ****         (REQTYPE_CLASS | REQREC_INTERFACE))
+ 261:Caterina.c    ****     {
+ 262:Caterina.c    ****         return;
+ 263:Caterina.c    ****     }
+ 264:Caterina.c    **** 
+ 265:Caterina.c    ****     /* Process CDC specific control requests */
+ 266:Caterina.c    ****     switch (USB_ControlRequest.bRequest)
+ 267:Caterina.c    ****     {
+ 268:Caterina.c    ****         case CDC_REQ_GetLineEncoding:
+ 269:Caterina.c    ****             if (USB_ControlRequest.bmRequestType == (REQDIR_DEVICETOHOST | REQTYPE_CLASS | REQREC_I
+ 270:Caterina.c    ****             {
+ 271:Caterina.c    ****                 Endpoint_ClearSETUP();
  272:Caterina.c    **** 
- 273:Caterina.c    ****     /* Process CDC specific control requests */
- 274:Caterina.c    ****     switch (USB_ControlRequest.bRequest)
- 275:Caterina.c    ****     {
- 276:Caterina.c    ****         case CDC_REQ_GetLineEncoding:
- 277:Caterina.c    ****             if (USB_ControlRequest.bmRequestType == (REQDIR_DEVICETOHOST | REQTYPE_CLASS | REQREC_I
- 278:Caterina.c    ****             {
- 279:Caterina.c    ****                 Endpoint_ClearSETUP();
- 280:Caterina.c    **** 
- 281:Caterina.c    ****                 /* Write the line coding data to the control endpoint */
- 282:Caterina.c    ****                 Endpoint_Write_Control_Stream_LE(&LineEncoding, sizeof(CDC_LineEncoding_t));
- 283:Caterina.c    ****                 Endpoint_ClearOUT();
- 284:Caterina.c    ****             }
- 285:Caterina.c    **** 
- 286:Caterina.c    ****             break;
- 287:Caterina.c    ****         case CDC_REQ_SetLineEncoding:
- 288:Caterina.c    ****             if (USB_ControlRequest.bmRequestType == (REQDIR_HOSTTODEVICE | REQTYPE_CLASS | REQREC_I
- 289:Caterina.c    ****             {
- 290:Caterina.c    ****                 Endpoint_ClearSETUP();
- 291:Caterina.c    **** 
- 292:Caterina.c    ****                 /* Read the line coding data in from the host into the global struct */
- 293:Caterina.c    ****                 Endpoint_Read_Control_Stream_LE(&LineEncoding, sizeof(CDC_LineEncoding_t));
- 294:Caterina.c    ****                 Endpoint_ClearIN();
- 295:Caterina.c    ****             }
- 296:Caterina.c    **** 
- 297:Caterina.c    ****             break;
- 298:Caterina.c    ****     }
- 299:Caterina.c    **** }
- 300:Caterina.c    **** 
- 301:Caterina.c    **** #if !defined(NO_BLOCK_SUPPORT)
- 302:Caterina.c    **** /** Reads or writes a block of EEPROM or FLASH memory to or from the appropriate CDC data endpoint,
- 303:Caterina.c    ****  *  on the AVR910 protocol command issued.
- 304:Caterina.c    ****  *
- 305:Caterina.c    ****  *  \param[in] Command  Single character AVR910 protocol command indicating what memory operation t
- 306:Caterina.c    ****  */
- 307:Caterina.c    **** static void ReadWriteMemoryBlock(const uint8_t Command)
- 308:Caterina.c    **** {
- 309:Caterina.c    ****     uint16_t BlockSize;
- 310:Caterina.c    ****     char     MemoryType;
+ 273:Caterina.c    ****                 /* Write the line coding data to the control endpoint */
+ 274:Caterina.c    ****                 Endpoint_Write_Control_Stream_LE(&LineEncoding, sizeof(CDC_LineEncoding_t));
+ 275:Caterina.c    ****                 Endpoint_ClearOUT();
+ 276:Caterina.c    ****             }
+ 277:Caterina.c    **** 
+ 278:Caterina.c    ****             break;
+ 279:Caterina.c    ****         case CDC_REQ_SetLineEncoding:
+ 280:Caterina.c    ****             if (USB_ControlRequest.bmRequestType == (REQDIR_HOSTTODEVICE | REQTYPE_CLASS | REQREC_I
+ 281:Caterina.c    ****             {
+ 282:Caterina.c    ****                 Endpoint_ClearSETUP();
+ 283:Caterina.c    **** 
+ 284:Caterina.c    ****                 /* Read the line coding data in from the host into the global struct */
+ 285:Caterina.c    ****                 Endpoint_Read_Control_Stream_LE(&LineEncoding, sizeof(CDC_LineEncoding_t));
+ 286:Caterina.c    ****                 Endpoint_ClearIN();
+ 287:Caterina.c    ****             }
+ 288:Caterina.c    **** 
+ 289:Caterina.c    ****             break;
+ 290:Caterina.c    ****     }
+ 291:Caterina.c    **** }
+ 292:Caterina.c    **** 
+ 293:Caterina.c    **** #if !defined(NO_BLOCK_SUPPORT)
+ 294:Caterina.c    **** /** Reads or writes a block of EEPROM or FLASH memory to or from the appropriate CDC data endpoint,
+ 295:Caterina.c    ****  *  on the AVR910 protocol command issued.
+ 296:Caterina.c    ****  *
+ 297:Caterina.c    ****  *  \param[in] Command  Single character AVR910 protocol command indicating what memory operation t
+ 298:Caterina.c    ****  */
+ 299:Caterina.c    **** static void ReadWriteMemoryBlock(const uint8_t Command)
+ 300:Caterina.c    **** {
+ 301:Caterina.c    ****     uint16_t BlockSize;
+ 302:Caterina.c    ****     char     MemoryType;
+ 303:Caterina.c    **** 
+ 304:Caterina.c    ****     bool     HighByte = false;
+ 305:Caterina.c    ****     uint8_t  LowByte  = 0;
+ 306:Caterina.c    **** 
+ 307:Caterina.c    ****     BlockSize  = (FetchNextCommandByte() << 8);
+ 308:Caterina.c    ****     BlockSize |=  FetchNextCommandByte();
+ 309:Caterina.c    **** 
+ 310:Caterina.c    ****     MemoryType =  FetchNextCommandByte();
  311:Caterina.c    **** 
- 312:Caterina.c    ****     bool     HighByte = false;
- 313:Caterina.c    ****     uint8_t  LowByte  = 0;
- 314:Caterina.c    **** 
- 315:Caterina.c    ****     BlockSize  = (FetchNextCommandByte() << 8);
- 316:Caterina.c    ****     BlockSize |=  FetchNextCommandByte();
- 317:Caterina.c    **** 
- 318:Caterina.c    ****     MemoryType =  FetchNextCommandByte();
+ 312:Caterina.c    ****     if ((MemoryType != 'E') && (MemoryType != 'F'))
+ 313:Caterina.c    ****     {
+ 314:Caterina.c    ****         /* Send error byte back to the host */
+ 315:Caterina.c    ****         WriteNextResponseByte('?');
+ 316:Caterina.c    **** 
+ 317:Caterina.c    ****         return;
+ 318:Caterina.c    ****     }
  319:Caterina.c    **** 
- 320:Caterina.c    ****     if ((MemoryType != 'E') && (MemoryType != 'F'))
- 321:Caterina.c    ****     {
- 322:Caterina.c    ****         /* Send error byte back to the host */
- 323:Caterina.c    ****         WriteNextResponseByte('?');
- 324:Caterina.c    **** 
- 325:Caterina.c    ****         return;
- 326:Caterina.c    ****     }
- 327:Caterina.c    **** 
- 328:Caterina.c    ****     /* Disable timer 1 interrupt - can't afford to process nonessential interrupts
- 329:Caterina.c    ****      * while doing SPM tasks */
- 330:Caterina.c    ****     TIMSK1 = 0;
- 331:Caterina.c    **** 
- 332:Caterina.c    ****     /* Check if command is to read memory */
- 333:Caterina.c    ****     if (Command == 'g')
- 334:Caterina.c    ****     {
- 335:Caterina.c    ****         /* Re-enable RWW section */
- 336:Caterina.c    ****         boot_rww_enable();
- 337:Caterina.c    **** 
- 338:Caterina.c    ****         while (BlockSize--)
- 339:Caterina.c    ****         {
- 340:Caterina.c    ****             if (MemoryType == 'F')
- 341:Caterina.c    ****             {
- 342:Caterina.c    ****                 /* Read the next FLASH byte from the current FLASH page */
- 343:Caterina.c    ****                 #if (FLASHEND > 0xFFFF)
- 344:Caterina.c    ****                 WriteNextResponseByte(pgm_read_byte_far(CurrAddress | HighByte));
- 345:Caterina.c    ****                 #else
- 346:Caterina.c    ****                 WriteNextResponseByte(pgm_read_byte(CurrAddress | HighByte));
- 347:Caterina.c    ****                 #endif
- 348:Caterina.c    **** 
- 349:Caterina.c    ****                 /* If both bytes in current word have been read, increment the address counter */
- 350:Caterina.c    ****                 if (HighByte)
- 351:Caterina.c    ****                   CurrAddress += 2;
- 352:Caterina.c    **** 
- 353:Caterina.c    ****                 HighByte = !HighByte;
+ 320:Caterina.c    ****     /* Disable timer 1 interrupt - can't afford to process nonessential interrupts
+ 321:Caterina.c    ****      * while doing SPM tasks */
+ 322:Caterina.c    ****     TIMSK1 = 0;
+ 323:Caterina.c    **** 
+ 324:Caterina.c    ****     /* Check if command is to read memory */
+ 325:Caterina.c    ****     if (Command == 'g')
+ 326:Caterina.c    ****     {
+ 327:Caterina.c    ****         /* Re-enable RWW section */
+ 328:Caterina.c    ****         boot_rww_enable();
+ 329:Caterina.c    **** 
+ 330:Caterina.c    ****         while (BlockSize--)
+ 331:Caterina.c    ****         {
+ 332:Caterina.c    ****             if (MemoryType == 'F')
+ 333:Caterina.c    ****             {
+ 334:Caterina.c    ****                 /* Read the next FLASH byte from the current FLASH page */
+ 335:Caterina.c    ****                 #if (FLASHEND > 0xFFFF)
+ 336:Caterina.c    ****                 WriteNextResponseByte(pgm_read_byte_far(CurrAddress | HighByte));
+ 337:Caterina.c    ****                 #else
+ 338:Caterina.c    ****                 WriteNextResponseByte(pgm_read_byte(CurrAddress | HighByte));
+ 339:Caterina.c    ****                 #endif
+ 340:Caterina.c    **** 
+ 341:Caterina.c    ****                 /* If both bytes in current word have been read, increment the address counter */
+ 342:Caterina.c    ****                 if (HighByte)
+ 343:Caterina.c    ****                   CurrAddress += 2;
+ 344:Caterina.c    **** 
+ 345:Caterina.c    ****                 HighByte = !HighByte;
+ 346:Caterina.c    ****             }
+ 347:Caterina.c    ****             else
+ 348:Caterina.c    ****             {
+ 349:Caterina.c    ****                 /* Read the next EEPROM byte into the endpoint */
+ 350:Caterina.c    ****                 WriteNextResponseByte(eeprom_read_byte((uint8_t*)(intptr_t)(CurrAddress >> 1)));
+ 351:Caterina.c    **** 
+ 352:Caterina.c    ****                 /* Increment the address counter after use */
+ 353:Caterina.c    ****                 CurrAddress += 2;
  354:Caterina.c    ****             }
- 355:Caterina.c    ****             else
- 356:Caterina.c    ****             {
- 357:Caterina.c    ****                 /* Read the next EEPROM byte into the endpoint */
- 358:Caterina.c    ****                 WriteNextResponseByte(eeprom_read_byte((uint8_t*)(intptr_t)(CurrAddress >> 1)));
- 359:Caterina.c    **** 
- 360:Caterina.c    ****                 /* Increment the address counter after use */
- 361:Caterina.c    ****                 CurrAddress += 2;
- 362:Caterina.c    ****             }
- 363:Caterina.c    ****         }
- 364:Caterina.c    ****     }
- 365:Caterina.c    ****     else
- 366:Caterina.c    ****     {
- 367:Caterina.c    ****         uint32_t PageStartAddress = CurrAddress;
- 368:Caterina.c    **** 
- 369:Caterina.c    ****         if (MemoryType == 'F')
- 370:Caterina.c    ****         {
- 371:Caterina.c    ****             boot_page_erase(PageStartAddress);
- 372:Caterina.c    ****             boot_spm_busy_wait();
- 373:Caterina.c    ****         }
- 374:Caterina.c    **** 
- 375:Caterina.c    ****         while (BlockSize--)
- 376:Caterina.c    ****         {
- 377:Caterina.c    ****             if (MemoryType == 'F')
- 378:Caterina.c    ****             {
- 379:Caterina.c    ****                 /* If both bytes in current word have been written, increment the address counter *
- 380:Caterina.c    ****                 if (HighByte)
+ 355:Caterina.c    ****         }
+ 356:Caterina.c    ****     }
+ 357:Caterina.c    ****     else
+ 358:Caterina.c    ****     {
+ 359:Caterina.c    ****         uint32_t PageStartAddress = CurrAddress;
+ 360:Caterina.c    **** 
+ 361:Caterina.c    ****         if (MemoryType == 'F')
+ 362:Caterina.c    ****         {
+ 363:Caterina.c    ****             boot_page_erase(PageStartAddress);
+ 364:Caterina.c    ****             boot_spm_busy_wait();
+ 365:Caterina.c    ****         }
+ 366:Caterina.c    **** 
+ 367:Caterina.c    ****         while (BlockSize--)
+ 368:Caterina.c    ****         {
+ 369:Caterina.c    ****             if (MemoryType == 'F')
+ 370:Caterina.c    ****             {
+ 371:Caterina.c    ****                 /* If both bytes in current word have been written, increment the address counter *
+ 372:Caterina.c    ****                 if (HighByte)
+ 373:Caterina.c    ****                 {
+ 374:Caterina.c    ****                     /* Write the next FLASH word to the current FLASH page */
+ 375:Caterina.c    ****                     boot_page_fill(CurrAddress, ((FetchNextCommandByte() << 8) | LowByte));
+ 376:Caterina.c    **** 
+ 377:Caterina.c    ****                     /* Increment the address counter after use */
+ 378:Caterina.c    ****                     CurrAddress += 2;
+ 379:Caterina.c    ****                 }
+ 380:Caterina.c    ****                 else
  381:Caterina.c    ****                 {
- 382:Caterina.c    ****                     /* Write the next FLASH word to the current FLASH page */
- 383:Caterina.c    ****                     boot_page_fill(CurrAddress, ((FetchNextCommandByte() << 8) | LowByte));
+ 382:Caterina.c    ****                     LowByte = FetchNextCommandByte();
+ 383:Caterina.c    ****                 }
  384:Caterina.c    **** 
- 385:Caterina.c    ****                     /* Increment the address counter after use */
- 386:Caterina.c    ****                     CurrAddress += 2;
- 387:Caterina.c    ****                 }
- 388:Caterina.c    ****                 else
- 389:Caterina.c    ****                 {
- 390:Caterina.c    ****                     LowByte = FetchNextCommandByte();
- 391:Caterina.c    ****                 }
- 392:Caterina.c    **** 
- 393:Caterina.c    ****                 HighByte = !HighByte;
+ 385:Caterina.c    ****                 HighByte = !HighByte;
+ 386:Caterina.c    ****             }
+ 387:Caterina.c    ****             else
+ 388:Caterina.c    ****             {
+ 389:Caterina.c    ****                 /* Write the next EEPROM byte from the endpoint */
+ 390:Caterina.c    ****                 eeprom_write_byte((uint8_t*)((intptr_t)(CurrAddress >> 1)), FetchNextCommandByte())
+ 391:Caterina.c    **** 
+ 392:Caterina.c    ****                 /* Increment the address counter after use */
+ 393:Caterina.c    ****                 CurrAddress += 2;
  394:Caterina.c    ****             }
- 395:Caterina.c    ****             else
- 396:Caterina.c    ****             {
- 397:Caterina.c    ****                 /* Write the next EEPROM byte from the endpoint */
- 398:Caterina.c    ****                 eeprom_write_byte((uint8_t*)((intptr_t)(CurrAddress >> 1)), FetchNextCommandByte())
- 399:Caterina.c    **** 
- 400:Caterina.c    ****                 /* Increment the address counter after use */
- 401:Caterina.c    ****                 CurrAddress += 2;
- 402:Caterina.c    ****             }
- 403:Caterina.c    ****         }
- 404:Caterina.c    **** 
- 405:Caterina.c    ****         /* If in FLASH programming mode, commit the page after writing */
- 406:Caterina.c    ****         if (MemoryType == 'F')
- 407:Caterina.c    ****         {
- 408:Caterina.c    ****             /* Commit the flash page to memory */
- 409:Caterina.c    ****             boot_page_write(PageStartAddress);
+ 395:Caterina.c    ****         }
+ 396:Caterina.c    **** 
+ 397:Caterina.c    ****         /* If in FLASH programming mode, commit the page after writing */
+ 398:Caterina.c    ****         if (MemoryType == 'F')
+ 399:Caterina.c    ****         {
+ 400:Caterina.c    ****             /* Commit the flash page to memory */
+ 401:Caterina.c    ****             boot_page_write(PageStartAddress);
+ 402:Caterina.c    **** 
+ 403:Caterina.c    ****             /* Wait until write operation has completed */
+ 404:Caterina.c    ****             boot_spm_busy_wait();
+ 405:Caterina.c    ****         }
+ 406:Caterina.c    **** 
+ 407:Caterina.c    ****         /* Send response byte back to the host */
+ 408:Caterina.c    ****         WriteNextResponseByte('\r');
+ 409:Caterina.c    ****     }
  410:Caterina.c    **** 
- 411:Caterina.c    ****             /* Wait until write operation has completed */
- 412:Caterina.c    ****             boot_spm_busy_wait();
- 413:Caterina.c    ****         }
- 414:Caterina.c    **** 
- 415:Caterina.c    ****         /* Send response byte back to the host */
- 416:Caterina.c    ****         WriteNextResponseByte('\r');
- 417:Caterina.c    ****     }
- 418:Caterina.c    **** 
- 419:Caterina.c    ****     /* Re-enable timer 1 interrupt disabled earlier in this routine */
- 420:Caterina.c    ****     TIMSK1 = (1 << OCIE1A);
- 421:Caterina.c    **** }
- 422:Caterina.c    **** #endif
- 423:Caterina.c    **** 
- 424:Caterina.c    **** /** Retrieves the next byte from the host in the CDC data OUT endpoint, and clears the endpoint ban
- 425:Caterina.c    ****  *  to allow reception of the next data packet from the host.
- 426:Caterina.c    ****  *
- 427:Caterina.c    ****  *  \return Next received byte from the host in the CDC data OUT endpoint
- 428:Caterina.c    ****  */
- 429:Caterina.c    **** static uint8_t FetchNextCommandByte(void)
- 430:Caterina.c    **** {
-  15               		.loc 1 430 0
+ 411:Caterina.c    ****     /* Re-enable timer 1 interrupt disabled earlier in this routine */
+ 412:Caterina.c    ****     TIMSK1 = (1 << OCIE1A);
+ 413:Caterina.c    **** }
+ 414:Caterina.c    **** #endif
+ 415:Caterina.c    **** 
+ 416:Caterina.c    **** /** Retrieves the next byte from the host in the CDC data OUT endpoint, and clears the endpoint ban
+ 417:Caterina.c    ****  *  to allow reception of the next data packet from the host.
+ 418:Caterina.c    ****  *
+ 419:Caterina.c    ****  *  \return Next received byte from the host in the CDC data OUT endpoint
+ 420:Caterina.c    ****  */
+ 421:Caterina.c    **** static uint8_t FetchNextCommandByte(void)
+ 422:Caterina.c    **** {
+  15               		.loc 1 422 0
   16               		.cfi_startproc
   17               	/* prologue: function */
   18               	/* frame size = 0 */
   19               	/* stack size = 0 */
   20               	.L__stack_usage = 0
   21               	.LVL0:
-  22               	.LBB82:
-  23               	.LBB83:
+  22               	.LBB80:
+  23               	.LBB81:
   24               		.file 2 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h"
    1:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** /*
    2:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h ****              LUFA Library
@@ -785,10 +777,10 @@
   26 0000 84E0      		ldi r24,lo8(4)
   27 0002 8093 E900 		sts 233,r24
   28               	.L2:
-  29               	.LBE83:
-  30               	.LBE82:
-  31               	.LBB84:
-  32               	.LBB85:
+  29               	.LBE81:
+  30               	.LBE80:
+  31               	.LBB82:
+  32               	.LBB83:
  331:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#endif
  332:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
  333:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 
@@ -881,18 +873,18 @@
  420:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				return ((UEINTX & (1 << RWAL)) ? true : false);
   33               		.loc 2 420 0
   34 0006 8091 E800 		lds r24,232
-  35               	.LBE85:
-  36               	.LBE84:
- 431:Caterina.c    ****     /* Select the OUT endpoint so that the next data byte can be read */
- 432:Caterina.c    ****     Endpoint_SelectEndpoint(CDC_RX_EPNUM);
- 433:Caterina.c    **** 
- 434:Caterina.c    ****     /* If OUT endpoint empty, clear it and wait for the next packet from the host */
- 435:Caterina.c    ****     while (!(Endpoint_IsReadWriteAllowed()))
-  37               		.loc 1 435 0
+  35               	.LBE83:
+  36               	.LBE82:
+ 423:Caterina.c    ****     /* Select the OUT endpoint so that the next data byte can be read */
+ 424:Caterina.c    ****     Endpoint_SelectEndpoint(CDC_RX_EPNUM);
+ 425:Caterina.c    **** 
+ 426:Caterina.c    ****     /* If OUT endpoint empty, clear it and wait for the next packet from the host */
+ 427:Caterina.c    ****     while (!(Endpoint_IsReadWriteAllowed()))
+  37               		.loc 1 427 0
   38 000a 85FD      		sbrc r24,5
   39 000c 00C0      		rjmp .L11
-  40               	.LBB86:
-  41               	.LBB87:
+  40               	.LBB84:
+  41               	.LBB85:
  421:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
  422:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 
  423:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			/** Determines if the currently selected endpoint is configured.
@@ -1009,32 +1001,32 @@
   44 0012 8B77      		andi r24,lo8(123)
   45 0014 8093 E800 		sts 232,r24
   46               	.L3:
-  47               	.LBE87:
-  48               	.LBE86:
-  49               	.LBB88:
-  50               	.LBB89:
+  47               	.LBE85:
+  48               	.LBE84:
+  49               	.LBB86:
+  50               	.LBB87:
  479:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
   51               		.loc 2 479 0
   52 0018 8091 E800 		lds r24,232
-  53               	.LBE89:
-  54               	.LBE88:
- 436:Caterina.c    ****     {
- 437:Caterina.c    ****         Endpoint_ClearOUT();
- 438:Caterina.c    **** 
- 439:Caterina.c    ****         while (!(Endpoint_IsOUTReceived()))
-  55               		.loc 1 439 0
+  53               	.LBE87:
+  54               	.LBE86:
+ 428:Caterina.c    ****     {
+ 429:Caterina.c    ****         Endpoint_ClearOUT();
+ 430:Caterina.c    **** 
+ 431:Caterina.c    ****         while (!(Endpoint_IsOUTReceived()))
+  55               		.loc 1 431 0
   56 001c 82FD      		sbrc r24,2
   57 001e 00C0      		rjmp .L2
- 440:Caterina.c    ****         {
- 441:Caterina.c    ****             if (USB_DeviceState == DEVICE_STATE_Unattached)
-  58               		.loc 1 441 0
+ 432:Caterina.c    ****         {
+ 433:Caterina.c    ****             if (USB_DeviceState == DEVICE_STATE_Unattached)
+  58               		.loc 1 433 0
   59 0020 8EB3      		in r24,0x1e
   60 0022 8111      		cpse r24,__zero_reg__
   61 0024 00C0      		rjmp .L3
   62 0026 00C0      		rjmp .L4
   63               	.L11:
-  64               	.LBB90:
-  65               	.LBB91:
+  64               	.LBB88:
+  65               	.LBB89:
  532:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#else
  533:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 					UEINTX &= ~(1 << RXOUTI);
  534:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#endif
@@ -1119,64 +1111,64 @@
   66               		.loc 2 612 0
   67 0028 8091 F100 		lds r24,241
   68               	.L4:
-  69               	.LBE91:
-  70               	.LBE90:
- 442:Caterina.c    ****               return 0;
- 443:Caterina.c    ****         }
- 444:Caterina.c    ****     }
- 445:Caterina.c    **** 
- 446:Caterina.c    ****     /* Fetch the next byte from the OUT endpoint */
- 447:Caterina.c    ****     return Endpoint_Read_8();
- 448:Caterina.c    **** }
-  71               		.loc 1 448 0
+  69               	.LBE89:
+  70               	.LBE88:
+ 434:Caterina.c    ****               return 0;
+ 435:Caterina.c    ****         }
+ 436:Caterina.c    ****     }
+ 437:Caterina.c    **** 
+ 438:Caterina.c    ****     /* Fetch the next byte from the OUT endpoint */
+ 439:Caterina.c    ****     return Endpoint_Read_8();
+ 440:Caterina.c    **** }
+  71               		.loc 1 440 0
   72 002c 0895      		ret
   73               		.cfi_endproc
   74               	.LFE107:
   76               		.section	.text.WriteNextResponseByte,"ax",@progbits
   78               	WriteNextResponseByte:
   79               	.LFB108:
- 449:Caterina.c    **** 
- 450:Caterina.c    **** /** Writes the next response byte to the CDC data IN endpoint, and sends the endpoint back if neede
- 451:Caterina.c    ****  *  bank when full ready for the next byte in the packet to the host.
- 452:Caterina.c    ****  *
- 453:Caterina.c    ****  *  \param[in] Response  Next response byte to send to the host
- 454:Caterina.c    ****  */
- 455:Caterina.c    **** static void WriteNextResponseByte(const uint8_t Response)
- 456:Caterina.c    **** {
-  80               		.loc 1 456 0
+ 441:Caterina.c    **** 
+ 442:Caterina.c    **** /** Writes the next response byte to the CDC data IN endpoint, and sends the endpoint back if neede
+ 443:Caterina.c    ****  *  bank when full ready for the next byte in the packet to the host.
+ 444:Caterina.c    ****  *
+ 445:Caterina.c    ****  *  \param[in] Response  Next response byte to send to the host
+ 446:Caterina.c    ****  */
+ 447:Caterina.c    **** static void WriteNextResponseByte(const uint8_t Response)
+ 448:Caterina.c    **** {
+  80               		.loc 1 448 0
   81               		.cfi_startproc
   82               	.LVL1:
   83               	/* prologue: function */
   84               	/* frame size = 0 */
   85               	/* stack size = 0 */
   86               	.L__stack_usage = 0
-  87               	.LBB92:
-  88               	.LBB93:
+  87               	.LBB90:
+  88               	.LBB91:
  330:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#endif
   89               		.loc 2 330 0
   90 0000 93E0      		ldi r25,lo8(3)
   91 0002 9093 E900 		sts 233,r25
-  92               	.LBE93:
-  93               	.LBE92:
-  94               	.LBB94:
-  95               	.LBB95:
+  92               	.LBE91:
+  93               	.LBE90:
+  94               	.LBB92:
+  95               	.LBB93:
  420:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
   96               		.loc 2 420 0
   97 0006 9091 E800 		lds r25,232
-  98               	.LBE95:
-  99               	.LBE94:
- 457:Caterina.c    ****     /* Select the IN endpoint so that the next data byte can be written */
- 458:Caterina.c    ****     Endpoint_SelectEndpoint(CDC_TX_EPNUM);
- 459:Caterina.c    **** 
- 460:Caterina.c    ****     /* If IN endpoint full, clear it and wait until ready for the next packet to the host */
- 461:Caterina.c    ****     if (!(Endpoint_IsReadWriteAllowed()))
- 100               		.loc 1 461 0
+  98               	.LBE93:
+  99               	.LBE92:
+ 449:Caterina.c    ****     /* Select the IN endpoint so that the next data byte can be written */
+ 450:Caterina.c    ****     Endpoint_SelectEndpoint(CDC_TX_EPNUM);
+ 451:Caterina.c    **** 
+ 452:Caterina.c    ****     /* If IN endpoint full, clear it and wait until ready for the next packet to the host */
+ 453:Caterina.c    ****     if (!(Endpoint_IsReadWriteAllowed()))
+ 100               		.loc 1 453 0
  101 000a 95FF      		sbrs r25,5
  102 000c 00C0      		rjmp .L13
  103               	.L17:
  104               	.LVL2:
- 105               	.LBB96:
- 106               	.LBB97:
+ 105               	.LBB94:
+ 106               	.LBB95:
  613:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
  614:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 
  615:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			/** Writes one byte to the currently selected endpoint's bank, for IN direction endpoints.
@@ -1191,26 +1183,26 @@
  624:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				UEDATX = Data;
  107               		.loc 2 624 0
  108 000e 8093 F100 		sts 241,r24
- 109               	.LBE97:
- 110               	.LBE96:
- 462:Caterina.c    ****     {
- 463:Caterina.c    ****         Endpoint_ClearIN();
- 464:Caterina.c    **** 
- 465:Caterina.c    ****         while (!(Endpoint_IsINReady()))
- 466:Caterina.c    ****         {
- 467:Caterina.c    ****             if (USB_DeviceState == DEVICE_STATE_Unattached)
- 468:Caterina.c    ****               return;
- 469:Caterina.c    ****         }
- 470:Caterina.c    ****     }
- 471:Caterina.c    **** 
- 472:Caterina.c    ****     /* Write the next byte to the IN endpoint */
- 473:Caterina.c    ****     Endpoint_Write_8(Response);
- 474:Caterina.c    **** 
- 475:Caterina.c    ****     TX_LED_ON();
- 111               		.loc 1 475 0
+ 109               	.LBE95:
+ 110               	.LBE94:
+ 454:Caterina.c    ****     {
+ 455:Caterina.c    ****         Endpoint_ClearIN();
+ 456:Caterina.c    **** 
+ 457:Caterina.c    ****         while (!(Endpoint_IsINReady()))
+ 458:Caterina.c    ****         {
+ 459:Caterina.c    ****             if (USB_DeviceState == DEVICE_STATE_Unattached)
+ 460:Caterina.c    ****               return;
+ 461:Caterina.c    ****         }
+ 462:Caterina.c    ****     }
+ 463:Caterina.c    **** 
+ 464:Caterina.c    ****     /* Write the next byte to the IN endpoint */
+ 465:Caterina.c    ****     Endpoint_Write_8(Response);
+ 466:Caterina.c    **** 
+ 467:Caterina.c    ****     TX_LED_ON();
+ 111               		.loc 1 467 0
  112 0012 5D98      		cbi 0xb,5
- 476:Caterina.c    ****     TxLEDPulse = TX_RX_LED_PULSE_PERIOD;
- 113               		.loc 1 476 0
+ 468:Caterina.c    ****     TxLEDPulse = TX_RX_LED_PULSE_PERIOD;
+ 113               		.loc 1 468 0
  114 0014 84E6      		ldi r24,lo8(100)
  115 0016 90E0      		ldi r25,0
  116               	.LVL3:
@@ -1220,29 +1212,29 @@
  120 0020 0895      		ret
  121               	.LVL5:
  122               	.L13:
- 123               	.LBB98:
- 124               	.LBB99:
+ 123               	.LBB96:
+ 124               	.LBB97:
  516:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#else
  125               		.loc 2 516 0
  126 0022 9091 E800 		lds r25,232
  127 0026 9E77      		andi r25,lo8(126)
  128 0028 9093 E800 		sts 232,r25
  129               	.L15:
- 130               	.LBE99:
- 131               	.LBE98:
- 132               	.LBB100:
- 133               	.LBB101:
+ 130               	.LBE97:
+ 131               	.LBE96:
+ 132               	.LBB98:
+ 133               	.LBB99:
  467:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
  134               		.loc 2 467 0
  135 002c 9091 E800 		lds r25,232
- 136               	.LBE101:
- 137               	.LBE100:
- 465:Caterina.c    ****         {
- 138               		.loc 1 465 0
+ 136               	.LBE99:
+ 137               	.LBE98:
+ 457:Caterina.c    ****         {
+ 138               		.loc 1 457 0
  139 0030 90FD      		sbrc r25,0
  140 0032 00C0      		rjmp .L17
- 467:Caterina.c    ****               return;
- 141               		.loc 1 467 0
+ 459:Caterina.c    ****               return;
+ 141               		.loc 1 459 0
  142 0034 9EB3      		in r25,0x1e
  143 0036 9111      		cpse r25,__zero_reg__
  144 0038 00C0      		rjmp .L15
@@ -1361,58 +1353,58 @@
  241               	.global	SetupHardware
  243               	SetupHardware:
  244               	.LFB102:
- 195:Caterina.c    ****     /* Disable clock division */
- 245               		.loc 1 195 0
+ 187:Caterina.c    ****     /* Disable clock division */
+ 245               		.loc 1 187 0
  246               		.cfi_startproc
  247               	/* prologue: function */
  248               	/* frame size = 0 */
  249               	/* stack size = 0 */
  250               	.L__stack_usage = 0
- 198:Caterina.c    **** 
- 251               		.loc 1 198 0
+ 190:Caterina.c    **** 
+ 251               		.loc 1 190 0
  252 0000 E1E6      		ldi r30,lo8(97)
  253 0002 F0E0      		ldi r31,0
  254 0004 80E8      		ldi r24,lo8(-128)
  255 0006 8083      		st Z,r24
  256 0008 1082      		st Z,__zero_reg__
- 201:Caterina.c    ****     MCUCR = (1 << IVSEL);
- 257               		.loc 1 201 0
+ 193:Caterina.c    ****     MCUCR = (1 << IVSEL);
+ 257               		.loc 1 193 0
  258 000a 81E0      		ldi r24,lo8(1)
  259 000c 85BF      		out 0x35,r24
- 202:Caterina.c    **** 
- 260               		.loc 1 202 0
+ 194:Caterina.c    **** 
+ 260               		.loc 1 194 0
  261 000e 82E0      		ldi r24,lo8(2)
  262 0010 85BF      		out 0x35,r24
- 204:Caterina.c    ****     L_LED_OFF();
- 263               		.loc 1 204 0
+ 196:Caterina.c    ****     L_LED_OFF();
+ 263               		.loc 1 196 0
  264 0012 3F9A      		sbi 0x7,7
  265 0014 209A      		sbi 0x4,0
  266 0016 559A      		sbi 0xa,5
- 205:Caterina.c    ****     TX_LED_OFF();
- 267               		.loc 1 205 0
+ 197:Caterina.c    ****     TX_LED_OFF();
+ 267               		.loc 1 197 0
  268 0018 4798      		cbi 0x8,7
- 206:Caterina.c    ****     RX_LED_OFF();
- 269               		.loc 1 206 0
+ 198:Caterina.c    ****     RX_LED_OFF();
+ 269               		.loc 1 198 0
  270 001a 5D9A      		sbi 0xb,5
- 207:Caterina.c    **** 
- 271               		.loc 1 207 0
+ 199:Caterina.c    **** 
+ 271               		.loc 1 199 0
  272 001c 289A      		sbi 0x5,0
- 215:Caterina.c    ****     OCR1AL = 250;
- 273               		.loc 1 215 0
+ 207:Caterina.c    ****     OCR1AL = 250;
+ 273               		.loc 1 207 0
  274 001e 1092 8900 		sts 137,__zero_reg__
- 216:Caterina.c    ****     TIMSK1 = (1 << OCIE1A);					// enable timer 1 output compare A match interrupt
- 275               		.loc 1 216 0
+ 208:Caterina.c    ****     TIMSK1 = (1 << OCIE1A);					// enable timer 1 output compare A match interrupt
+ 275               		.loc 1 208 0
  276 0022 9AEF      		ldi r25,lo8(-6)
  277 0024 9093 8800 		sts 136,r25
- 217:Caterina.c    ****     TCCR1B = ((1 << CS11) | (1 << CS10));	// 1/64 prescaler on timer 1 input
- 278               		.loc 1 217 0
+ 209:Caterina.c    ****     TCCR1B = ((1 << CS11) | (1 << CS10));	// 1/64 prescaler on timer 1 input
+ 278               		.loc 1 209 0
  279 0028 8093 6F00 		sts 111,r24
- 218:Caterina.c    **** 
- 280               		.loc 1 218 0
+ 210:Caterina.c    **** 
+ 280               		.loc 1 210 0
  281 002c 83E0      		ldi r24,lo8(3)
  282 002e 8093 8100 		sts 129,r24
- 221:Caterina.c    **** }
- 283               		.loc 1 221 0
+ 213:Caterina.c    **** }
+ 283               		.loc 1 213 0
  284 0032 0C94 0000 		jmp USB_Init
  285               	.LVL9:
  286               		.cfi_endproc
@@ -1421,8 +1413,8 @@
  290               	.global	__vector_17
  292               	__vector_17:
  293               	.LFB103:
- 226:Caterina.c    ****     /* Reset counter */
- 294               		.loc 1 226 0
+ 218:Caterina.c    ****     /* Reset counter */
+ 294               		.loc 1 218 0
  295               		.cfi_startproc
  296 0000 1F92      		push r1
  297               	.LCFI0:
@@ -1459,65 +1451,65 @@
  328               	/* frame size = 0 */
  329               	/* stack size = 8 */
  330               	.L__stack_usage = 8
- 228:Caterina.c    ****     TCNT1L = 0;
- 331               		.loc 1 228 0
+ 220:Caterina.c    ****     TCNT1L = 0;
+ 331               		.loc 1 220 0
  332 0014 1092 8500 		sts 133,__zero_reg__
- 229:Caterina.c    **** 
- 333               		.loc 1 229 0
+ 221:Caterina.c    **** 
+ 333               		.loc 1 221 0
  334 0018 1092 8400 		sts 132,__zero_reg__
- 232:Caterina.c    ****         TX_LED_OFF();
- 335               		.loc 1 232 0
+ 224:Caterina.c    ****         TX_LED_OFF();
+ 335               		.loc 1 224 0
  336 001c 8091 0000 		lds r24,TxLEDPulse
  337 0020 9091 0000 		lds r25,TxLEDPulse+1
  338 0024 0097      		sbiw r24,0
  339 0026 01F0      		breq .L29
- 232:Caterina.c    ****         TX_LED_OFF();
- 340               		.loc 1 232 0 is_stmt 0 discriminator 1
+ 224:Caterina.c    ****         TX_LED_OFF();
+ 340               		.loc 1 224 0 is_stmt 0 discriminator 1
  341 0028 0197      		sbiw r24,1
  342 002a 9093 0000 		sts TxLEDPulse+1,r25
  343 002e 8093 0000 		sts TxLEDPulse,r24
  344 0032 892B      		or r24,r25
  345 0034 01F4      		brne .L29
- 233:Caterina.c    ****     if (RxLEDPulse && !(--RxLEDPulse))
- 346               		.loc 1 233 0 is_stmt 1
+ 225:Caterina.c    ****     if (RxLEDPulse && !(--RxLEDPulse))
+ 346               		.loc 1 225 0 is_stmt 1
  347 0036 5D9A      		sbi 0xb,5
  348               	.L29:
- 234:Caterina.c    ****         RX_LED_OFF();
- 349               		.loc 1 234 0
+ 226:Caterina.c    ****         RX_LED_OFF();
+ 349               		.loc 1 226 0
  350 0038 8091 0000 		lds r24,RxLEDPulse
  351 003c 9091 0000 		lds r25,RxLEDPulse+1
  352 0040 0097      		sbiw r24,0
  353 0042 01F0      		breq .L32
- 234:Caterina.c    ****         RX_LED_OFF();
- 354               		.loc 1 234 0 is_stmt 0 discriminator 1
+ 226:Caterina.c    ****         RX_LED_OFF();
+ 354               		.loc 1 226 0 is_stmt 0 discriminator 1
  355 0044 0197      		sbiw r24,1
  356 0046 9093 0000 		sts RxLEDPulse+1,r25
  357 004a 8093 0000 		sts RxLEDPulse,r24
  358 004e 892B      		or r24,r25
  359 0050 01F4      		brne .L32
- 235:Caterina.c    **** 
- 360               		.loc 1 235 0 is_stmt 1
+ 227:Caterina.c    **** 
+ 360               		.loc 1 227 0 is_stmt 1
  361 0052 289A      		sbi 0x5,0
  362               	.L32:
  363               	.LVL10:
- 364               	.LBB102:
- 237:Caterina.c    ****         Timeout++;
- 365               		.loc 1 237 0
+ 364               	.LBB100:
+ 229:Caterina.c    ****         Timeout++;
+ 365               		.loc 1 229 0
  366 0054 E0E0      		ldi r30,0
  367 0056 F0E0      		ldi r31,0
  368               	/* #APP */
- 369               	 ;  237 "Caterina.c" 1
+ 369               	 ;  229 "Caterina.c" 1
  370 0058 8591      		lpm r24, Z+
  371 005a 9491      		lpm r25, Z
  372               		
  373               	 ;  0 "" 2
  374               	.LVL11:
  375               	/* #NOAPP */
- 376               	.LBE102:
+ 376               	.LBE100:
  377 005c 0196      		adiw r24,1
  378 005e 01F0      		breq .L27
- 238:Caterina.c    **** }
- 379               		.loc 1 238 0
+ 230:Caterina.c    **** }
+ 379               		.loc 1 230 0
  380 0060 8091 0000 		lds r24,Timeout
  381 0064 9091 0000 		lds r25,Timeout+1
  382               	.LVL12:
@@ -1526,8 +1518,8 @@
  385 006e 8093 0000 		sts Timeout,r24
  386               	.L27:
  387               	/* epilogue start */
- 239:Caterina.c    **** 
- 388               		.loc 1 239 0
+ 231:Caterina.c    **** 
+ 388               		.loc 1 231 0
  389 0072 FF91      		pop r31
  390 0074 EF91      		pop r30
  391 0076 9F91      		pop r25
@@ -1544,16 +1536,16 @@
  403               	.global	EVENT_USB_Device_ConfigurationChanged
  405               	EVENT_USB_Device_ConfigurationChanged:
  406               	.LFB104:
- 245:Caterina.c    ****     /* Setup CDC Notification, Rx and Tx Endpoints */
- 407               		.loc 1 245 0
+ 237:Caterina.c    ****     /* Setup CDC Notification, Rx and Tx Endpoints */
+ 407               		.loc 1 237 0
  408               		.cfi_startproc
  409               	/* prologue: function */
  410               	/* frame size = 0 */
  411               	/* stack size = 0 */
  412               	.L__stack_usage = 0
  413               	.LVL13:
- 414               	.LBB103:
- 415               	.LBB104:
+ 414               	.LBB101:
+ 415               	.LBB102:
  276:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				                                      ((1 << ALLOC) | Banks | Endpoint_BytesToEPSizeMask(Size))
  416               		.loc 2 276 0
  417 0000 42E0      		ldi r20,lo8(2)
@@ -1561,107 +1553,107 @@
  419 0004 82E0      		ldi r24,lo8(2)
  420 0006 0E94 0000 		call Endpoint_ConfigureEndpoint_Prv
  421               	.LVL14:
- 422               	.LBE104:
- 423               	.LBE103:
- 424               	.LBB105:
- 425               	.LBB106:
+ 422               	.LBE102:
+ 423               	.LBE101:
+ 424               	.LBB103:
+ 425               	.LBB104:
  426 000a 42E1      		ldi r20,lo8(18)
  427 000c 61E8      		ldi r22,lo8(-127)
  428 000e 83E0      		ldi r24,lo8(3)
  429 0010 0E94 0000 		call Endpoint_ConfigureEndpoint_Prv
  430               	.LVL15:
- 431               	.LBE106:
- 432               	.LBE105:
- 433               	.LBB107:
- 434               	.LBB108:
+ 431               	.LBE104:
+ 432               	.LBE103:
+ 433               	.LBB105:
+ 434               	.LBB106:
  435 0014 42E1      		ldi r20,lo8(18)
  436 0016 60E8      		ldi r22,lo8(-128)
  437 0018 84E0      		ldi r24,lo8(4)
  438 001a 0C94 0000 		jmp Endpoint_ConfigureEndpoint_Prv
  439               	.LVL16:
- 440               	.LBE108:
- 441               	.LBE107:
+ 440               	.LBE106:
+ 441               	.LBE105:
  442               		.cfi_endproc
  443               	.LFE104:
  445               		.section	.text.EVENT_USB_Device_ControlRequest,"ax",@progbits
  446               	.global	EVENT_USB_Device_ControlRequest
  448               	EVENT_USB_Device_ControlRequest:
  449               	.LFB105:
- 265:Caterina.c    ****     /* Ignore any requests that aren't directed to the CDC interface */
- 450               		.loc 1 265 0
+ 257:Caterina.c    ****     /* Ignore any requests that aren't directed to the CDC interface */
+ 450               		.loc 1 257 0
  451               		.cfi_startproc
  452               	/* prologue: function */
  453               	/* frame size = 0 */
  454               	/* stack size = 0 */
  455               	.L__stack_usage = 0
- 267:Caterina.c    ****         (REQTYPE_CLASS | REQREC_INTERFACE))
- 456               		.loc 1 267 0
+ 259:Caterina.c    ****         (REQTYPE_CLASS | REQREC_INTERFACE))
+ 456               		.loc 1 259 0
  457 0000 8091 0000 		lds r24,USB_ControlRequest
  458 0004 982F      		mov r25,r24
  459 0006 9F77      		andi r25,lo8(127)
  460 0008 9132      		cpi r25,lo8(33)
  461 000a 01F4      		brne .L39
- 274:Caterina.c    ****     {
- 462               		.loc 1 274 0
+ 266:Caterina.c    ****     {
+ 462               		.loc 1 266 0
  463 000c 9091 0000 		lds r25,USB_ControlRequest+1
  464 0010 9032      		cpi r25,lo8(32)
  465 0012 01F0      		breq .L41
  466 0014 9132      		cpi r25,lo8(33)
  467 0016 01F4      		brne .L39
- 277:Caterina.c    ****             {
- 468               		.loc 1 277 0
+ 269:Caterina.c    ****             {
+ 468               		.loc 1 269 0
  469 0018 813A      		cpi r24,lo8(-95)
  470 001a 01F4      		brne .L39
- 471               	.LBB109:
- 472               	.LBB110:
+ 471               	.LBB107:
+ 472               	.LBB108:
  504:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
  473               		.loc 2 504 0
  474 001c 8091 E800 		lds r24,232
  475 0020 877F      		andi r24,lo8(-9)
  476 0022 8093 E800 		sts 232,r24
- 477               	.LBE110:
- 478               	.LBE109:
- 282:Caterina.c    ****                 Endpoint_ClearOUT();
- 479               		.loc 1 282 0
+ 477               	.LBE108:
+ 478               	.LBE107:
+ 274:Caterina.c    ****                 Endpoint_ClearOUT();
+ 479               		.loc 1 274 0
  480 0026 67E0      		ldi r22,lo8(7)
  481 0028 70E0      		ldi r23,0
  482 002a 80E0      		ldi r24,lo8(LineEncoding)
  483 002c 90E0      		ldi r25,hi8(LineEncoding)
  484 002e 0E94 0000 		call Endpoint_Write_Control_Stream_LE
  485               	.LVL17:
- 486               	.LBB111:
- 487               	.LBB112:
+ 486               	.LBB109:
+ 487               	.LBB110:
  531:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#else
  488               		.loc 2 531 0
  489 0032 8091 E800 		lds r24,232
  490 0036 8B77      		andi r24,lo8(123)
  491 0038 00C0      		rjmp .L43
  492               	.L41:
- 493               	.LBE112:
- 494               	.LBE111:
- 288:Caterina.c    ****             {
- 495               		.loc 1 288 0
+ 493               	.LBE110:
+ 494               	.LBE109:
+ 280:Caterina.c    ****             {
+ 495               		.loc 1 280 0
  496 003a 8132      		cpi r24,lo8(33)
  497 003c 01F4      		brne .L39
- 498               	.LBB113:
- 499               	.LBB114:
+ 498               	.LBB111:
+ 499               	.LBB112:
  504:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
  500               		.loc 2 504 0
  501 003e 8091 E800 		lds r24,232
  502 0042 877F      		andi r24,lo8(-9)
  503 0044 8093 E800 		sts 232,r24
- 504               	.LBE114:
- 505               	.LBE113:
- 293:Caterina.c    ****                 Endpoint_ClearIN();
- 506               		.loc 1 293 0
+ 504               	.LBE112:
+ 505               	.LBE111:
+ 285:Caterina.c    ****                 Endpoint_ClearIN();
+ 506               		.loc 1 285 0
  507 0048 67E0      		ldi r22,lo8(7)
  508 004a 70E0      		ldi r23,0
  509 004c 80E0      		ldi r24,lo8(LineEncoding)
  510 004e 90E0      		ldi r25,hi8(LineEncoding)
  511 0050 0E94 0000 		call Endpoint_Read_Control_Stream_LE
  512               	.LVL18:
- 513               	.LBB115:
- 514               	.LBB116:
+ 513               	.LBB113:
+ 514               	.LBB114:
  516:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#else
  515               		.loc 2 516 0
  516 0054 8091 E800 		lds r24,232
@@ -1670,8 +1662,8 @@
  519 005a 8093 E800 		sts 232,r24
  520               	.L39:
  521 005e 0895      		ret
- 522               	.LBE116:
- 523               	.LBE115:
+ 522               	.LBE114:
+ 523               	.LBE113:
  524               		.cfi_endproc
  525               	.LFE105:
  527               		.section	.rodata.str1.1,"aMS",@progbits,1
@@ -1683,28 +1675,28 @@
  531               	.global	CDC_Task
  533               	CDC_Task:
  534               	.LFB109:
- 477:Caterina.c    **** }
- 478:Caterina.c    **** 
- 479:Caterina.c    **** #define STK_OK              0x10
- 480:Caterina.c    **** #define STK_INSYNC          0x14  // ' '
- 481:Caterina.c    **** #define CRC_EOP             0x20  // 'SPACE'
- 482:Caterina.c    **** #define STK_GET_SYNC        0x30  // '0'
- 483:Caterina.c    **** 
- 484:Caterina.c    **** #define STK_GET_PARAMETER   0x41  // 'A'
- 485:Caterina.c    **** #define STK_SET_DEVICE      0x42  // 'B'
- 486:Caterina.c    **** #define STK_SET_DEVICE_EXT  0x45  // 'E'
- 487:Caterina.c    **** #define STK_LOAD_ADDRESS    0x55  // 'U'
- 488:Caterina.c    **** #define STK_UNIVERSAL       0x56  // 'V'
- 489:Caterina.c    **** #define STK_PROG_PAGE       0x64  // 'd'
- 490:Caterina.c    **** #define STK_READ_PAGE       0x74  // 't'
- 491:Caterina.c    **** #define STK_READ_SIGN       0x75  // 'u'
- 492:Caterina.c    **** 
- 493:Caterina.c    **** /** Task to read in AVR910 commands from the CDC data OUT endpoint, process them, perform the requi
- 494:Caterina.c    ****  *  and send the appropriate response back to the host.
- 495:Caterina.c    ****  */
- 496:Caterina.c    **** void CDC_Task(void)
- 497:Caterina.c    **** {
- 535               		.loc 1 497 0
+ 469:Caterina.c    **** }
+ 470:Caterina.c    **** 
+ 471:Caterina.c    **** #define STK_OK              0x10
+ 472:Caterina.c    **** #define STK_INSYNC          0x14  // ' '
+ 473:Caterina.c    **** #define CRC_EOP             0x20  // 'SPACE'
+ 474:Caterina.c    **** #define STK_GET_SYNC        0x30  // '0'
+ 475:Caterina.c    **** 
+ 476:Caterina.c    **** #define STK_GET_PARAMETER   0x41  // 'A'
+ 477:Caterina.c    **** #define STK_SET_DEVICE      0x42  // 'B'
+ 478:Caterina.c    **** #define STK_SET_DEVICE_EXT  0x45  // 'E'
+ 479:Caterina.c    **** #define STK_LOAD_ADDRESS    0x55  // 'U'
+ 480:Caterina.c    **** #define STK_UNIVERSAL       0x56  // 'V'
+ 481:Caterina.c    **** #define STK_PROG_PAGE       0x64  // 'd'
+ 482:Caterina.c    **** #define STK_READ_PAGE       0x74  // 't'
+ 483:Caterina.c    **** #define STK_READ_SIGN       0x75  // 'u'
+ 484:Caterina.c    **** 
+ 485:Caterina.c    **** /** Task to read in AVR910 commands from the CDC data OUT endpoint, process them, perform the requi
+ 486:Caterina.c    ****  *  and send the appropriate response back to the host.
+ 487:Caterina.c    ****  */
+ 488:Caterina.c    **** void CDC_Task(void)
+ 489:Caterina.c    **** {
+ 535               		.loc 1 489 0
  536               		.cfi_startproc
  537 0000 6F92      		push r6
  538               	.LCFI7:
@@ -1767,82 +1759,82 @@
  595               	/* stack size = 14 */
  596               	.L__stack_usage = 14
  597               	.LVL19:
- 598               	.LBB149:
- 599               	.LBB150:
+ 598               	.LBB147:
+ 599               	.LBB148:
  330:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#endif
  600               		.loc 2 330 0
  601 001c 84E0      		ldi r24,lo8(4)
  602 001e 8093 E900 		sts 233,r24
- 603               	.LBE150:
- 604               	.LBE149:
- 605               	.LBB151:
- 606               	.LBB152:
+ 603               	.LBE148:
+ 604               	.LBE147:
+ 605               	.LBB149:
+ 606               	.LBB150:
  479:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
  607               		.loc 2 479 0
  608 0022 8091 E800 		lds r24,232
- 609               	.LBE152:
- 610               	.LBE151:
- 498:Caterina.c    ****     /* Select the OUT endpoint */
- 499:Caterina.c    ****     Endpoint_SelectEndpoint(CDC_RX_EPNUM);
- 500:Caterina.c    **** 
- 501:Caterina.c    ****     /* Check if endpoint has a command in it sent from the host */
- 502:Caterina.c    ****     if (!(Endpoint_IsOUTReceived()))
- 611               		.loc 1 502 0
+ 609               	.LBE150:
+ 610               	.LBE149:
+ 490:Caterina.c    ****     /* Select the OUT endpoint */
+ 491:Caterina.c    ****     Endpoint_SelectEndpoint(CDC_RX_EPNUM);
+ 492:Caterina.c    **** 
+ 493:Caterina.c    ****     /* Check if endpoint has a command in it sent from the host */
+ 494:Caterina.c    ****     if (!(Endpoint_IsOUTReceived()))
+ 611               		.loc 1 494 0
  612 0026 82FF      		sbrs r24,2
  613 0028 00C0      		rjmp .L44
- 503:Caterina.c    ****       return;
- 504:Caterina.c    **** 
- 505:Caterina.c    ****     RX_LED_ON();
- 614               		.loc 1 505 0
+ 495:Caterina.c    ****       return;
+ 496:Caterina.c    **** 
+ 497:Caterina.c    ****     RX_LED_ON();
+ 614               		.loc 1 497 0
  615 002a 2898      		cbi 0x5,0
- 506:Caterina.c    ****     RxLEDPulse = TX_RX_LED_PULSE_PERIOD;
- 616               		.loc 1 506 0
+ 498:Caterina.c    ****     RxLEDPulse = TX_RX_LED_PULSE_PERIOD;
+ 616               		.loc 1 498 0
  617 002c 84E6      		ldi r24,lo8(100)
  618 002e 90E0      		ldi r25,0
  619 0030 9093 0000 		sts RxLEDPulse+1,r25
  620 0034 8093 0000 		sts RxLEDPulse,r24
- 507:Caterina.c    **** 
- 508:Caterina.c    ****     /* Read in the bootloader command (first byte sent from host) */
- 509:Caterina.c    ****     uint8_t Command = FetchNextCommandByte();
- 621               		.loc 1 509 0
+ 499:Caterina.c    **** 
+ 500:Caterina.c    ****     /* Read in the bootloader command (first byte sent from host) */
+ 501:Caterina.c    ****     uint8_t Command = FetchNextCommandByte();
+ 621               		.loc 1 501 0
  622 0038 0E94 0000 		call FetchNextCommandByte
  623               	.LVL20:
  624 003c C82F      		mov r28,r24
  625               	.LVL21:
- 510:Caterina.c    **** 
- 511:Caterina.c    ****     if (Command == 'E')
- 626               		.loc 1 511 0
+ 502:Caterina.c    **** 
+ 503:Caterina.c    ****     if (Command == 'E')
+ 626               		.loc 1 503 0
  627 003e 8534      		cpi r24,lo8(69)
  628 0040 01F4      		brne .L47
- 512:Caterina.c    ****     {
- 513:Caterina.c    ****         /* We nearly run out the bootloader timeout clock,
- 514:Caterina.c    ****         * leaving just a few hundred milliseconds so the
- 515:Caterina.c    ****         * bootloder has time to respond and service any
- 516:Caterina.c    ****         * subsequent requests */
- 517:Caterina.c    ****         Timeout = TIMEOUT_PERIOD - 500;
- 629               		.loc 1 517 0
+ 504:Caterina.c    ****     {
+ 505:Caterina.c    ****         /* We nearly run out the bootloader timeout clock,
+ 506:Caterina.c    ****         * leaving just a few hundred milliseconds so the
+ 507:Caterina.c    ****         * bootloder has time to respond and service any
+ 508:Caterina.c    ****         * subsequent requests */
+ 509:Caterina.c    ****         Timeout = TIMEOUT_PERIOD - 500;
+ 629               		.loc 1 509 0
  630 0042 84EF      		ldi r24,lo8(-12)
  631 0044 9FEF      		ldi r25,lo8(-1)
  632               	.LVL22:
  633 0046 9093 0000 		sts Timeout+1,r25
  634 004a 8093 0000 		sts Timeout,r24
  635               	.L48:
- 518:Caterina.c    **** 
- 519:Caterina.c    ****         /* Re-enable RWW section - must be done here in case
- 520:Caterina.c    ****          * user has disabled verification on upload.  */
- 521:Caterina.c    ****         boot_rww_enable_safe();
- 636               		.loc 1 521 0 discriminator 1
+ 510:Caterina.c    **** 
+ 511:Caterina.c    ****         /* Re-enable RWW section - must be done here in case
+ 512:Caterina.c    ****          * user has disabled verification on upload.  */
+ 513:Caterina.c    ****         boot_rww_enable_safe();
+ 636               		.loc 1 513 0 discriminator 1
  637 004e 07B6      		in __tmp_reg__,0x37
  638 0050 00FC      		sbrc __tmp_reg__,0
  639 0052 00C0      		rjmp .L48
  640               	.L49:
- 641               		.loc 1 521 0 is_stmt 0 discriminator 3
+ 641               		.loc 1 513 0 is_stmt 0 discriminator 3
  642 0054 F999      		sbic 0x1f,1
  643 0056 00C0      		rjmp .L49
- 644               		.loc 1 521 0 discriminator 4
+ 644               		.loc 1 513 0 discriminator 4
  645 0058 81E1      		ldi r24,lo8(17)
  646               	/* #APP */
- 647               	 ;  521 "Caterina.c" 1
+ 647               	 ;  513 "Caterina.c" 1
  648 005a 8093 5700 		sts 87, r24
  649 005e E895      		spm
  650               		
@@ -1851,24 +1843,24 @@
  653 0060 00C0      		rjmp .L132
  654               	.LVL23:
  655               	.L47:
- 522:Caterina.c    **** 
- 523:Caterina.c    ****         // Send confirmation byte back to the host
- 524:Caterina.c    ****         WriteNextResponseByte('\r');
- 525:Caterina.c    ****     }
- 526:Caterina.c    ****     else if (Command == 'T')
- 656               		.loc 1 526 0 is_stmt 1
+ 514:Caterina.c    **** 
+ 515:Caterina.c    ****         // Send confirmation byte back to the host
+ 516:Caterina.c    ****         WriteNextResponseByte('\r');
+ 517:Caterina.c    ****     }
+ 518:Caterina.c    ****     else if (Command == 'T')
+ 656               		.loc 1 518 0 is_stmt 1
  657 0062 8435      		cpi r24,lo8(84)
  658 0064 01F4      		brne .L51
- 527:Caterina.c    ****     {
- 528:Caterina.c    ****         FetchNextCommandByte();
- 659               		.loc 1 528 0
+ 519:Caterina.c    ****     {
+ 520:Caterina.c    ****         FetchNextCommandByte();
+ 659               		.loc 1 520 0
  660 0066 0E94 0000 		call FetchNextCommandByte
  661               	.LVL24:
  662               	.L132:
- 529:Caterina.c    **** 
- 530:Caterina.c    ****         // Send confirmation byte back to the host
- 531:Caterina.c    ****         WriteNextResponseByte('\r');
- 663               		.loc 1 531 0
+ 521:Caterina.c    **** 
+ 522:Caterina.c    ****         // Send confirmation byte back to the host
+ 523:Caterina.c    ****         WriteNextResponseByte('\r');
+ 663               		.loc 1 523 0
  664 006a 8DE0      		ldi r24,lo8(13)
  665               	.L133:
  666 006c 0E94 0000 		call WriteNextResponseByte
@@ -1876,78 +1868,78 @@
  668 0070 00C0      		rjmp .L50
  669               	.LVL26:
  670               	.L51:
- 532:Caterina.c    ****     }
- 533:Caterina.c    ****     else if ((Command == 'L') || (Command == 'P'))
- 671               		.loc 1 533 0
+ 524:Caterina.c    ****     }
+ 525:Caterina.c    ****     else if ((Command == 'L') || (Command == 'P'))
+ 671               		.loc 1 525 0
  672 0072 8C34      		cpi r24,lo8(76)
  673 0074 01F0      		breq .L132
- 674               		.loc 1 533 0 is_stmt 0 discriminator 1
+ 674               		.loc 1 525 0 is_stmt 0 discriminator 1
  675 0076 8035      		cpi r24,lo8(80)
  676 0078 01F0      		breq .L132
- 534:Caterina.c    ****     {
- 535:Caterina.c    ****         // Send confirmation byte back to the host
- 536:Caterina.c    ****         WriteNextResponseByte('\r');
- 537:Caterina.c    ****     }
- 538:Caterina.c    ****     else if (Command == 't')
- 677               		.loc 1 538 0 is_stmt 1
+ 526:Caterina.c    ****     {
+ 527:Caterina.c    ****         // Send confirmation byte back to the host
+ 528:Caterina.c    ****         WriteNextResponseByte('\r');
+ 529:Caterina.c    ****     }
+ 530:Caterina.c    ****     else if (Command == 't')
+ 677               		.loc 1 530 0 is_stmt 1
  678 007a 8437      		cpi r24,lo8(116)
  679 007c 01F4      		brne .L54
- 539:Caterina.c    ****     {
- 540:Caterina.c    ****         // Return ATMEGA128 part code - this is only to allow AVRProg to use the bootloader
- 541:Caterina.c    ****         WriteNextResponseByte(0x44);
- 680               		.loc 1 541 0
+ 531:Caterina.c    ****     {
+ 532:Caterina.c    ****         // Return ATMEGA128 part code - this is only to allow AVRProg to use the bootloader
+ 533:Caterina.c    ****         WriteNextResponseByte(0x44);
+ 680               		.loc 1 533 0
  681 007e 84E4      		ldi r24,lo8(68)
  682               	.LVL27:
  683 0080 0E94 0000 		call WriteNextResponseByte
  684               	.LVL28:
- 542:Caterina.c    ****         WriteNextResponseByte(0x00);
- 685               		.loc 1 542 0
+ 534:Caterina.c    ****         WriteNextResponseByte(0x00);
+ 685               		.loc 1 534 0
  686 0084 80E0      		ldi r24,0
  687 0086 00C0      		rjmp .L133
  688               	.LVL29:
  689               	.L54:
- 543:Caterina.c    ****     }
- 544:Caterina.c    ****     else if (Command == 'a')
- 690               		.loc 1 544 0
+ 535:Caterina.c    ****     }
+ 536:Caterina.c    ****     else if (Command == 'a')
+ 690               		.loc 1 536 0
  691 0088 8136      		cpi r24,lo8(97)
  692 008a 01F4      		brne .L55
- 545:Caterina.c    ****     {
- 546:Caterina.c    ****         // Indicate auto-address increment is supported
- 547:Caterina.c    ****         WriteNextResponseByte('Y');
- 693               		.loc 1 547 0
+ 537:Caterina.c    ****     {
+ 538:Caterina.c    ****         // Indicate auto-address increment is supported
+ 539:Caterina.c    ****         WriteNextResponseByte('Y');
+ 693               		.loc 1 539 0
  694 008c 89E5      		ldi r24,lo8(89)
  695               	.LVL30:
  696 008e 00C0      		rjmp .L133
  697               	.LVL31:
  698               	.L55:
- 548:Caterina.c    ****     }
- 549:Caterina.c    ****     else if (Command == 'A')
- 699               		.loc 1 549 0
+ 540:Caterina.c    ****     }
+ 541:Caterina.c    ****     else if (Command == 'A')
+ 699               		.loc 1 541 0
  700 0090 8134      		cpi r24,lo8(65)
  701 0092 01F4      		brne .L56
- 550:Caterina.c    ****     {
- 551:Caterina.c    ****         // Set the current address to that given by the host
- 552:Caterina.c    ****         CurrAddress   = (FetchNextCommandByte() << 9);
- 702               		.loc 1 552 0
+ 542:Caterina.c    ****     {
+ 543:Caterina.c    ****         // Set the current address to that given by the host
+ 544:Caterina.c    ****         CurrAddress   = (FetchNextCommandByte() << 9);
+ 702               		.loc 1 544 0
  703 0094 0E94 0000 		call FetchNextCommandByte
  704               	.LVL32:
  705 0098 C82F      		mov r28,r24
  706               	.LVL33:
- 553:Caterina.c    ****         CurrAddress  |= (FetchNextCommandByte() << 1);
- 707               		.loc 1 553 0
+ 545:Caterina.c    ****         CurrAddress  |= (FetchNextCommandByte() << 1);
+ 707               		.loc 1 545 0
  708 009a 0E94 0000 		call FetchNextCommandByte
  709               	.LVL34:
  710 009e 90E0      		ldi r25,0
  711 00a0 880F      		lsl r24
  712 00a2 991F      		rol r25
- 552:Caterina.c    ****         CurrAddress  |= (FetchNextCommandByte() << 1);
- 713               		.loc 1 552 0
+ 544:Caterina.c    ****         CurrAddress  |= (FetchNextCommandByte() << 1);
+ 713               		.loc 1 544 0
  714 00a4 2C2F      		mov r18,r28
  715 00a6 30E0      		ldi r19,0
  716 00a8 322F      		mov r19,r18
  717 00aa 2227      		clr r18
  718 00ac 330F      		lsl r19
- 719               		.loc 1 553 0
+ 719               		.loc 1 545 0
  720 00ae 822B      		or r24,r18
  721 00b0 932B      		or r25,r19
  722 00b2 092E      		mov __tmp_reg__,r25
@@ -1957,26 +1949,26 @@
  726 00ba 00C0      		rjmp .L134
  727               	.LVL35:
  728               	.L56:
- 554:Caterina.c    **** 
- 555:Caterina.c    ****         // Send confirmation byte back to the host
- 556:Caterina.c    ****         WriteNextResponseByte('\r');
- 557:Caterina.c    ****     }
- 558:Caterina.c    ****     else if (Command == 'p')
- 729               		.loc 1 558 0
+ 546:Caterina.c    **** 
+ 547:Caterina.c    ****         // Send confirmation byte back to the host
+ 548:Caterina.c    ****         WriteNextResponseByte('\r');
+ 549:Caterina.c    ****     }
+ 550:Caterina.c    ****     else if (Command == 'p')
+ 729               		.loc 1 550 0
  730 00bc 8037      		cpi r24,lo8(112)
  731 00be 01F4      		brne .L57
- 559:Caterina.c    ****     {
- 560:Caterina.c    ****         // Indicate serial programmer back to the host
- 561:Caterina.c    ****         WriteNextResponseByte('S');
- 732               		.loc 1 561 0
+ 551:Caterina.c    ****     {
+ 552:Caterina.c    ****         // Indicate serial programmer back to the host
+ 553:Caterina.c    ****         WriteNextResponseByte('S');
+ 732               		.loc 1 553 0
  733 00c0 83E5      		ldi r24,lo8(83)
  734               	.LVL36:
  735 00c2 00C0      		rjmp .L133
  736               	.LVL37:
  737               	.L57:
- 562:Caterina.c    ****     }
- 563:Caterina.c    ****     else if (Command == 'S')
- 738               		.loc 1 563 0
+ 554:Caterina.c    ****     }
+ 555:Caterina.c    ****     else if (Command == 'S')
+ 738               		.loc 1 555 0
  739 00c4 8335      		cpi r24,lo8(83)
  740 00c6 01F4      		brne .L58
  741 00c8 C0E0      		ldi r28,lo8(.LC0)
@@ -1985,120 +1977,120 @@
  744 00ce 195F      		subi r17,lo8(-(7))
  745               	.LVL38:
  746               	.L59:
- 747               	.LBB153:
- 564:Caterina.c    ****     {
- 565:Caterina.c    ****         // Write the 7-byte software identifier to the endpoint
- 566:Caterina.c    ****         for (uint8_t CurrByte = 0; CurrByte < 7; CurrByte++)
- 567:Caterina.c    ****           WriteNextResponseByte(SOFTWARE_IDENTIFIER[CurrByte]);
- 748               		.loc 1 567 0 discriminator 3
+ 747               	.LBB151:
+ 556:Caterina.c    ****     {
+ 557:Caterina.c    ****         // Write the 7-byte software identifier to the endpoint
+ 558:Caterina.c    ****         for (uint8_t CurrByte = 0; CurrByte < 7; CurrByte++)
+ 559:Caterina.c    ****           WriteNextResponseByte(SOFTWARE_IDENTIFIER[CurrByte]);
+ 748               		.loc 1 559 0 discriminator 3
  749 00d0 8991      		ld r24,Y+
  750               	.LVL39:
  751 00d2 0E94 0000 		call WriteNextResponseByte
  752               	.LVL40:
- 566:Caterina.c    ****           WriteNextResponseByte(SOFTWARE_IDENTIFIER[CurrByte]);
- 753               		.loc 1 566 0 discriminator 3
+ 558:Caterina.c    ****           WriteNextResponseByte(SOFTWARE_IDENTIFIER[CurrByte]);
+ 753               		.loc 1 558 0 discriminator 3
  754 00d6 1C13      		cpse r17,r28
  755 00d8 00C0      		rjmp .L59
  756 00da 00C0      		rjmp .L50
  757               	.LVL41:
  758               	.L58:
- 759               	.LBE153:
- 568:Caterina.c    ****     }
- 569:Caterina.c    ****     else if (Command == 'V')
- 760               		.loc 1 569 0
+ 759               	.LBE151:
+ 560:Caterina.c    ****     }
+ 561:Caterina.c    ****     else if (Command == 'V')
+ 760               		.loc 1 561 0
  761 00dc 8635      		cpi r24,lo8(86)
  762 00de 01F4      		brne .L60
- 570:Caterina.c    ****     {
- 571:Caterina.c    ****         WriteNextResponseByte('0' + BOOTLOADER_VERSION_MAJOR);
- 763               		.loc 1 571 0
+ 562:Caterina.c    ****     {
+ 563:Caterina.c    ****         WriteNextResponseByte('0' + BOOTLOADER_VERSION_MAJOR);
+ 763               		.loc 1 563 0
  764 00e0 81E3      		ldi r24,lo8(49)
  765               	.LVL42:
  766 00e2 0E94 0000 		call WriteNextResponseByte
  767               	.LVL43:
- 572:Caterina.c    ****         WriteNextResponseByte('0' + BOOTLOADER_VERSION_MINOR);
- 768               		.loc 1 572 0
+ 564:Caterina.c    ****         WriteNextResponseByte('0' + BOOTLOADER_VERSION_MINOR);
+ 768               		.loc 1 564 0
  769 00e6 80E3      		ldi r24,lo8(48)
  770 00e8 00C0      		rjmp .L133
  771               	.LVL44:
  772               	.L60:
- 573:Caterina.c    ****     }
- 574:Caterina.c    ****     else if (Command == 's')
- 773               		.loc 1 574 0
+ 565:Caterina.c    ****     }
+ 566:Caterina.c    ****     else if (Command == 's')
+ 773               		.loc 1 566 0
  774 00ea 8337      		cpi r24,lo8(115)
  775 00ec 01F4      		brne .L61
- 575:Caterina.c    ****     {
- 576:Caterina.c    ****         WriteNextResponseByte(AVR_SIGNATURE_3);
- 776               		.loc 1 576 0
+ 567:Caterina.c    ****     {
+ 568:Caterina.c    ****         WriteNextResponseByte(AVR_SIGNATURE_3);
+ 776               		.loc 1 568 0
  777 00ee 87E8      		ldi r24,lo8(-121)
  778               	.LVL45:
  779 00f0 0E94 0000 		call WriteNextResponseByte
  780               	.LVL46:
- 577:Caterina.c    ****         WriteNextResponseByte(AVR_SIGNATURE_2);
- 781               		.loc 1 577 0
+ 569:Caterina.c    ****         WriteNextResponseByte(AVR_SIGNATURE_2);
+ 781               		.loc 1 569 0
  782 00f4 85E9      		ldi r24,lo8(-107)
  783 00f6 0E94 0000 		call WriteNextResponseByte
  784               	.LVL47:
- 578:Caterina.c    ****         WriteNextResponseByte(AVR_SIGNATURE_1);
- 785               		.loc 1 578 0
+ 570:Caterina.c    ****         WriteNextResponseByte(AVR_SIGNATURE_1);
+ 785               		.loc 1 570 0
  786 00fa 8EE1      		ldi r24,lo8(30)
  787 00fc 00C0      		rjmp .L133
  788               	.LVL48:
  789               	.L61:
- 579:Caterina.c    ****     }
- 580:Caterina.c    ****     else if (Command == 'e')
- 790               		.loc 1 580 0
+ 571:Caterina.c    ****     }
+ 572:Caterina.c    ****     else if (Command == 'e')
+ 790               		.loc 1 572 0
  791 00fe 8536      		cpi r24,lo8(101)
  792 0100 01F4      		brne .L62
  793 0102 E0E0      		ldi r30,0
  794 0104 F0E0      		ldi r31,0
- 795               	.LBB154:
- 581:Caterina.c    ****     {
- 582:Caterina.c    ****         // Clear the application section of flash
- 583:Caterina.c    ****         for (uint32_t CurrFlashAddress = 0; CurrFlashAddress < BOOT_START_ADDR; CurrFlashAddress +=
- 584:Caterina.c    ****         {
- 585:Caterina.c    ****             boot_page_erase(CurrFlashAddress);
- 796               		.loc 1 585 0
+ 795               	.LBB152:
+ 573:Caterina.c    ****     {
+ 574:Caterina.c    ****         // Clear the application section of flash
+ 575:Caterina.c    ****         for (uint32_t CurrFlashAddress = 0; CurrFlashAddress < BOOT_START_ADDR; CurrFlashAddress +=
+ 576:Caterina.c    ****         {
+ 577:Caterina.c    ****             boot_page_erase(CurrFlashAddress);
+ 796               		.loc 1 577 0
  797 0106 83E0      		ldi r24,lo8(3)
  798               	.LVL49:
- 586:Caterina.c    ****             boot_spm_busy_wait();
- 587:Caterina.c    ****             boot_page_write(CurrFlashAddress);
- 799               		.loc 1 587 0
+ 578:Caterina.c    ****             boot_spm_busy_wait();
+ 579:Caterina.c    ****             boot_page_write(CurrFlashAddress);
+ 799               		.loc 1 579 0
  800 0108 95E0      		ldi r25,lo8(5)
  801               	.L65:
- 585:Caterina.c    ****             boot_spm_busy_wait();
- 802               		.loc 1 585 0
+ 577:Caterina.c    ****             boot_spm_busy_wait();
+ 802               		.loc 1 577 0
  803               	/* #APP */
- 804               	 ;  585 "Caterina.c" 1
+ 804               	 ;  577 "Caterina.c" 1
  805 010a 8093 5700 		sts 87, r24
  806 010e E895      		spm
  807               		
  808               	 ;  0 "" 2
  809               	/* #NOAPP */
  810               	.L63:
- 586:Caterina.c    ****             boot_spm_busy_wait();
- 811               		.loc 1 586 0 discriminator 1
+ 578:Caterina.c    ****             boot_spm_busy_wait();
+ 811               		.loc 1 578 0 discriminator 1
  812 0110 07B6      		in __tmp_reg__,0x37
  813 0112 00FC      		sbrc __tmp_reg__,0
  814 0114 00C0      		rjmp .L63
- 815               		.loc 1 587 0
+ 815               		.loc 1 579 0
  816               	/* #APP */
- 817               	 ;  587 "Caterina.c" 1
+ 817               	 ;  579 "Caterina.c" 1
  818 0116 9093 5700 		sts 87, r25
  819 011a E895      		spm
  820               		
  821               	 ;  0 "" 2
  822               	/* #NOAPP */
  823               	.L64:
- 588:Caterina.c    ****             boot_spm_busy_wait();
- 824               		.loc 1 588 0 discriminator 1
+ 580:Caterina.c    ****             boot_spm_busy_wait();
+ 824               		.loc 1 580 0 discriminator 1
  825 011c 07B6      		in __tmp_reg__,0x37
  826 011e 00FC      		sbrc __tmp_reg__,0
  827 0120 00C0      		rjmp .L64
  828               	.LVL50:
  829 0122 E058      		subi r30,-128
  830 0124 FF4F      		sbci r31,-1
- 583:Caterina.c    ****         {
- 831               		.loc 1 583 0 discriminator 2
+ 575:Caterina.c    ****         {
+ 831               		.loc 1 575 0 discriminator 2
  832 0126 E115      		cp r30,__zero_reg__
  833 0128 20E7      		ldi r18,112
  834 012a F207      		cpc r31,r18
@@ -2106,79 +2098,79 @@
  836 012e 00C0      		rjmp .L132
  837               	.LVL51:
  838               	.L62:
- 839               	.LBE154:
- 589:Caterina.c    ****         }
- 590:Caterina.c    **** 
- 591:Caterina.c    ****         // Send confirmation byte back to the host
- 592:Caterina.c    ****         WriteNextResponseByte('\r');
- 593:Caterina.c    ****     }
- 594:Caterina.c    ****     #if !defined(NO_LOCK_BYTE_WRITE_SUPPORT)
- 595:Caterina.c    ****     else if (Command == 'l')
- 596:Caterina.c    ****     {
- 597:Caterina.c    ****         // Set the lock bits to those given by the host
- 598:Caterina.c    ****         boot_lock_bits_set(FetchNextCommandByte());
- 599:Caterina.c    **** 
- 600:Caterina.c    ****         // Send confirmation byte back to the host
- 601:Caterina.c    ****         WriteNextResponseByte('\r');
- 602:Caterina.c    ****     }
- 603:Caterina.c    ****     #endif
- 604:Caterina.c    ****     else if (Command == 'r')
- 840               		.loc 1 604 0
+ 839               	.LBE152:
+ 581:Caterina.c    ****         }
+ 582:Caterina.c    **** 
+ 583:Caterina.c    ****         // Send confirmation byte back to the host
+ 584:Caterina.c    ****         WriteNextResponseByte('\r');
+ 585:Caterina.c    ****     }
+ 586:Caterina.c    ****     #if !defined(NO_LOCK_BYTE_WRITE_SUPPORT)
+ 587:Caterina.c    ****     else if (Command == 'l')
+ 588:Caterina.c    ****     {
+ 589:Caterina.c    ****         // Set the lock bits to those given by the host
+ 590:Caterina.c    ****         boot_lock_bits_set(FetchNextCommandByte());
+ 591:Caterina.c    **** 
+ 592:Caterina.c    ****         // Send confirmation byte back to the host
+ 593:Caterina.c    ****         WriteNextResponseByte('\r');
+ 594:Caterina.c    ****     }
+ 595:Caterina.c    ****     #endif
+ 596:Caterina.c    ****     else if (Command == 'r')
+ 840               		.loc 1 596 0
  841 0130 8237      		cpi r24,lo8(114)
  842 0132 01F4      		brne .L66
- 843               	.LBB155:
- 605:Caterina.c    ****     {
- 606:Caterina.c    ****         WriteNextResponseByte(boot_lock_fuse_bits_get(GET_LOCK_BITS));
- 844               		.loc 1 606 0
+ 843               	.LBB153:
+ 597:Caterina.c    ****     {
+ 598:Caterina.c    ****         WriteNextResponseByte(boot_lock_fuse_bits_get(GET_LOCK_BITS));
+ 844               		.loc 1 598 0
  845 0134 E1E0      		ldi r30,lo8(1)
  846 0136 F0E0      		ldi r31,0
  847 0138 00C0      		rjmp .L135
  848               	.L66:
- 849               	.LBE155:
- 607:Caterina.c    ****     }
- 608:Caterina.c    ****     else if (Command == 'F')
- 850               		.loc 1 608 0
+ 849               	.LBE153:
+ 599:Caterina.c    ****     }
+ 600:Caterina.c    ****     else if (Command == 'F')
+ 850               		.loc 1 600 0
  851 013a 8634      		cpi r24,lo8(70)
  852 013c 01F4      		brne .L67
- 853               	.LBB156:
- 609:Caterina.c    ****     {
- 610:Caterina.c    ****         WriteNextResponseByte(boot_lock_fuse_bits_get(GET_LOW_FUSE_BITS));
- 854               		.loc 1 610 0
+ 853               	.LBB154:
+ 601:Caterina.c    ****     {
+ 602:Caterina.c    ****         WriteNextResponseByte(boot_lock_fuse_bits_get(GET_LOW_FUSE_BITS));
+ 854               		.loc 1 602 0
  855 013e E0E0      		ldi r30,0
  856 0140 F0E0      		ldi r31,0
  857 0142 00C0      		rjmp .L135
  858               	.L67:
- 859               	.LBE156:
- 611:Caterina.c    ****     }
- 612:Caterina.c    ****     else if (Command == 'N')
- 860               		.loc 1 612 0
+ 859               	.LBE154:
+ 603:Caterina.c    ****     }
+ 604:Caterina.c    ****     else if (Command == 'N')
+ 860               		.loc 1 604 0
  861 0144 8E34      		cpi r24,lo8(78)
  862 0146 01F4      		brne .L68
- 863               	.LBB157:
- 613:Caterina.c    ****     {
- 614:Caterina.c    ****         WriteNextResponseByte(boot_lock_fuse_bits_get(GET_HIGH_FUSE_BITS));
- 864               		.loc 1 614 0
+ 863               	.LBB155:
+ 605:Caterina.c    ****     {
+ 606:Caterina.c    ****         WriteNextResponseByte(boot_lock_fuse_bits_get(GET_HIGH_FUSE_BITS));
+ 864               		.loc 1 606 0
  865 0148 E3E0      		ldi r30,lo8(3)
  866 014a F0E0      		ldi r31,0
  867 014c 00C0      		rjmp .L135
  868               	.L68:
- 869               	.LBE157:
- 615:Caterina.c    ****     }
- 616:Caterina.c    ****     else if (Command == 'Q')
- 870               		.loc 1 616 0
+ 869               	.LBE155:
+ 607:Caterina.c    ****     }
+ 608:Caterina.c    ****     else if (Command == 'Q')
+ 870               		.loc 1 608 0
  871 014e 8135      		cpi r24,lo8(81)
  872 0150 01F4      		brne .L69
- 873               	.LBB158:
- 617:Caterina.c    ****     {
- 618:Caterina.c    ****         WriteNextResponseByte(boot_lock_fuse_bits_get(GET_EXTENDED_FUSE_BITS));
- 874               		.loc 1 618 0
+ 873               	.LBB156:
+ 609:Caterina.c    ****     {
+ 610:Caterina.c    ****         WriteNextResponseByte(boot_lock_fuse_bits_get(GET_EXTENDED_FUSE_BITS));
+ 874               		.loc 1 610 0
  875 0152 E2E0      		ldi r30,lo8(2)
  876 0154 F0E0      		ldi r31,0
  877               	.L135:
  878 0156 89E0      		ldi r24,lo8(9)
  879               	.LVL52:
  880               	/* #APP */
- 881               	 ;  618 "Caterina.c" 1
+ 881               	 ;  610 "Caterina.c" 1
  882 0158 8093 5700 		sts 87, r24
  883 015c 8491      		lpm r24, Z
  884               		
@@ -2188,105 +2180,105 @@
  888 015e 00C0      		rjmp .L133
  889               	.LVL54:
  890               	.L69:
- 891               	.LBE158:
- 619:Caterina.c    ****     }
- 620:Caterina.c    ****     #if !defined(NO_BLOCK_SUPPORT)
- 621:Caterina.c    ****     else if (Command == 'b')
- 892               		.loc 1 621 0
+ 891               	.LBE156:
+ 611:Caterina.c    ****     }
+ 612:Caterina.c    ****     #if !defined(NO_BLOCK_SUPPORT)
+ 613:Caterina.c    ****     else if (Command == 'b')
+ 892               		.loc 1 613 0
  893 0160 8236      		cpi r24,lo8(98)
  894 0162 01F4      		brne .L70
- 622:Caterina.c    ****     {
- 623:Caterina.c    ****         WriteNextResponseByte('Y');
- 895               		.loc 1 623 0
+ 614:Caterina.c    ****     {
+ 615:Caterina.c    ****         WriteNextResponseByte('Y');
+ 895               		.loc 1 615 0
  896 0164 89E5      		ldi r24,lo8(89)
  897               	.LVL55:
  898 0166 0E94 0000 		call WriteNextResponseByte
  899               	.LVL56:
- 624:Caterina.c    **** 
- 625:Caterina.c    ****         // Send block size to the host
- 626:Caterina.c    ****         WriteNextResponseByte(SPM_PAGESIZE >> 8);
- 900               		.loc 1 626 0
+ 616:Caterina.c    **** 
+ 617:Caterina.c    ****         // Send block size to the host
+ 618:Caterina.c    ****         WriteNextResponseByte(SPM_PAGESIZE >> 8);
+ 900               		.loc 1 618 0
  901 016a 80E0      		ldi r24,0
  902 016c 0E94 0000 		call WriteNextResponseByte
  903               	.LVL57:
- 627:Caterina.c    ****         WriteNextResponseByte(SPM_PAGESIZE & 0xFF);
- 904               		.loc 1 627 0
+ 619:Caterina.c    ****         WriteNextResponseByte(SPM_PAGESIZE & 0xFF);
+ 904               		.loc 1 619 0
  905 0170 80E8      		ldi r24,lo8(-128)
  906 0172 00C0      		rjmp .L133
  907               	.LVL58:
  908               	.L70:
- 628:Caterina.c    ****     }
- 629:Caterina.c    ****     else if ((Command == 'B') || (Command == 'g'))
- 909               		.loc 1 629 0
+ 620:Caterina.c    ****     }
+ 621:Caterina.c    ****     else if ((Command == 'B') || (Command == 'g'))
+ 909               		.loc 1 621 0
  910 0174 8234      		cpi r24,lo8(66)
  911 0176 01F0      		breq .L71
- 912               		.loc 1 629 0 is_stmt 0 discriminator 1
+ 912               		.loc 1 621 0 is_stmt 0 discriminator 1
  913 0178 8736      		cpi r24,lo8(103)
  914 017a 01F0      		breq .+2
  915 017c 00C0      		rjmp .L72
  916               	.L71:
- 630:Caterina.c    ****     {
- 631:Caterina.c    ****         // Keep resetting the timeout counter if we're receiving self-programming instructions
- 632:Caterina.c    ****         Timeout = 0;
- 917               		.loc 1 632 0 is_stmt 1
+ 622:Caterina.c    ****     {
+ 623:Caterina.c    ****         // Keep resetting the timeout counter if we're receiving self-programming instructions
+ 624:Caterina.c    ****         Timeout = 0;
+ 917               		.loc 1 624 0 is_stmt 1
  918 017e 1092 0000 		sts Timeout+1,__zero_reg__
  919 0182 1092 0000 		sts Timeout,__zero_reg__
  920               	.LVL59:
- 921               	.LBB159:
- 922               	.LBB160:
- 315:Caterina.c    ****     BlockSize |=  FetchNextCommandByte();
- 923               		.loc 1 315 0
+ 921               	.LBB157:
+ 922               	.LBB158:
+ 307:Caterina.c    ****     BlockSize |=  FetchNextCommandByte();
+ 923               		.loc 1 307 0
  924 0186 0E94 0000 		call FetchNextCommandByte
  925               	.LVL60:
  926 018a 082F      		mov r16,r24
  927               	.LVL61:
- 316:Caterina.c    **** 
- 928               		.loc 1 316 0
+ 308:Caterina.c    **** 
+ 928               		.loc 1 308 0
  929 018c 0E94 0000 		call FetchNextCommandByte
  930               	.LVL62:
  931 0190 D82F      		mov r29,r24
  932               	.LVL63:
- 318:Caterina.c    **** 
- 933               		.loc 1 318 0
+ 310:Caterina.c    **** 
+ 933               		.loc 1 310 0
  934 0192 0E94 0000 		call FetchNextCommandByte
  935               	.LVL64:
  936 0196 182F      		mov r17,r24
  937               	.LVL65:
- 320:Caterina.c    ****     {
- 938               		.loc 1 320 0
+ 312:Caterina.c    ****     {
+ 938               		.loc 1 312 0
  939 0198 8BEB      		ldi r24,lo8(-69)
  940 019a 810F      		add r24,r17
  941 019c 8230      		cpi r24,lo8(2)
  942 019e 00F0      		brlo .L73
  943               	.LVL66:
  944               	.L98:
- 323:Caterina.c    **** 
- 945               		.loc 1 323 0
+ 315:Caterina.c    **** 
+ 945               		.loc 1 315 0
  946 01a0 8FE3      		ldi r24,lo8(63)
  947 01a2 00C0      		rjmp .L133
  948               	.LVL67:
  949               	.L73:
- 315:Caterina.c    ****     BlockSize |=  FetchNextCommandByte();
- 950               		.loc 1 315 0
+ 307:Caterina.c    ****     BlockSize |=  FetchNextCommandByte();
+ 950               		.loc 1 307 0
  951 01a4 2D2F      		mov r18,r29
  952 01a6 30E0      		ldi r19,0
- 316:Caterina.c    **** 
- 953               		.loc 1 316 0
+ 308:Caterina.c    **** 
+ 953               		.loc 1 308 0
  954 01a8 302B      		or r19,r16
- 330:Caterina.c    **** 
- 955               		.loc 1 330 0
+ 322:Caterina.c    **** 
+ 955               		.loc 1 322 0
  956 01aa 1092 6F00 		sts 111,__zero_reg__
- 333:Caterina.c    ****     {
- 957               		.loc 1 333 0
+ 325:Caterina.c    ****     {
+ 957               		.loc 1 325 0
  958 01ae C736      		cpi r28,lo8(103)
  959 01b0 01F0      		breq .+2
  960 01b2 00C0      		rjmp .L74
  961               	.LVL68:
- 336:Caterina.c    **** 
- 962               		.loc 1 336 0
+ 328:Caterina.c    **** 
+ 962               		.loc 1 328 0
  963 01b4 81E1      		ldi r24,lo8(17)
  964               	/* #APP */
- 965               	 ;  336 "Caterina.c" 1
+ 965               	 ;  328 "Caterina.c" 1
  966 01b6 8093 5700 		sts 87, r24
  967 01ba E895      		spm
  968               		
@@ -2294,18 +2286,18 @@
  970               	/* #NOAPP */
  971 01bc E901      		movw r28,r18
  972               	.LVL69:
- 312:Caterina.c    ****     uint8_t  LowByte  = 0;
- 973               		.loc 1 312 0
+ 304:Caterina.c    ****     uint8_t  LowByte  = 0;
+ 973               		.loc 1 304 0
  974 01be 00E0      		ldi r16,0
  975               	.LVL70:
- 353:Caterina.c    ****             }
- 976               		.loc 1 353 0
+ 345:Caterina.c    ****             }
+ 976               		.loc 1 345 0
  977 01c0 BB24      		clr r11
  978 01c2 B394      		inc r11
  979               	.LVL71:
  980               	.L75:
- 338:Caterina.c    ****         {
- 981               		.loc 1 338 0
+ 330:Caterina.c    ****         {
+ 981               		.loc 1 330 0
  982 01c4 2097      		sbiw r28,0
  983 01c6 01F4      		brne .+2
  984 01c8 00C0      		rjmp .L80
@@ -2313,34 +2305,34 @@
  986 01ce D090 0000 		lds r13,CurrAddress+1
  987 01d2 E090 0000 		lds r14,CurrAddress+2
  988 01d6 F090 0000 		lds r15,CurrAddress+3
- 340:Caterina.c    ****             {
- 989               		.loc 1 340 0
+ 332:Caterina.c    ****             {
+ 989               		.loc 1 332 0
  990 01da 1634      		cpi r17,lo8(70)
  991 01dc 01F4      		brne .L76
  992               	.LVL72:
- 993               	.LBB161:
- 346:Caterina.c    ****                 #endif
- 994               		.loc 1 346 0
+ 993               	.LBB159:
+ 338:Caterina.c    ****                 #endif
+ 994               		.loc 1 338 0
  995 01de E02F      		mov r30,r16
  996 01e0 F0E0      		ldi r31,0
  997 01e2 EC29      		or r30,r12
  998 01e4 FD29      		or r31,r13
  999               	/* #APP */
- 1000               	 ;  346 "Caterina.c" 1
+ 1000               	 ;  338 "Caterina.c" 1
  1001 01e6 8491      		lpm r24, Z
  1002               		
  1003               	 ;  0 "" 2
  1004               	.LVL73:
  1005               	/* #NOAPP */
- 1006               	.LBE161:
+ 1006               	.LBE159:
  1007 01e8 0E94 0000 		call WriteNextResponseByte
  1008               	.LVL74:
- 350:Caterina.c    ****                   CurrAddress += 2;
- 1009               		.loc 1 350 0
+ 342:Caterina.c    ****                   CurrAddress += 2;
+ 1009               		.loc 1 342 0
  1010 01ec 0023      		tst r16
  1011 01ee 01F0      		breq .L77
- 351:Caterina.c    **** 
- 1012               		.loc 1 351 0
+ 343:Caterina.c    **** 
+ 1012               		.loc 1 343 0
  1013 01f0 82E0      		ldi r24,2
  1014 01f2 C80E      		add r12,r24
  1015 01f4 D11C      		adc r13,__zero_reg__
@@ -2353,14 +2345,14 @@
  1022 0206 F092 0000 		sts CurrAddress+3,r15
  1023               	.LVL76:
  1024               	.L77:
- 353:Caterina.c    ****             }
- 1025               		.loc 1 353 0
+ 345:Caterina.c    ****             }
+ 1025               		.loc 1 345 0
  1026 020a 0B25      		eor r16,r11
  1027               	.LVL77:
  1028 020c 00C0      		rjmp .L78
  1029               	.L76:
- 358:Caterina.c    **** 
- 1030               		.loc 1 358 0
+ 350:Caterina.c    **** 
+ 1030               		.loc 1 350 0
  1031 020e D701      		movw r26,r14
  1032 0210 C601      		movw r24,r12
  1033 0212 B695      		lsr r27
@@ -2371,8 +2363,8 @@
  1038               	.LVL78:
  1039 021e 0E94 0000 		call WriteNextResponseByte
  1040               	.LVL79:
- 361:Caterina.c    ****             }
- 1041               		.loc 1 361 0
+ 353:Caterina.c    ****             }
+ 1041               		.loc 1 353 0
  1042 0222 E2E0      		ldi r30,2
  1043 0224 CE0E      		add r12,r30
  1044 0226 D11C      		adc r13,__zero_reg__
@@ -2388,65 +2380,65 @@
  1054 023e 00C0      		rjmp .L75
  1055               	.LVL81:
  1056               	.L74:
- 1057               	.LBB162:
- 367:Caterina.c    **** 
- 1058               		.loc 1 367 0
+ 1057               	.LBB160:
+ 359:Caterina.c    **** 
+ 1058               		.loc 1 359 0
  1059 0240 8090 0000 		lds r8,CurrAddress
  1060 0244 9090 0000 		lds r9,CurrAddress+1
  1061 0248 A090 0000 		lds r10,CurrAddress+2
  1062 024c B090 0000 		lds r11,CurrAddress+3
- 369:Caterina.c    ****         {
- 1063               		.loc 1 369 0
+ 361:Caterina.c    ****         {
+ 1063               		.loc 1 361 0
  1064 0250 1634      		cpi r17,lo8(70)
  1065 0252 01F4      		brne .L81
- 371:Caterina.c    ****             boot_spm_busy_wait();
- 1066               		.loc 1 371 0
+ 363:Caterina.c    ****             boot_spm_busy_wait();
+ 1066               		.loc 1 363 0
  1067 0254 83E0      		ldi r24,lo8(3)
  1068 0256 F401      		movw r30,r8
  1069               	/* #APP */
- 1070               	 ;  371 "Caterina.c" 1
+ 1070               	 ;  363 "Caterina.c" 1
  1071 0258 8093 5700 		sts 87, r24
  1072 025c E895      		spm
  1073               		
  1074               	 ;  0 "" 2
  1075               	/* #NOAPP */
  1076               	.L82:
- 372:Caterina.c    ****         }
- 1077               		.loc 1 372 0
+ 364:Caterina.c    ****         }
+ 1077               		.loc 1 364 0
  1078 025e 07B6      		in __tmp_reg__,0x37
  1079 0260 00FC      		sbrc __tmp_reg__,0
  1080 0262 00C0      		rjmp .L82
  1081               	.L81:
- 1082               	.LBE162:
- 312:Caterina.c    ****     uint8_t  LowByte  = 0;
- 1083               		.loc 1 312 0
+ 1082               	.LBE160:
+ 304:Caterina.c    ****     uint8_t  LowByte  = 0;
+ 1083               		.loc 1 304 0
  1084 0264 E901      		movw r28,r18
  1085               	.LVL82:
  1086 0266 712C      		mov r7,__zero_reg__
  1087 0268 00E0      		ldi r16,0
  1088               	.LVL83:
- 1089               	.LBB163:
- 393:Caterina.c    ****             }
- 1090               		.loc 1 393 0
+ 1089               	.LBB161:
+ 385:Caterina.c    ****             }
+ 1090               		.loc 1 385 0
  1091 026a 6624      		clr r6
  1092 026c 6394      		inc r6
  1093               	.LVL84:
  1094               	.L83:
- 375:Caterina.c    ****         {
- 1095               		.loc 1 375 0
+ 367:Caterina.c    ****         {
+ 1095               		.loc 1 367 0
  1096 026e 2097      		sbiw r28,0
  1097 0270 01F4      		brne .+2
  1098 0272 00C0      		rjmp .L136
- 377:Caterina.c    ****             {
- 1099               		.loc 1 377 0
+ 369:Caterina.c    ****             {
+ 1099               		.loc 1 369 0
  1100 0274 1634      		cpi r17,lo8(70)
  1101 0276 01F4      		brne .L84
- 380:Caterina.c    ****                 {
- 1102               		.loc 1 380 0
+ 372:Caterina.c    ****                 {
+ 1102               		.loc 1 372 0
  1103 0278 0023      		tst r16
  1104 027a 01F0      		breq .L85
- 383:Caterina.c    **** 
- 1105               		.loc 1 383 0
+ 375:Caterina.c    **** 
+ 1105               		.loc 1 375 0
  1106 027c C090 0000 		lds r12,CurrAddress
  1107 0280 D090 0000 		lds r13,CurrAddress+1
  1108 0284 E090 0000 		lds r14,CurrAddress+2
@@ -2458,15 +2450,15 @@
  1114 0294 382B      		or r19,r24
  1115 0296 F601      		movw r30,r12
  1116               	/* #APP */
- 1117               	 ;  383 "Caterina.c" 1
+ 1117               	 ;  375 "Caterina.c" 1
  1118 0298 0901      		movw  r0, r18
  1119 029a 6092 5700 		sts 87, r6
  1120 029e E895      		spm
  1121 02a0 1124      		clr  r1
  1122               		
  1123               	 ;  0 "" 2
- 386:Caterina.c    ****                 }
- 1124               		.loc 1 386 0
+ 378:Caterina.c    ****                 }
+ 1124               		.loc 1 378 0
  1125               	/* #NOAPP */
  1126 02a2 F2E0      		ldi r31,2
  1127 02a4 CF0E      		add r12,r31
@@ -2479,21 +2471,21 @@
  1134 02b8 F092 0000 		sts CurrAddress+3,r15
  1135 02bc 00C0      		rjmp .L86
  1136               	.L85:
- 390:Caterina.c    ****                 }
- 1137               		.loc 1 390 0
+ 382:Caterina.c    ****                 }
+ 1137               		.loc 1 382 0
  1138 02be 0E94 0000 		call FetchNextCommandByte
  1139               	.LVL86:
  1140 02c2 782E      		mov r7,r24
  1141               	.LVL87:
  1142               	.L86:
- 393:Caterina.c    ****             }
- 1143               		.loc 1 393 0
+ 385:Caterina.c    ****             }
+ 1143               		.loc 1 385 0
  1144 02c4 0625      		eor r16,r6
  1145               	.LVL88:
  1146 02c6 00C0      		rjmp .L87
  1147               	.L84:
- 398:Caterina.c    **** 
- 1148               		.loc 1 398 0
+ 390:Caterina.c    **** 
+ 1148               		.loc 1 390 0
  1149 02c8 0E94 0000 		call FetchNextCommandByte
  1150               	.LVL89:
  1151 02cc 682F      		mov r22,r24
@@ -2507,8 +2499,8 @@
  1159 02e4 8795      		ror r24
  1160 02e6 0E94 0000 		call eeprom_write_byte
  1161               	.LVL90:
- 401:Caterina.c    ****             }
- 1162               		.loc 1 401 0
+ 393:Caterina.c    ****             }
+ 1162               		.loc 1 393 0
  1163 02ea 8091 0000 		lds r24,CurrAddress
  1164 02ee 9091 0000 		lds r25,CurrAddress+1
  1165 02f2 A091 0000 		lds r26,CurrAddress+2
@@ -2526,57 +2518,57 @@
  1177 0312 00C0      		rjmp .L83
  1178               	.LVL92:
  1179               	.L136:
- 406:Caterina.c    ****         {
- 1180               		.loc 1 406 0
+ 398:Caterina.c    ****         {
+ 1180               		.loc 1 398 0
  1181 0314 1634      		cpi r17,lo8(70)
  1182 0316 01F4      		brne .L89
- 409:Caterina.c    **** 
- 1183               		.loc 1 409 0
+ 401:Caterina.c    **** 
+ 1183               		.loc 1 401 0
  1184 0318 85E0      		ldi r24,lo8(5)
  1185 031a F401      		movw r30,r8
  1186               	/* #APP */
- 1187               	 ;  409 "Caterina.c" 1
+ 1187               	 ;  401 "Caterina.c" 1
  1188 031c 8093 5700 		sts 87, r24
  1189 0320 E895      		spm
  1190               		
  1191               	 ;  0 "" 2
  1192               	/* #NOAPP */
  1193               	.L90:
- 412:Caterina.c    ****         }
- 1194               		.loc 1 412 0
+ 404:Caterina.c    ****         }
+ 1194               		.loc 1 404 0
  1195 0322 07B6      		in __tmp_reg__,0x37
  1196 0324 00FC      		sbrc __tmp_reg__,0
  1197 0326 00C0      		rjmp .L90
  1198               	.L89:
- 416:Caterina.c    ****     }
- 1199               		.loc 1 416 0
+ 408:Caterina.c    ****     }
+ 1199               		.loc 1 408 0
  1200 0328 8DE0      		ldi r24,lo8(13)
  1201 032a 0E94 0000 		call WriteNextResponseByte
  1202               	.LVL93:
  1203               	.L80:
- 1204               	.LBE163:
- 420:Caterina.c    **** }
- 1205               		.loc 1 420 0
+ 1204               	.LBE161:
+ 412:Caterina.c    **** }
+ 1205               		.loc 1 412 0
  1206 032e 82E0      		ldi r24,lo8(2)
  1207 0330 8093 6F00 		sts 111,r24
  1208 0334 00C0      		rjmp .L50
  1209               	.LVL94:
  1210               	.L72:
- 1211               	.LBE160:
- 1212               	.LBE159:
- 633:Caterina.c    ****         // Delegate the block write/read to a separate function for clarity
- 634:Caterina.c    ****         ReadWriteMemoryBlock(Command);
- 635:Caterina.c    ****     }
- 636:Caterina.c    ****     #endif
- 637:Caterina.c    ****     #if !defined(NO_FLASH_BYTE_SUPPORT)
- 638:Caterina.c    ****     else if (Command == 'C')
- 1213               		.loc 1 638 0
+ 1211               	.LBE158:
+ 1212               	.LBE157:
+ 625:Caterina.c    ****         // Delegate the block write/read to a separate function for clarity
+ 626:Caterina.c    ****         ReadWriteMemoryBlock(Command);
+ 627:Caterina.c    ****     }
+ 628:Caterina.c    ****     #endif
+ 629:Caterina.c    ****     #if !defined(NO_FLASH_BYTE_SUPPORT)
+ 630:Caterina.c    ****     else if (Command == 'C')
+ 1213               		.loc 1 630 0
  1214 0336 8334      		cpi r24,lo8(67)
  1215 0338 01F4      		brne .L91
- 639:Caterina.c    ****     {
- 640:Caterina.c    ****         // Write the high byte to the current flash page
- 641:Caterina.c    ****         boot_page_fill(CurrAddress, FetchNextCommandByte());
- 1216               		.loc 1 641 0
+ 631:Caterina.c    ****     {
+ 632:Caterina.c    ****         // Write the high byte to the current flash page
+ 633:Caterina.c    ****         boot_page_fill(CurrAddress, FetchNextCommandByte());
+ 1216               		.loc 1 633 0
  1217 033a C091 0000 		lds r28,CurrAddress
  1218 033e D091 0000 		lds r29,CurrAddress+1
  1219 0342 0E94 0000 		call FetchNextCommandByte
@@ -2585,7 +2577,7 @@
  1222 0348 21E0      		ldi r18,lo8(1)
  1223 034a FE01      		movw r30,r28
  1224               	/* #APP */
- 1225               	 ;  641 "Caterina.c" 1
+ 1225               	 ;  633 "Caterina.c" 1
  1226 034c 0C01      		movw  r0, r24
  1227 034e 2093 5700 		sts 87, r18
  1228 0352 E895      		spm
@@ -2596,18 +2588,18 @@
  1233 0356 00C0      		rjmp .L132
  1234               	.LVL96:
  1235               	.L91:
- 642:Caterina.c    **** 
- 643:Caterina.c    ****         // Send confirmation byte back to the host
- 644:Caterina.c    ****         WriteNextResponseByte('\r');
- 645:Caterina.c    ****     }
- 646:Caterina.c    ****     else if (Command == 'c')
- 1236               		.loc 1 646 0
+ 634:Caterina.c    **** 
+ 635:Caterina.c    ****         // Send confirmation byte back to the host
+ 636:Caterina.c    ****         WriteNextResponseByte('\r');
+ 637:Caterina.c    ****     }
+ 638:Caterina.c    ****     else if (Command == 'c')
+ 1236               		.loc 1 638 0
  1237 0358 8336      		cpi r24,lo8(99)
  1238 035a 01F4      		brne .L92
- 647:Caterina.c    ****     {
- 648:Caterina.c    ****         // Write the low byte to the current flash page
- 649:Caterina.c    ****         boot_page_fill(CurrAddress | 0x01, FetchNextCommandByte());
- 1239               		.loc 1 649 0
+ 639:Caterina.c    ****     {
+ 640:Caterina.c    ****         // Write the low byte to the current flash page
+ 641:Caterina.c    ****         boot_page_fill(CurrAddress | 0x01, FetchNextCommandByte());
+ 1239               		.loc 1 641 0
  1240 035c C090 0000 		lds r12,CurrAddress
  1241 0360 D090 0000 		lds r13,CurrAddress+1
  1242 0364 E090 0000 		lds r14,CurrAddress+2
@@ -2619,17 +2611,17 @@
  1248 0374 90E0      		ldi r25,0
  1249 0376 21E0      		ldi r18,lo8(1)
  1250               	/* #APP */
- 1251               	 ;  649 "Caterina.c" 1
+ 1251               	 ;  641 "Caterina.c" 1
  1252 0378 0C01      		movw  r0, r24
  1253 037a 2093 5700 		sts 87, r18
  1254 037e E895      		spm
  1255 0380 1124      		clr  r1
  1256               		
  1257               	 ;  0 "" 2
- 650:Caterina.c    **** 
- 651:Caterina.c    ****         // Increment the address
- 652:Caterina.c    ****         CurrAddress += 2;
- 1258               		.loc 1 652 0
+ 642:Caterina.c    **** 
+ 643:Caterina.c    ****         // Increment the address
+ 644:Caterina.c    ****         CurrAddress += 2;
+ 1258               		.loc 1 644 0
  1259               	/* #NOAPP */
  1260 0382 F2E0      		ldi r31,2
  1261 0384 CF0E      		add r12,r31
@@ -2643,94 +2635,94 @@
  1269 039c 00C0      		rjmp .L132
  1270               	.LVL98:
  1271               	.L92:
- 653:Caterina.c    **** 
- 654:Caterina.c    ****         // Send confirmation byte back to the host
- 655:Caterina.c    ****         WriteNextResponseByte('\r');
- 656:Caterina.c    ****     }
- 657:Caterina.c    ****     else if (Command == 'm')
- 1272               		.loc 1 657 0
+ 645:Caterina.c    **** 
+ 646:Caterina.c    ****         // Send confirmation byte back to the host
+ 647:Caterina.c    ****         WriteNextResponseByte('\r');
+ 648:Caterina.c    ****     }
+ 649:Caterina.c    ****     else if (Command == 'm')
+ 1272               		.loc 1 649 0
  1273 039e 8D36      		cpi r24,lo8(109)
  1274 03a0 01F4      		brne .L93
- 658:Caterina.c    ****     {
- 659:Caterina.c    ****         // Commit the flash page to memory
- 660:Caterina.c    ****         boot_page_write(CurrAddress);
- 1275               		.loc 1 660 0
+ 650:Caterina.c    ****     {
+ 651:Caterina.c    ****         // Commit the flash page to memory
+ 652:Caterina.c    ****         boot_page_write(CurrAddress);
+ 1275               		.loc 1 652 0
  1276 03a2 E091 0000 		lds r30,CurrAddress
  1277 03a6 F091 0000 		lds r31,CurrAddress+1
  1278 03aa 85E0      		ldi r24,lo8(5)
  1279               	.LVL99:
  1280               	/* #APP */
- 1281               	 ;  660 "Caterina.c" 1
+ 1281               	 ;  652 "Caterina.c" 1
  1282 03ac 8093 5700 		sts 87, r24
  1283 03b0 E895      		spm
  1284               		
  1285               	 ;  0 "" 2
  1286               	/* #NOAPP */
  1287               	.L94:
- 661:Caterina.c    **** 
- 662:Caterina.c    ****         // Wait until write operation has completed
- 663:Caterina.c    ****         boot_spm_busy_wait();
- 1288               		.loc 1 663 0 discriminator 1
+ 653:Caterina.c    **** 
+ 654:Caterina.c    ****         // Wait until write operation has completed
+ 655:Caterina.c    ****         boot_spm_busy_wait();
+ 1288               		.loc 1 655 0 discriminator 1
  1289 03b2 07B6      		in __tmp_reg__,0x37
  1290 03b4 00FC      		sbrc __tmp_reg__,0
  1291 03b6 00C0      		rjmp .L94
  1292 03b8 00C0      		rjmp .L132
  1293               	.LVL100:
  1294               	.L93:
- 664:Caterina.c    **** 
- 665:Caterina.c    ****         // Send confirmation byte back to the host
- 666:Caterina.c    ****         WriteNextResponseByte('\r');
- 667:Caterina.c    ****     }
- 668:Caterina.c    ****     else if (Command == 'R')
- 1295               		.loc 1 668 0
+ 656:Caterina.c    **** 
+ 657:Caterina.c    ****         // Send confirmation byte back to the host
+ 658:Caterina.c    ****         WriteNextResponseByte('\r');
+ 659:Caterina.c    ****     }
+ 660:Caterina.c    ****     else if (Command == 'R')
+ 1295               		.loc 1 660 0
  1296 03ba 8235      		cpi r24,lo8(82)
  1297 03bc 01F4      		brne .L95
- 1298               	.LBB164:
- 1299               	.LBB165:
- 669:Caterina.c    ****     {
- 670:Caterina.c    ****         #if (FLASHEND > 0xFFFF)
- 671:Caterina.c    ****         uint16_t ProgramWord = pgm_read_word_far(CurrAddress);
- 672:Caterina.c    ****         #else
- 673:Caterina.c    ****         uint16_t ProgramWord = pgm_read_word(CurrAddress);
- 1300               		.loc 1 673 0
+ 1298               	.LBB162:
+ 1299               	.LBB163:
+ 661:Caterina.c    ****     {
+ 662:Caterina.c    ****         #if (FLASHEND > 0xFFFF)
+ 663:Caterina.c    ****         uint16_t ProgramWord = pgm_read_word_far(CurrAddress);
+ 664:Caterina.c    ****         #else
+ 665:Caterina.c    ****         uint16_t ProgramWord = pgm_read_word(CurrAddress);
+ 1300               		.loc 1 665 0
  1301 03be E091 0000 		lds r30,CurrAddress
  1302 03c2 F091 0000 		lds r31,CurrAddress+1
  1303               	.LVL101:
  1304               	/* #APP */
- 1305               	 ;  673 "Caterina.c" 1
+ 1305               	 ;  665 "Caterina.c" 1
  1306 03c6 C591      		lpm r28, Z+
  1307 03c8 D491      		lpm r29, Z
  1308               		
  1309               	 ;  0 "" 2
  1310               	.LVL102:
  1311               	/* #NOAPP */
- 1312               	.LBE165:
- 674:Caterina.c    ****         #endif
- 675:Caterina.c    **** 
- 676:Caterina.c    ****         WriteNextResponseByte(ProgramWord >> 8);
- 1313               		.loc 1 676 0
+ 1312               	.LBE163:
+ 666:Caterina.c    ****         #endif
+ 667:Caterina.c    **** 
+ 668:Caterina.c    ****         WriteNextResponseByte(ProgramWord >> 8);
+ 1313               		.loc 1 668 0
  1314 03ca 8D2F      		mov r24,r29
  1315               	.LVL103:
  1316 03cc 0E94 0000 		call WriteNextResponseByte
  1317               	.LVL104:
- 677:Caterina.c    ****         WriteNextResponseByte(ProgramWord & 0xFF);
- 1318               		.loc 1 677 0
+ 669:Caterina.c    ****         WriteNextResponseByte(ProgramWord & 0xFF);
+ 1318               		.loc 1 669 0
  1319 03d0 8C2F      		mov r24,r28
  1320 03d2 00C0      		rjmp .L133
  1321               	.LVL105:
  1322               	.L95:
- 1323               	.LBE164:
- 678:Caterina.c    ****     }
- 679:Caterina.c    ****     #endif
- 680:Caterina.c    ****     #if !defined(NO_EEPROM_BYTE_SUPPORT)
- 681:Caterina.c    ****     else if (Command == 'D')
- 1324               		.loc 1 681 0
+ 1323               	.LBE162:
+ 670:Caterina.c    ****     }
+ 671:Caterina.c    ****     #endif
+ 672:Caterina.c    ****     #if !defined(NO_EEPROM_BYTE_SUPPORT)
+ 673:Caterina.c    ****     else if (Command == 'D')
+ 1324               		.loc 1 673 0
  1325 03d4 8434      		cpi r24,lo8(68)
  1326 03d6 01F4      		brne .L96
- 682:Caterina.c    ****     {
- 683:Caterina.c    ****         // Read the byte from the endpoint and write it to the EEPROM
- 684:Caterina.c    ****         eeprom_write_byte((uint8_t*)((intptr_t)(CurrAddress >> 1)), FetchNextCommandByte());
- 1327               		.loc 1 684 0
+ 674:Caterina.c    ****     {
+ 675:Caterina.c    ****         // Read the byte from the endpoint and write it to the EEPROM
+ 676:Caterina.c    ****         eeprom_write_byte((uint8_t*)((intptr_t)(CurrAddress >> 1)), FetchNextCommandByte());
+ 1327               		.loc 1 676 0
  1328 03d8 0E94 0000 		call FetchNextCommandByte
  1329               	.LVL106:
  1330 03dc 682F      		mov r22,r24
@@ -2744,10 +2736,10 @@
  1338 03f4 8795      		ror r24
  1339 03f6 0E94 0000 		call eeprom_write_byte
  1340               	.LVL107:
- 685:Caterina.c    **** 
- 686:Caterina.c    ****         // Increment the address after use
- 687:Caterina.c    ****         CurrAddress += 2;
- 1341               		.loc 1 687 0
+ 677:Caterina.c    **** 
+ 678:Caterina.c    ****         // Increment the address after use
+ 679:Caterina.c    ****         CurrAddress += 2;
+ 1341               		.loc 1 679 0
  1342 03fa 8091 0000 		lds r24,CurrAddress
  1343 03fe 9091 0000 		lds r25,CurrAddress+1
  1344 0402 A091 0000 		lds r26,CurrAddress+2
@@ -2764,18 +2756,18 @@
  1355 0420 00C0      		rjmp .L132
  1356               	.LVL109:
  1357               	.L96:
- 688:Caterina.c    **** 
- 689:Caterina.c    ****         // Send confirmation byte back to the host
- 690:Caterina.c    ****         WriteNextResponseByte('\r');
- 691:Caterina.c    ****     }
- 692:Caterina.c    ****     else if (Command == 'd')
- 1358               		.loc 1 692 0
+ 680:Caterina.c    **** 
+ 681:Caterina.c    ****         // Send confirmation byte back to the host
+ 682:Caterina.c    ****         WriteNextResponseByte('\r');
+ 683:Caterina.c    ****     }
+ 684:Caterina.c    ****     else if (Command == 'd')
+ 1358               		.loc 1 684 0
  1359 0422 8436      		cpi r24,lo8(100)
  1360 0424 01F4      		brne .L97
- 693:Caterina.c    ****     {
- 694:Caterina.c    ****         // Read the EEPROM byte and write it to the endpoint
- 695:Caterina.c    ****         WriteNextResponseByte(eeprom_read_byte((uint8_t*)((intptr_t)(CurrAddress >> 1))));
- 1361               		.loc 1 695 0
+ 685:Caterina.c    ****     {
+ 686:Caterina.c    ****         // Read the EEPROM byte and write it to the endpoint
+ 687:Caterina.c    ****         WriteNextResponseByte(eeprom_read_byte((uint8_t*)((intptr_t)(CurrAddress >> 1))));
+ 1361               		.loc 1 687 0
  1362 0426 C090 0000 		lds r12,CurrAddress
  1363 042a D090 0000 		lds r13,CurrAddress+1
  1364 042e E090 0000 		lds r14,CurrAddress+2
@@ -2791,10 +2783,10 @@
  1374               	.LVL111:
  1375 0446 0E94 0000 		call WriteNextResponseByte
  1376               	.LVL112:
- 696:Caterina.c    **** 
- 697:Caterina.c    ****         // Increment the address after use
- 698:Caterina.c    ****         CurrAddress += 2;
- 1377               		.loc 1 698 0
+ 688:Caterina.c    **** 
+ 689:Caterina.c    ****         // Increment the address after use
+ 690:Caterina.c    ****         CurrAddress += 2;
+ 1377               		.loc 1 690 0
  1378 044a 22E0      		ldi r18,2
  1379 044c C20E      		add r12,r18
  1380 044e D11C      		adc r13,__zero_reg__
@@ -2807,83 +2799,83 @@
  1387 0464 00C0      		rjmp .L50
  1388               	.LVL113:
  1389               	.L97:
- 699:Caterina.c    ****     }
- 700:Caterina.c    **** #endif
- 701:Caterina.c    ****     else if (Command != 27)
- 1390               		.loc 1 701 0
+ 691:Caterina.c    ****     }
+ 692:Caterina.c    **** #endif
+ 693:Caterina.c    ****     else if (Command != 27)
+ 1390               		.loc 1 693 0
  1391 0466 8B31      		cpi r24,lo8(27)
  1392 0468 01F0      		breq .+2
  1393 046a 00C0      		rjmp .L98
  1394               	.LVL114:
  1395               	.L50:
- 1396               	.LBB166:
- 1397               	.LBB167:
+ 1396               	.LBB164:
+ 1397               	.LBB165:
  330:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#endif
  1398               		.loc 2 330 0
  1399 046c 83E0      		ldi r24,lo8(3)
  1400 046e 8093 E900 		sts 233,r24
- 1401               	.LBE167:
- 1402               	.LBE166:
- 1403               	.LBB168:
- 1404               	.LBB169:
+ 1401               	.LBE165:
+ 1402               	.LBE164:
+ 1403               	.LBB166:
+ 1404               	.LBB167:
  420:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
  1405               		.loc 2 420 0
  1406 0472 9091 E800 		lds r25,232
  1407               	.LVL115:
- 1408               	.LBE169:
- 1409               	.LBE168:
- 1410               	.LBB170:
- 1411               	.LBB171:
+ 1408               	.LBE167:
+ 1409               	.LBE166:
+ 1410               	.LBB168:
+ 1411               	.LBB169:
  516:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#else
  1412               		.loc 2 516 0
  1413 0476 8091 E800 		lds r24,232
  1414 047a 8E77      		andi r24,lo8(126)
  1415 047c 8093 E800 		sts 232,r24
- 1416               	.LBE171:
- 1417               	.LBE170:
- 702:Caterina.c    ****     {
- 703:Caterina.c    ****         // Unknown (non-sync) command, return fail code
- 704:Caterina.c    ****         WriteNextResponseByte('?');
- 705:Caterina.c    ****     }
- 706:Caterina.c    **** 
- 707:Caterina.c    **** 
- 708:Caterina.c    ****     /* Select the IN endpoint */
- 709:Caterina.c    ****     Endpoint_SelectEndpoint(CDC_TX_EPNUM);
- 710:Caterina.c    **** 
- 711:Caterina.c    ****     /* Remember if the endpoint is completely full before clearing it */
- 712:Caterina.c    ****     bool IsEndpointFull = !(Endpoint_IsReadWriteAllowed());
- 713:Caterina.c    **** 
- 714:Caterina.c    ****     /* Send the endpoint data to the host */
- 715:Caterina.c    ****     Endpoint_ClearIN();
- 716:Caterina.c    **** 
- 717:Caterina.c    ****     /* If a full endpoint's worth of data was sent, we need to send an empty packet afterwards to s
- 718:Caterina.c    ****     if (IsEndpointFull)
- 1418               		.loc 1 718 0
+ 1416               	.LBE169:
+ 1417               	.LBE168:
+ 694:Caterina.c    ****     {
+ 695:Caterina.c    ****         // Unknown (non-sync) command, return fail code
+ 696:Caterina.c    ****         WriteNextResponseByte('?');
+ 697:Caterina.c    ****     }
+ 698:Caterina.c    **** 
+ 699:Caterina.c    **** 
+ 700:Caterina.c    ****     /* Select the IN endpoint */
+ 701:Caterina.c    ****     Endpoint_SelectEndpoint(CDC_TX_EPNUM);
+ 702:Caterina.c    **** 
+ 703:Caterina.c    ****     /* Remember if the endpoint is completely full before clearing it */
+ 704:Caterina.c    ****     bool IsEndpointFull = !(Endpoint_IsReadWriteAllowed());
+ 705:Caterina.c    **** 
+ 706:Caterina.c    ****     /* Send the endpoint data to the host */
+ 707:Caterina.c    ****     Endpoint_ClearIN();
+ 708:Caterina.c    **** 
+ 709:Caterina.c    ****     /* If a full endpoint's worth of data was sent, we need to send an empty packet afterwards to s
+ 710:Caterina.c    ****     if (IsEndpointFull)
+ 1418               		.loc 1 710 0
  1419 0480 95FD      		sbrc r25,5
  1420 0482 00C0      		rjmp .L104
  1421               	.L100:
- 1422               	.LBB172:
- 1423               	.LBB173:
+ 1422               	.LBB170:
+ 1423               	.LBB171:
  467:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
  1424               		.loc 2 467 0
  1425 0484 8091 E800 		lds r24,232
- 1426               	.LBE173:
- 1427               	.LBE172:
- 719:Caterina.c    ****     {
- 720:Caterina.c    ****         while (!(Endpoint_IsINReady()))
- 1428               		.loc 1 720 0
+ 1426               	.LBE171:
+ 1427               	.LBE170:
+ 711:Caterina.c    ****     {
+ 712:Caterina.c    ****         while (!(Endpoint_IsINReady()))
+ 1428               		.loc 1 712 0
  1429 0488 80FD      		sbrc r24,0
  1430 048a 00C0      		rjmp .L137
- 721:Caterina.c    ****         {
- 722:Caterina.c    ****             if (USB_DeviceState == DEVICE_STATE_Unattached)
- 1431               		.loc 1 722 0
+ 713:Caterina.c    ****         {
+ 714:Caterina.c    ****             if (USB_DeviceState == DEVICE_STATE_Unattached)
+ 1431               		.loc 1 714 0
  1432 048c 8EB3      		in r24,0x1e
  1433 048e 8111      		cpse r24,__zero_reg__
  1434 0490 00C0      		rjmp .L100
  1435 0492 00C0      		rjmp .L44
  1436               	.L137:
- 1437               	.LBB174:
- 1438               	.LBB175:
+ 1437               	.LBB172:
+ 1438               	.LBB173:
  516:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#else
  1439               		.loc 2 516 0
  1440 0494 8091 E800 		lds r24,232
@@ -2891,45 +2883,45 @@
  1442 049a 8093 E800 		sts 232,r24
  1443 049e 00C0      		rjmp .L104
  1444               	.L105:
- 1445               	.LBE175:
- 1446               	.LBE174:
- 723:Caterina.c    ****               return;
- 724:Caterina.c    ****         }
- 725:Caterina.c    **** 
- 726:Caterina.c    ****         Endpoint_ClearIN();
- 727:Caterina.c    ****     }
- 728:Caterina.c    **** 
- 729:Caterina.c    ****     /* Wait until the data has been sent to the host */
- 730:Caterina.c    ****     while (!(Endpoint_IsINReady()))
- 731:Caterina.c    ****     {
- 732:Caterina.c    ****         if (USB_DeviceState == DEVICE_STATE_Unattached)
- 1447               		.loc 1 732 0
+ 1445               	.LBE173:
+ 1446               	.LBE172:
+ 715:Caterina.c    ****               return;
+ 716:Caterina.c    ****         }
+ 717:Caterina.c    **** 
+ 718:Caterina.c    ****         Endpoint_ClearIN();
+ 719:Caterina.c    ****     }
+ 720:Caterina.c    **** 
+ 721:Caterina.c    ****     /* Wait until the data has been sent to the host */
+ 722:Caterina.c    ****     while (!(Endpoint_IsINReady()))
+ 723:Caterina.c    ****     {
+ 724:Caterina.c    ****         if (USB_DeviceState == DEVICE_STATE_Unattached)
+ 1447               		.loc 1 724 0
  1448 04a0 8EB3      		in r24,0x1e
  1449 04a2 8823      		tst r24
  1450 04a4 01F0      		breq .L44
  1451               	.L104:
- 1452               	.LBB176:
- 1453               	.LBB177:
+ 1452               	.LBB174:
+ 1453               	.LBB175:
  467:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 			}
  1454               		.loc 2 467 0
  1455 04a6 8091 E800 		lds r24,232
- 1456               	.LBE177:
- 1457               	.LBE176:
- 730:Caterina.c    ****     {
- 1458               		.loc 1 730 0
+ 1456               	.LBE175:
+ 1457               	.LBE174:
+ 722:Caterina.c    ****     {
+ 1458               		.loc 1 722 0
  1459 04aa 80FF      		sbrs r24,0
  1460 04ac 00C0      		rjmp .L105
  1461               	.LVL116:
- 1462               	.LBB178:
- 1463               	.LBB179:
+ 1462               	.LBB176:
+ 1463               	.LBB177:
  330:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#endif
  1464               		.loc 2 330 0
  1465 04ae 84E0      		ldi r24,lo8(4)
  1466 04b0 8093 E900 		sts 233,r24
- 1467               	.LBE179:
- 1468               	.LBE178:
- 1469               	.LBB180:
- 1470               	.LBB181:
+ 1467               	.LBE177:
+ 1468               	.LBE176:
+ 1469               	.LBB178:
+ 1470               	.LBB179:
  531:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/Endpoint_AVR8.h **** 				#else
  1471               		.loc 2 531 0
  1472 04b4 8091 E800 		lds r24,232
@@ -2938,18 +2930,18 @@
  1475               	.LVL117:
  1476               	.L44:
  1477               	/* epilogue start */
- 1478               	.LBE181:
- 1479               	.LBE180:
- 733:Caterina.c    ****           return;
- 734:Caterina.c    ****     }
- 735:Caterina.c    **** 
- 736:Caterina.c    ****     /* Select the OUT endpoint */
- 737:Caterina.c    ****     Endpoint_SelectEndpoint(CDC_RX_EPNUM);
- 738:Caterina.c    **** 
- 739:Caterina.c    ****     /* Acknowledge the command from the host */
- 740:Caterina.c    ****     Endpoint_ClearOUT();
- 741:Caterina.c    **** }
- 1480               		.loc 1 741 0
+ 1478               	.LBE179:
+ 1479               	.LBE178:
+ 725:Caterina.c    ****           return;
+ 726:Caterina.c    ****     }
+ 727:Caterina.c    **** 
+ 728:Caterina.c    ****     /* Select the OUT endpoint */
+ 729:Caterina.c    ****     Endpoint_SelectEndpoint(CDC_RX_EPNUM);
+ 730:Caterina.c    **** 
+ 731:Caterina.c    ****     /* Acknowledge the command from the host */
+ 732:Caterina.c    ****     Endpoint_ClearOUT();
+ 733:Caterina.c    **** }
+ 1480               		.loc 1 733 0
  1481 04be DF91      		pop r29
  1482 04c0 CF91      		pop r28
  1483 04c2 1F91      		pop r17
@@ -2971,24 +2963,19 @@
  1500               	.global	main
  1502               	main:
  1503               	.LFB101:
- 142:Caterina.c    ****     /* Check the reason for the reset so we can act accordingly */
+ 142:Caterina.c    ****     //uint8_t  mcusr_state = MCUSR;							// store the initial state of the Status register
  1504               		.loc 1 142 0
  1505               		.cfi_startproc
  1506               	/* prologue: function */
  1507               	/* frame size = 0 */
  1508               	/* stack size = 0 */
  1509               	.L__stack_usage = 0
- 144:Caterina.c    ****     MCUSR &= ~(1 << WDRF);	// clear reset flags that are used by the bootloader
- 1510               		.loc 1 144 0
- 1511 0000 84B7      		in r24,0x34
- 145:Caterina.c    **** 
- 1512               		.loc 1 145 0
- 1513 0002 84B7      		in r24,0x34
- 1514 0004 877F      		andi r24,lo8(-9)
- 1515 0006 84BF      		out 0x34,r24
- 1516               	.LBB182:
- 1517               	.LBB183:
- 1518               		.file 3 "/usr/lib/avr/include/avr/wdt.h"
+ 147:Caterina.c    ****     /* Watchdog may be configured with a 15 ms period so must disable it before going any further *
+ 1510               		.loc 1 147 0
+ 1511 0000 14BE      		out 0x34,__zero_reg__
+ 1512               	.LBB180:
+ 1513               	.LBB181:
+ 1514               		.file 3 "/usr/lib/avr/include/avr/wdt.h"
    1:/usr/lib/avr/include/avr/wdt.h **** /* Copyright (c) 2002, 2004 Marek Michalkiewicz
    2:/usr/lib/avr/include/avr/wdt.h ****    Copyright (c) 2005, 2006, 2007 Eric B. Weddington
    3:/usr/lib/avr/include/avr/wdt.h ****    All rights reserved.
@@ -3456,31 +3443,31 @@
  465:/usr/lib/avr/include/avr/wdt.h **** 	{
  466:/usr/lib/avr/include/avr/wdt.h ****         uint8_t register temp_reg;
  467:/usr/lib/avr/include/avr/wdt.h **** 		__asm__ __volatile__ (
- 1519               		.loc 3 467 0
- 1520               	/* #APP */
- 1521               	 ;  467 "/usr/lib/avr/include/avr/wdt.h" 1
- 1522 0008 0FB6      		in __tmp_reg__,__SREG__
- 1523 000a F894      		cli
- 1524 000c A895      		wdr
- 1525 000e 8091 6000 		lds r24,96
- 1526 0012 8861      		ori r24,24
- 1527 0014 8093 6000 		sts 96,r24
- 1528 0018 1092 6000 		sts 96,__zero_reg__
- 1529 001c 0FBE      		out __SREG__,__tmp_reg__
- 1530               		
- 1531               	 ;  0 "" 2
- 1532               	.LVL118:
- 1533               	/* #NOAPP */
- 1534               	.LBE183:
- 1535               	.LBE182:
- 151:Caterina.c    ****     _delay_ms(10);    // allow time for caps to charge
- 1536               		.loc 1 151 0
- 1537 001e 6A98      		cbi 0xd,2
- 1538 0020 729A      		sbi 0xe,2
- 1539               	.LVL119:
- 1540               	.LBB184:
- 1541               	.LBB185:
- 1542               		.file 4 "/usr/lib/avr/include/util/delay.h"
+ 1515               		.loc 3 467 0
+ 1516               	/* #APP */
+ 1517               	 ;  467 "/usr/lib/avr/include/avr/wdt.h" 1
+ 1518 0002 0FB6      		in __tmp_reg__,__SREG__
+ 1519 0004 F894      		cli
+ 1520 0006 A895      		wdr
+ 1521 0008 8091 6000 		lds r24,96
+ 1522 000c 8861      		ori r24,24
+ 1523 000e 8093 6000 		sts 96,r24
+ 1524 0012 1092 6000 		sts 96,__zero_reg__
+ 1525 0016 0FBE      		out __SREG__,__tmp_reg__
+ 1526               		
+ 1527               	 ;  0 "" 2
+ 1528               	.LVL118:
+ 1529               	/* #NOAPP */
+ 1530               	.LBE181:
+ 1531               	.LBE180:
+ 152:Caterina.c    ****     _delay_ms(10);    // allow time for caps to charge
+ 1532               		.loc 1 152 0
+ 1533 0018 6A98      		cbi 0xd,2
+ 1534 001a 729A      		sbi 0xe,2
+ 1535               	.LVL119:
+ 1536               	.LBB182:
+ 1537               	.LBB183:
+ 1538               		.file 4 "/usr/lib/avr/include/util/delay.h"
    1:/usr/lib/avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
    2:/usr/lib/avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
    3:/usr/lib/avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
@@ -3644,116 +3631,82 @@
  161:/usr/lib/avr/include/util/delay.h **** 	#endif
  162:/usr/lib/avr/include/util/delay.h **** 
  163:/usr/lib/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
- 1543               		.loc 4 163 0
- 1544 0022 8FE1      		ldi r24,lo8(19999)
- 1545 0024 9EE4      		ldi r25,hi8(19999)
- 1546 0026 0197      	1:	sbiw r24,1
- 1547 0028 01F4      		brne 1b
- 1548 002a 00C0      		rjmp .
- 1549 002c 0000      		nop
- 1550               	.LBE185:
- 1551               	.LBE184:
- 154:Caterina.c    ****          {
- 1552               		.loc 1 154 0
- 1553 002e 629B      		sbis 0xc,2
- 1554 0030 00C0      		rjmp .L139
- 1555               	.LVL120:
- 1556               	.LBB186:
- 154:Caterina.c    ****          {
- 1557               		.loc 1 154 0 is_stmt 0 discriminator 1
- 1558 0032 E0E0      		ldi r30,0
- 1559 0034 F0E0      		ldi r31,0
- 1560               	/* #APP */
- 1561               	 ;  154 "Caterina.c" 1
- 1562 0036 8591      		lpm r24, Z+
- 1563 0038 9491      		lpm r25, Z
- 1564               		
- 1565               	 ;  0 "" 2
- 1566               	.LVL121:
- 1567               	/* #NOAPP */
- 1568               	.LBE186:
- 1569 003a 0196      		adiw r24,1
- 1570 003c 01F4      		brne .L140
- 1571               	.LVL122:
- 1572               	.L139:
- 159:Caterina.c    **** 
- 1573               		.loc 1 159 0 is_stmt 1
- 1574 003e 14BE      		out 0x34,__zero_reg__
- 162:Caterina.c    **** 
- 1575               		.loc 1 162 0
- 1576 0040 0E94 0000 		call SetupHardware
- 1577               	.LVL123:
- 165:Caterina.c    **** 
- 1578               		.loc 1 165 0
- 1579               	/* #APP */
- 1580               	 ;  165 "Caterina.c" 1
- 1581 0044 7894      		sei
- 1582               	 ;  0 "" 2
- 167:Caterina.c    **** 
- 1583               		.loc 1 167 0
- 1584               	/* #NOAPP */
- 1585 0046 1092 0000 		sts Timeout+1,__zero_reg__
- 1586 004a 1092 0000 		sts Timeout,__zero_reg__
- 1587               	.L141:
- 169:Caterina.c    ****              {
- 1588               		.loc 1 169 0
- 1589 004e 8091 0000 		lds r24,RunBootloader
- 1590 0052 8823      		tst r24
- 1591 0054 01F0      		breq .L148
- 171:Caterina.c    ****                  USB_USBTask();
- 1592               		.loc 1 171 0
- 1593 0056 0E94 0000 		call CDC_Task
- 1594               	.LVL124:
- 172:Caterina.c    ****                  if (Timeout > TIMEOUT_PERIOD)
- 1595               		.loc 1 172 0
- 1596 005a 0E94 0000 		call USB_USBTask
- 1597               	.LVL125:
- 173:Caterina.c    ****                      RunBootloader = false;
- 1598               		.loc 1 173 0
- 1599 005e 8091 0000 		lds r24,Timeout
- 1600 0062 9091 0000 		lds r25,Timeout+1
- 1601 0066 893E      		cpi r24,-23
- 1602 0068 9140      		sbci r25,1
- 1603 006a 00F0      		brlo .L142
- 174:Caterina.c    **** 
- 1604               		.loc 1 174 0
- 1605 006c 1092 0000 		sts RunBootloader,__zero_reg__
- 1606               	.L142:
- 176:Caterina.c    ****              }
- 1607               		.loc 1 176 0
- 1608 0070 0E94 0000 		call LEDPulse
- 1609               	.LVL126:
- 1610 0074 00C0      		rjmp .L141
- 1611               	.L148:
- 1612               	.LVL127:
- 1613               	.LBB187:
- 1614               	.LBB188:
- 425:/usr/lib/avr/include/avr/wdt.h **** 				"in __tmp_reg__,__SREG__" "\n\t"
- 1615               		.loc 3 425 0
- 1616 0076 9DE0      		ldi r25,lo8(13)
- 1617 0078 88E1      		ldi r24,lo8(24)
- 1618               	/* #APP */
- 1619               	 ;  425 "/usr/lib/avr/include/avr/wdt.h" 1
- 1620 007a 0FB6      		in __tmp_reg__,__SREG__
- 1621 007c F894      		cli
- 1622 007e A895      		wdr
- 1623 0080 8093 6000 		sts 96, r24
- 1624 0084 0FBE      		out __SREG__,__tmp_reg__
- 1625 0086 9093 6000 		sts 96, r25
- 1626               	 	
- 1627               	 ;  0 "" 2
- 1628               	/* #NOAPP */
- 1629               	.L144:
- 1630               	.LBE188:
- 1631               	.LBE187:
- 182:Caterina.c    ****          }
- 1632               		.loc 1 182 0 discriminator 1
- 1633 008a 00C0      		rjmp .L144
- 1634               	.LVL128:
- 1635               	.L140:
- 1636               	.LBB189:
- 1637               	.LBB190:
- 1638               		.file 5 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.h"
+ 1539               		.loc 4 163 0
+ 1540 001c 8FE1      		ldi r24,lo8(19999)
+ 1541 001e 9EE4      		ldi r25,hi8(19999)
+ 1542 0020 0197      	1:	sbiw r24,1
+ 1543 0022 01F4      		brne 1b
+ 1544 0024 00C0      		rjmp .
+ 1545 0026 0000      		nop
+ 1546               	.LBE183:
+ 1547               	.LBE182:
+ 155:Caterina.c    ****     {
+ 1548               		.loc 1 155 0
+ 1549 0028 629B      		sbis 0xc,2
+ 1550 002a 00C0      		rjmp .L139
+ 1551               	.LVL120:
+ 1552               	.LBB184:
+ 155:Caterina.c    ****     {
+ 1553               		.loc 1 155 0 is_stmt 0 discriminator 1
+ 1554 002c E0E0      		ldi r30,0
+ 1555 002e F0E0      		ldi r31,0
+ 1556               	/* #APP */
+ 1557               	 ;  155 "Caterina.c" 1
+ 1558 0030 8591      		lpm r24, Z+
+ 1559 0032 9491      		lpm r25, Z
+ 1560               		
+ 1561               	 ;  0 "" 2
+ 1562               	.LVL121:
+ 1563               	/* #NOAPP */
+ 1564               	.LBE184:
+ 1565 0034 0196      		adiw r24,1
+ 1566 0036 01F4      		brne .L143
+ 1567               	.LVL122:
+ 1568               	.L139:
+ 163:Caterina.c    **** 
+ 1569               		.loc 1 163 0 is_stmt 1
+ 1570 0038 0E94 0000 		call SetupHardware
+ 1571               	.LVL123:
+ 166:Caterina.c    **** 
+ 1572               		.loc 1 166 0
+ 1573               	/* #APP */
+ 1574               	 ;  166 "Caterina.c" 1
+ 1575 003c 7894      		sei
+ 1576               	 ;  0 "" 2
+ 1577               	/* #NOAPP */
+ 1578               	.L140:
+ 168:Caterina.c    ****             CDC_Task();
+ 1579               		.loc 1 168 0
+ 1580 003e 6299      		sbic 0xc,2
+ 1581 0040 00C0      		rjmp .L143
+ 169:Caterina.c    ****             USB_USBTask();
+ 1582               		.loc 1 169 0
+ 1583 0042 0E94 0000 		call CDC_Task
+ 1584               	.LVL124:
+ 170:Caterina.c    ****             if (Timeout > TIMEOUT_PERIOD)
+ 1585               		.loc 1 170 0
+ 1586 0046 0E94 0000 		call USB_USBTask
+ 1587               	.LVL125:
+ 171:Caterina.c    ****             RunBootloader = false;
+ 1588               		.loc 1 171 0
+ 1589 004a 8091 0000 		lds r24,Timeout
+ 1590 004e 9091 0000 		lds r25,Timeout+1
+ 1591 0052 893E      		cpi r24,-23
+ 1592 0054 9140      		sbci r25,1
+ 1593 0056 00F0      		brlo .L141
+ 172:Caterina.c    **** 
+ 1594               		.loc 1 172 0
+ 1595 0058 1092 0000 		sts RunBootloader,__zero_reg__
+ 1596               	.L141:
+ 174:Caterina.c    ****         }
+ 1597               		.loc 1 174 0
+ 1598 005c 0E94 0000 		call LEDPulse
+ 1599               	.LVL126:
+ 1600 0060 00C0      		rjmp .L140
+ 1601               	.L143:
+ 1602               	.LBB185:
+ 1603               	.LBB186:
+ 1604               		.file 5 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.h"
    1:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.h **** /*
    2:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.h ****              LUFA Library
    3:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.h ****      Copyright (C) Dean Camera, 2011.
@@ -3936,81 +3889,80 @@
  180:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.h **** 			static inline void USB_Detach(void)
  181:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.h **** 			{
  182:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/USBController_AVR8.h **** 				UDCON  |=  (1 << DETACH);
- 1639               		.loc 5 182 0
- 1640 008c 8091 E000 		lds r24,224
- 1641               	.LVL129:
- 1642 0090 8160      		ori r24,lo8(1)
- 1643 0092 8093 E000 		sts 224,r24
- 1644               	.LBE190:
- 1645               	.LBE189:
- 189:Caterina.c    **** }
- 1646               		.loc 1 189 0
- 1647 0096 0E94 0000 		call StartSketch
- 1648               	.LVL130:
- 190:Caterina.c    **** 
- 1649               		.loc 1 190 0
- 1650 009a 80E0      		ldi r24,0
- 1651 009c 90E0      		ldi r25,0
- 1652 009e 0895      		ret
- 1653               		.cfi_endproc
- 1654               	.LFE101:
- 1656               		.comm	LLEDPulse,2,1
- 1657               	.global	Timeout
- 1658               		.section .bss
- 1661               	Timeout:
- 1662 0000 0000      		.zero	2
- 1663               	.global	RxLEDPulse
- 1666               	RxLEDPulse:
- 1667 0002 0000      		.zero	2
- 1668               	.global	TxLEDPulse
- 1671               	TxLEDPulse:
- 1672 0004 0000      		.zero	2
- 1673               		.data
- 1676               	RunBootloader:
- 1677 0000 01        		.byte	1
- 1678               		.local	CurrAddress
- 1679               		.comm	CurrAddress,4,1
- 1682               	LineEncoding:
- 1683 0001 00        		.byte	0
- 1684 0002 00        		.byte	0
- 1685 0003 00        		.byte	0
- 1686 0004 00        		.byte	0
- 1687 0005 00        		.byte	0
- 1688 0006 00        		.byte	0
- 1689 0007 08        		.byte	8
- 1690               		.text
- 1691               	.Letext0:
- 1692               		.file 6 "/usr/lib/avr/include/stdint.h"
- 1693               		.file 7 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../StdRequestType.h"
- 1694               		.file 8 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../Device.h"
- 1695               		.file 9 "../../LUFA-111009/LUFA/Drivers/USB/Class/Device/../Common/CDC.h"
- 1696               		.file 10 "../../LUFA-111009/LUFA/Drivers/USB/Core/USBTask.h"
- 1697               		.file 11 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/EndpointStream_AVR8.h"
- 1698               		.file 12 "/usr/lib/avr/include/avr/eeprom.h"
+ 1605               		.loc 5 182 0
+ 1606 0062 8091 E000 		lds r24,224
+ 1607 0066 8160      		ori r24,lo8(1)
+ 1608 0068 8093 E000 		sts 224,r24
+ 1609               	.LBE186:
+ 1610               	.LBE185:
+ 181:Caterina.c    **** }
+ 1611               		.loc 1 181 0
+ 1612 006c 0E94 0000 		call StartSketch
+ 1613               	.LVL127:
+ 182:Caterina.c    **** 
+ 1614               		.loc 1 182 0
+ 1615 0070 80E0      		ldi r24,0
+ 1616 0072 90E0      		ldi r25,0
+ 1617 0074 0895      		ret
+ 1618               		.cfi_endproc
+ 1619               	.LFE101:
+ 1621               		.comm	LLEDPulse,2,1
+ 1622               	.global	Timeout
+ 1623               		.section .bss
+ 1626               	Timeout:
+ 1627 0000 0000      		.zero	2
+ 1628               	.global	RxLEDPulse
+ 1631               	RxLEDPulse:
+ 1632 0002 0000      		.zero	2
+ 1633               	.global	TxLEDPulse
+ 1636               	TxLEDPulse:
+ 1637 0004 0000      		.zero	2
+ 1638               		.data
+ 1641               	RunBootloader:
+ 1642 0000 01        		.byte	1
+ 1643               		.local	CurrAddress
+ 1644               		.comm	CurrAddress,4,1
+ 1647               	LineEncoding:
+ 1648 0001 00        		.byte	0
+ 1649 0002 00        		.byte	0
+ 1650 0003 00        		.byte	0
+ 1651 0004 00        		.byte	0
+ 1652 0005 00        		.byte	0
+ 1653 0006 00        		.byte	0
+ 1654 0007 08        		.byte	8
+ 1655               		.text
+ 1656               	.Letext0:
+ 1657               		.file 6 "/usr/lib/avr/include/stdint.h"
+ 1658               		.file 7 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../StdRequestType.h"
+ 1659               		.file 8 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../Device.h"
+ 1660               		.file 9 "../../LUFA-111009/LUFA/Drivers/USB/Class/Device/../Common/CDC.h"
+ 1661               		.file 10 "../../LUFA-111009/LUFA/Drivers/USB/Core/USBTask.h"
+ 1662               		.file 11 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/EndpointStream_AVR8.h"
+ 1663               		.file 12 "/usr/lib/avr/include/avr/eeprom.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Caterina.c
-     /tmp/ccQOR8Xr.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccQOR8Xr.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccQOR8Xr.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccQOR8Xr.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccQOR8Xr.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccQOR8Xr.s:12     .text.FetchNextCommandByte:0000000000000000 FetchNextCommandByte
-     /tmp/ccQOR8Xr.s:78     .text.WriteNextResponseByte:0000000000000000 WriteNextResponseByte
-     /tmp/ccQOR8Xr.s:1671   .bss:0000000000000004 TxLEDPulse
-     /tmp/ccQOR8Xr.s:152    .text.StartSketch:0000000000000000 StartSketch
-     /tmp/ccQOR8Xr.s:198    .text.LEDPulse:0000000000000000 LEDPulse
+     /tmp/ccwmAzRr.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccwmAzRr.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccwmAzRr.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccwmAzRr.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccwmAzRr.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccwmAzRr.s:12     .text.FetchNextCommandByte:0000000000000000 FetchNextCommandByte
+     /tmp/ccwmAzRr.s:78     .text.WriteNextResponseByte:0000000000000000 WriteNextResponseByte
+     /tmp/ccwmAzRr.s:1636   .bss:0000000000000004 TxLEDPulse
+     /tmp/ccwmAzRr.s:152    .text.StartSketch:0000000000000000 StartSketch
+     /tmp/ccwmAzRr.s:198    .text.LEDPulse:0000000000000000 LEDPulse
                             *COM*:0000000000000002 LLEDPulse
-     /tmp/ccQOR8Xr.s:243    .text.SetupHardware:0000000000000000 SetupHardware
-     /tmp/ccQOR8Xr.s:292    .text.__vector_17:0000000000000000 __vector_17
-     /tmp/ccQOR8Xr.s:1666   .bss:0000000000000002 RxLEDPulse
-     /tmp/ccQOR8Xr.s:1661   .bss:0000000000000000 Timeout
-     /tmp/ccQOR8Xr.s:405    .text.EVENT_USB_Device_ConfigurationChanged:0000000000000000 EVENT_USB_Device_ConfigurationChanged
-     /tmp/ccQOR8Xr.s:448    .text.EVENT_USB_Device_ControlRequest:0000000000000000 EVENT_USB_Device_ControlRequest
-     /tmp/ccQOR8Xr.s:1682   .data:0000000000000001 LineEncoding
-     /tmp/ccQOR8Xr.s:533    .text.CDC_Task:0000000000000000 CDC_Task
+     /tmp/ccwmAzRr.s:243    .text.SetupHardware:0000000000000000 SetupHardware
+     /tmp/ccwmAzRr.s:292    .text.__vector_17:0000000000000000 __vector_17
+     /tmp/ccwmAzRr.s:1631   .bss:0000000000000002 RxLEDPulse
+     /tmp/ccwmAzRr.s:1626   .bss:0000000000000000 Timeout
+     /tmp/ccwmAzRr.s:405    .text.EVENT_USB_Device_ConfigurationChanged:0000000000000000 EVENT_USB_Device_ConfigurationChanged
+     /tmp/ccwmAzRr.s:448    .text.EVENT_USB_Device_ControlRequest:0000000000000000 EVENT_USB_Device_ControlRequest
+     /tmp/ccwmAzRr.s:1647   .data:0000000000000001 LineEncoding
+     /tmp/ccwmAzRr.s:533    .text.CDC_Task:0000000000000000 CDC_Task
                              .bss:0000000000000006 CurrAddress
-     /tmp/ccQOR8Xr.s:1502   .text.startup.main:0000000000000000 main
-     /tmp/ccQOR8Xr.s:1676   .data:0000000000000000 RunBootloader
+     /tmp/ccwmAzRr.s:1502   .text.startup.main:0000000000000000 main
+     /tmp/ccwmAzRr.s:1641   .data:0000000000000000 RunBootloader
 
 UNDEFINED SYMBOLS
 USB_Init
