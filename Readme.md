@@ -8,7 +8,7 @@ Custom Bootloader for 3DoT Board
 2. Open Tools->Board->Board Manager and Search "3DoT".
 3. Install the 3DoT board.
 
-**Building in Atmel Studio**
+**Building in Atmel Studio (not tested)**
 
 1. Complete the above steps, "Installing in Arduino IDE" .
 2. In Atmel Studio, create a new project from arduino sketch.
@@ -23,8 +23,16 @@ Custom Bootloader for 3DoT Board
 Version History
 ===============
 ```
+v2.0.0 (11/14/18)
+* Code overhaul. v1.0.0 was not working on v7 3DoT board. Continuously doing a
+board reset would cause the USB interface to continuously disconnect from the host.
+* Now stays within a single while loop while switch is in BOOT position, rather
+than resetting the board.
+* All checks and references to SREG flags removed.
+* All references to watchdog removed.
+
 v1.0.0 (08/20/18)
-* Bootloader fully working as intended: Stay in bootloader as long as switch is
+* Bootloader working as intended: Stay in bootloader as long as switch is
 in "BOOT" position.
 * Entering bootloader requires device to transition OFF -> BOOT. ON -> BOOT does
 not work. BOOT -> ON works i.e. loads sketch.

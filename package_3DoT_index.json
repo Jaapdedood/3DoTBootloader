@@ -11,13 +11,13 @@
                 {
                     "name": "3DoT",
                     "architecture": "avr",
-                    "version": "1.1.0",
+                    "version": "2.0.0",
                     "category": "Contributed",
                     "help": {
                         "online": ""
                     },
-                    "url": "file://C:\\Users\\Hello It's Me\\PROJECTS\\3DoT\\3DoTBootloader.zip",
-                    "archiveFileName": "3DoTBootloader.zip",
+                    "url": "https://github.com/Jaapdedood/3DoTBootloader/archive/v2.0.0.zip",
+                    "archiveFileName": "3DoTBootloader-2.0.0.zip",
                     "boards": [
                         {"name": "3DoT"}
                     ],

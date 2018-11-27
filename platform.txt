@@ -1,5 +1,5 @@
 name=Arxterra 3DoT
-version=1.1.0
+version=2.0.0
 
 tools.avrdudecustom.path={runtime.tools.avrdude.path}
 tools.avrdudecustom.cmd.path={path}/bin/avrdude
