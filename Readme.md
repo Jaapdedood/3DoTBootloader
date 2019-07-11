@@ -2,6 +2,7 @@ Custom Bootloader for 3DoT Board
 ================
 **Updated install instructions:**
 https://www.arxterra.com/getting-started-with-3dot-initial-arduino-setup/
+
 **Installing in Arduino IDE (from github)(not recommended)**
 1. In the Arduino IDE, Navigate to File->Preferences and paste
    https://github.com/Jaapdedood/3DoTBootloader/raw/master/package_3DoT_index.json
