@@ -11,12 +11,12 @@
                 {
                     "name": "3DoT",
                     "architecture": "avr",
-                    "version": "2.0.0",
+                    "version": "2.1.0",
                     "category": "Contributed",
                     "help": {
                         "online": ""
                     },
-                    "url": "file:///home/jaap/PROJECTS/3DoTBootloader.zip",
+                    "url": "https://arxterra.com/downloads/3DoTBootloader.zip",
                     "archiveFileName": "3DoTBootloader.zip",
                     "boards": [
                         {"name": "3DoT"}

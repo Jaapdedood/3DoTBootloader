@@ -59,6 +59,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 /*
 File modified by Jaap de Dood to remain in Bootloader while 3DoT power switch is in "Program" Position. Bootloader is skipped otherwise.
+Current limit is set using TWI.
 */
 
 /** \file

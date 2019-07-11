@@ -1,7 +1,8 @@
 Custom Bootloader for 3DoT Board
 ================
-
-**Installing in Arduino IDE**
+**Updated install instructions:**
+https://www.arxterra.com/getting-started-with-3dot-initial-arduino-setup/
+**Installing in Arduino IDE (from github)(not recommended)**
 1. In the Arduino IDE, Navigate to File->Preferences and paste
    https://github.com/Jaapdedood/3DoTBootloader/raw/master/package_3DoT_index.json
    into "Additional Board Manager URLs".
@@ -23,6 +24,12 @@ Custom Bootloader for 3DoT Board
 Version History
 ===============
 ```
+v2.1.0 (07/11/19)
+* SetupCurrentLimit and accompanying TWI functions added to set MCP4017
+resistance via I2C before starting a sketch.
+* Bug: need to wait a few seconds before being able to upload a sketch with
+switch in "program" position (bug always existed).
+
 v2.0.0 (11/14/18)
 * Code overhaul. v1.0.0 was not working on v7 3DoT board. Continuously doing a
 board reset would cause the USB interface to continuously disconnect from the host.
