@@ -16,7 +16,7 @@
                     "help": {
                         "online": ""
                     },
-                    "url": "https://arxterra.com/downloads/3DoTBootloader.zip",
+                    "url": "file:///home/jaap/PROJECTS/3DoTBootloader.zip",
                     "archiveFileName": "3DoTBootloader.zip",
                     "boards": [
                         {"name": "3DoT"}

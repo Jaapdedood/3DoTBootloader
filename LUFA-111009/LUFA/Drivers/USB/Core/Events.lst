@@ -57,39 +57,39 @@
   22 0000 0895      		ret
   23               		.cfi_endproc
   24               	.LFE16:
-  26               		.weak	EVENT_USB_Device_Connect
-  27               		.set	EVENT_USB_Device_Connect,USB_Event_Stub
-  28               		.weak	EVENT_USB_Device_Disconnect
-  29               		.set	EVENT_USB_Device_Disconnect,USB_Event_Stub
-  30               		.weak	EVENT_USB_Device_ControlRequest
-  31               		.set	EVENT_USB_Device_ControlRequest,USB_Event_Stub
-  32               		.weak	EVENT_USB_Device_ConfigurationChanged
-  33               		.set	EVENT_USB_Device_ConfigurationChanged,USB_Event_Stub
-  34               		.weak	EVENT_USB_Device_Suspend
-  35               		.set	EVENT_USB_Device_Suspend,USB_Event_Stub
-  36               		.weak	EVENT_USB_Device_WakeUp
-  37               		.set	EVENT_USB_Device_WakeUp,USB_Event_Stub
-  38               		.weak	EVENT_USB_Device_Reset
-  39               		.set	EVENT_USB_Device_Reset,USB_Event_Stub
-  40               		.weak	EVENT_USB_Device_StartOfFrame
-  41               		.set	EVENT_USB_Device_StartOfFrame,USB_Event_Stub
+  26               		.weak	EVENT_USB_Device_StartOfFrame
+  27               		.set	EVENT_USB_Device_StartOfFrame,USB_Event_Stub
+  28               		.weak	EVENT_USB_Device_Reset
+  29               		.set	EVENT_USB_Device_Reset,USB_Event_Stub
+  30               		.weak	EVENT_USB_Device_WakeUp
+  31               		.set	EVENT_USB_Device_WakeUp,USB_Event_Stub
+  32               		.weak	EVENT_USB_Device_Suspend
+  33               		.set	EVENT_USB_Device_Suspend,USB_Event_Stub
+  34               		.weak	EVENT_USB_Device_ConfigurationChanged
+  35               		.set	EVENT_USB_Device_ConfigurationChanged,USB_Event_Stub
+  36               		.weak	EVENT_USB_Device_ControlRequest
+  37               		.set	EVENT_USB_Device_ControlRequest,USB_Event_Stub
+  38               		.weak	EVENT_USB_Device_Disconnect
+  39               		.set	EVENT_USB_Device_Disconnect,USB_Event_Stub
+  40               		.weak	EVENT_USB_Device_Connect
+  41               		.set	EVENT_USB_Device_Connect,USB_Event_Stub
   42               		.text
   43               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Events.c
-     /tmp/ccJrZAFh.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccJrZAFh.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccJrZAFh.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccJrZAFh.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccJrZAFh.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccJrZAFh.s:13     .text.USB_Event_Stub:0000000000000000 USB_Event_Stub
-     /tmp/ccJrZAFh.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Connect
-     /tmp/ccJrZAFh.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Disconnect
-     /tmp/ccJrZAFh.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ControlRequest
-     /tmp/ccJrZAFh.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ConfigurationChanged
-     /tmp/ccJrZAFh.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Suspend
-     /tmp/ccJrZAFh.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_WakeUp
-     /tmp/ccJrZAFh.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Reset
-     /tmp/ccJrZAFh.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_StartOfFrame
+     /tmp/cc8vfS5Z.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc8vfS5Z.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc8vfS5Z.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc8vfS5Z.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc8vfS5Z.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc8vfS5Z.s:13     .text.USB_Event_Stub:0000000000000000 USB_Event_Stub
+     /tmp/cc8vfS5Z.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_StartOfFrame
+     /tmp/cc8vfS5Z.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Reset
+     /tmp/cc8vfS5Z.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_WakeUp
+     /tmp/cc8vfS5Z.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Suspend
+     /tmp/cc8vfS5Z.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ConfigurationChanged
+     /tmp/cc8vfS5Z.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_ControlRequest
+     /tmp/cc8vfS5Z.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Disconnect
+     /tmp/cc8vfS5Z.s:13     .text.USB_Event_Stub:0000000000000000 EVENT_USB_Device_Connect
 
 NO UNDEFINED SYMBOLS

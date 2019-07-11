@@ -88,7 +88,7 @@ static uint32_t CurrAddress;
  *  via a watchdog reset. When cleared the bootloader will exit, starting the watchdog and entering an infinite
  *  loop until the AVR restarts and the application runs.
  */
-static bool RunBootloader = true;
+//static bool RunBootloader = true;
 
 /* Pulse generation counters to keep track of the time remaining for each pulse type */
 #define TX_RX_LED_PULSE_PERIOD 100
@@ -100,8 +100,8 @@ uint16_t RxLEDPulse = 0; // time remaining for Rx LED pulse
 uint16_t Timeout = 0;
 
 /* MCP4017 current limit R = 100k(POT_STEPS/128), see TPS2553 datasheet for R/Ilim graph */
-#define POT_STEPS 115 // ~250mA
-#define SLA_W 0xF4 // SLA = 0x2F, MSB transmitted first, W = 0
+#define POT_STEPS 0x73 // ~250mA
+#define SLA_W 0x5E // SLA = 0x2F, MSB transmitted first, W = 0
 
 void StartSketch(void)
 {
@@ -123,6 +123,51 @@ void StartSketch(void)
 
     /* jump to beginning of application space */
     __asm__ volatile("jmp 0x0000");
+}
+
+void TWIInit(void)
+{
+    /* Set SCL frequency to ~200kHz */
+    TWSR = 0x00;
+    TWBR = 0x0C;
+    /* Enable TWI */
+    TWCR = (1<<TWEN);
+}
+
+void TWIStart(void)
+{
+    /* Send START condition */
+
+    /* Wait for TWINT Flag set. This indicates that the START condition has been transmitted */
+    while(!(TWCR & (1<<TWINT)));
+}
+
+void TWIStop(void)
+{
+    TWCR = (1<<TWINT)|(1<<TWEN)|(1<<TWSTO);
+}
+
+void TWIWrite(uint8_t u8data)
+{
+    /* Load data into TWDR Register. Clear TWINT bit in TWCR to start transmission */
+    TWDR = u8data;
+    TWCR = (1<<TWINT)|(1<<TWEN);
+    /* Wait for TWINT Flag set. This indicates that the data has been transmitted, and ACK/NACK has been received. */
+    while(!(TWCR & (1<<TWINT)));
+}
+
+void SetupCurrentLimit(void)
+{
+    /* Initialize I2C */
+    TWIStart();
+
+    /* Write slave address (MCP4017) + Write bit */
+    TWIWrite(SLA_W);
+
+    /* Write resistance value */
+    TWIWrite(POT_STEPS);
+
+    TWIStop();
 }
 
 /*	Breathing animation on L LED indicates bootloader is running */
@@ -174,6 +219,7 @@ int main(void)
 /* Disconnect from the host - USB interface will be reset later along with the AVR */
     USB_Detach();
 
+    SetupCurrentLimit();
 /* Jump to beginning of application space to run the sketch - do not reset */
     StartSketch();
 }
@@ -208,57 +254,6 @@ void SetupHardware(void)
 
     /* Initialize USB Subsystem */
     USB_Init();
-}
-
-void TWIInit(void)
-{
-    /* Set SCL frequency to 200kHz */
-    TWSR = 0x00;
-    TWBR = 0x0C;
-    /* Enable TWI */
-    TWCR = (1<<TWEN);
-}
-
-void TWIStart(void)
-{
-    /* Send START condition */
-    TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
-    /* Wait for TWINT Flag set. This indicates that the START condition has been transmitted */
-    while(!(TWCR & (1<<TWINT)));
-}
-
-void TWIStop(void)
-{
-    TWCR = (1<<TWINT)|(1<<TWEN)|(1<<TWSTO);
-}
-
-void TWIWrite(uint8_t u8data)
-{
-    /* Load data into TWDR Register. Clear TWINT bit in TWCR to start transmission */
-    TWDR = u8data;
-    TWCR = (1<<TWINT)|(1<<TWEN);
-    /* Wait for TWINT Flag set. This indicates that the data has been transmitted, and ACK/NACK has been received. */
-    while(!(TWCR & (1<<TWINT)));
-}
-
-void SetupCurrentLimit(void)
-{
-    TWIStart();
-    /* Check value of TWI Status Register. Mask prescaler bits. If status different from START go to ERROR */
-    /* if ((TWSR & 0xF8) != START){
-       return ERROR;
-        }*/
-    TWIWrite(SLA_W);
-    /* Check value of TWI Status Register. Mask prescaler bits. If status different from MT_SLA_ACK go to ERROR */
-    /*if((TWSR & 0xF8) != MT_SLA_ACK){
-      return ERROR;
-        }*/
-    TWIWrite(POT_STEPS);
-    /* Check value of TWI Status Register. Mask prescaler bits. If status different from MT_DATA_ACK go to ERROR */
-    /*if((TWSR & 0xF8) != MT_DATA_ACK){
-      return ERROR;
-        }*/
-    TWIStop();
 }
 
 //uint16_t ctr = 0;

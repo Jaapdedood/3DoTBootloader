@@ -1052,12 +1052,11 @@
  163 003a 8881      		ld r24,Y
  164 003c 8160      		ori r24,lo8(1)
  165 003e 8883      		st Y,r24
- 166               	.LVL5:
- 167               	.LBE85:
- 168               	.LBE84:
- 169               	.LBB86:
- 170               	.LBB87:
- 171               		.file 5 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/Endpoint_AVR8.h"
+ 166               	.LBE85:
+ 167               	.LBE84:
+ 168               	.LBB86:
+ 169               	.LBB87:
+ 170               		.file 5 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/Endpoint_AVR8.h"
    1:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/Endpoint_AVR8.h **** /*
    2:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/Endpoint_AVR8.h ****              LUFA Library
    3:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/Endpoint_AVR8.h ****      Copyright (C) Dean Camera, 2011.
@@ -1334,16 +1333,16 @@
  274:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/Endpoint_AVR8.h **** 			                                              const uint8_t Banks)
  275:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/Endpoint_AVR8.h **** 			{
  276:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/Endpoint_AVR8.h **** 				return Endpoint_ConfigureEndpoint_Prv(Number, ((Type << EPTYPE0) | (Direction ? (1 << EPDIR) : 
- 172               		.loc 5 276 0
- 173 0040 42E0      		ldi r20,lo8(2)
- 174 0042 60E0      		ldi r22,0
- 175 0044 80E0      		ldi r24,0
- 176 0046 0E94 0000 		call Endpoint_ConfigureEndpoint_Prv
- 177               	.LVL6:
- 178               	.LBE87:
- 179               	.LBE86:
- 180               	.LBB88:
- 181               	.LBB89:
+ 171               		.loc 5 276 0
+ 172 0040 42E0      		ldi r20,lo8(2)
+ 173 0042 60E0      		ldi r22,0
+ 174 0044 80E0      		ldi r24,0
+ 175 0046 0E94 0000 		call Endpoint_ConfigureEndpoint_Prv
+ 176               	.LVL5:
+ 177               	.LBE87:
+ 178               	.LBE86:
+ 179               	.LBB88:
+ 180               	.LBB89:
   95:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/USBInterrupt_AVR8.h **** 						break;
   96:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/USBInterrupt_AVR8.h **** 					#endif
   97:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/USBInterrupt_AVR8.h **** 					#if defined(USB_CAN_BE_BOTH)
@@ -1473,34 +1472,35 @@
  221:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/USBInterrupt_AVR8.h **** 						break;
  222:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/USBInterrupt_AVR8.h **** 					case USB_INT_SUSPI:
  223:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/USBInterrupt_AVR8.h **** 						UDINT  &= ~(1 << SUSPI);
- 182               		.loc 4 223 0
- 183 004a E1EE      		ldi r30,lo8(-31)
- 184 004c F0E0      		ldi r31,0
- 185 004e 8081      		ld r24,Z
- 186 0050 8E7F      		andi r24,lo8(-2)
- 187 0052 8083      		st Z,r24
- 188               	.LVL7:
- 189               	.LBE89:
- 190               	.LBE88:
- 191               	.LBB90:
- 192               	.LBB91:
+ 181               		.loc 4 223 0
+ 182 004a E1EE      		ldi r30,lo8(-31)
+ 183 004c F0E0      		ldi r31,0
+ 184 004e 8081      		ld r24,Z
+ 185 0050 8E7F      		andi r24,lo8(-2)
+ 186 0052 8083      		st Z,r24
+ 187               	.LVL6:
+ 188               	.LBE89:
+ 189               	.LBE88:
+ 190               	.LBB90:
+ 191               	.LBB91:
  107:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/USBInterrupt_AVR8.h **** 						break;
- 193               		.loc 4 107 0
- 194 0054 E2EE      		ldi r30,lo8(-30)
- 195 0056 F0E0      		ldi r31,0
- 196 0058 8081      		ld r24,Z
- 197 005a 8160      		ori r24,lo8(1)
- 198 005c 8083      		st Z,r24
- 199               	.LVL8:
- 200               	.LBE91:
- 201               	.LBE90:
- 202               	.LBB92:
- 203               	.LBB93:
+ 192               		.loc 4 107 0
+ 193 0054 E2EE      		ldi r30,lo8(-30)
+ 194 0056 F0E0      		ldi r31,0
+ 195 0058 8081      		ld r24,Z
+ 196 005a 8160      		ori r24,lo8(1)
+ 197 005c 8083      		st Z,r24
+ 198               	.LVL7:
+ 199               	.LBE91:
+ 200               	.LBE90:
+ 201               	.LBB92:
+ 202               	.LBB93:
  110:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/USBInterrupt_AVR8.h **** 						break;
- 204               		.loc 4 110 0
- 205 005e 8081      		ld r24,Z
- 206 0060 8860      		ori r24,lo8(8)
- 207 0062 8083      		st Z,r24
+ 203               		.loc 4 110 0
+ 204 005e 8081      		ld r24,Z
+ 205 0060 8860      		ori r24,lo8(8)
+ 206 0062 8083      		st Z,r24
+ 207               	.LVL8:
  208               	.LBE93:
  209               	.LBE92:
  210               	.LBB94:
@@ -1578,14 +1578,14 @@
  277               		.file 9 "../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../USBTask.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 USBController_AVR8.c
-     /tmp/ccX26bRM.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccX26bRM.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccX26bRM.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccX26bRM.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccX26bRM.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccX26bRM.s:13     .text.USB_Disable:0000000000000000 USB_Disable
-     /tmp/ccX26bRM.s:82     .text.USB_ResetInterface:0000000000000000 USB_ResetInterface
-     /tmp/ccX26bRM.s:242    .text.USB_Init:0000000000000000 USB_Init
+     /tmp/ccRIvrM9.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccRIvrM9.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccRIvrM9.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccRIvrM9.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccRIvrM9.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccRIvrM9.s:13     .text.USB_Disable:0000000000000000 USB_Disable
+     /tmp/ccRIvrM9.s:82     .text.USB_ResetInterface:0000000000000000 USB_ResetInterface
+     /tmp/ccRIvrM9.s:242    .text.USB_Init:0000000000000000 USB_Init
 
 UNDEFINED SYMBOLS
 USB_INT_DisableAllInterrupts
