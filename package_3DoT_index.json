@@ -16,8 +16,8 @@
                     "help": {
                         "online": ""
                     },
-                    "url": "https://github.com/Jaapdedood/3DoTBootloader/archive/v2.0.0.zip",
-                    "archiveFileName": "3DoTBootloader-2.0.0.zip",
+                    "url": "https://arxterra.com/downloads/3DoTBootloader.zip",
+                    "archiveFileName": "3DoTBootloader.zip",
                     "boards": [
                         {"name": "3DoT"}
                     ],
