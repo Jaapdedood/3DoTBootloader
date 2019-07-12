@@ -138,7 +138,7 @@ void TWIInit(void)
 void TWIStart(void)
 {
     /* Send START condition */
-
+    TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
     /* Wait for TWINT Flag set. This indicates that the START condition has been transmitted */
     while(!(TWCR & (1<<TWINT)));
 }
