@@ -9,11 +9,11 @@
    9               		.cfi_sections	.debug_frame
   10               	.Letext0:
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 Pipe_AVR8.c
-     /tmp/ccZSb7F5.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccZSb7F5.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccZSb7F5.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccZSb7F5.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccZSb7F5.s:6      *ABS*:0000000000000001 __zero_reg__
+                            *ABS*:00000000 Pipe_AVR8.c
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccTX7hcu.s:2      *ABS*:0000003e __SP_H__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccTX7hcu.s:3      *ABS*:0000003d __SP_L__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccTX7hcu.s:4      *ABS*:0000003f __SREG__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccTX7hcu.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccTX7hcu.s:6      *ABS*:00000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS

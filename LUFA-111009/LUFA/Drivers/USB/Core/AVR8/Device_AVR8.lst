@@ -401,7 +401,7 @@
   27               		.loc 2 336 0
   28 0002 82E0      		ldi r24,lo8(2)
   29 0004 89BD      		out 0x29,r24
-  30               	.L2:
+  30               	.L3:
   31               	.LBE9:
   32               	.LBE8:
   40:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.c **** 	if (!(USB_Options & USB_OPT_MANUAL_PLL))
@@ -411,7 +411,7 @@
   33               		.loc 1 43 0 discriminator 1
   34 0006 09B4      		in __tmp_reg__,0x29
   35 0008 00FE      		sbrs __tmp_reg__,0
-  36 000a 00C0      		rjmp .L2
+  36 000a 00C0      		rjmp .L3
   37               	.LBB10:
   38               	.LBB11:
  337:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/../AVR8/../AVR8/USBController_AVR8.h **** 			}
@@ -487,12 +487,12 @@
   46 0016 8091 E000 		lds r24,224
   47 001a 8260      		ori r24,lo8(2)
   48 001c 8093 E000 		sts 224,r24
-  49               	.L3:
+  49               	.L5:
   49:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.c **** 	while (UDCON & (1 << RMWKUP));
   50               		.loc 1 49 0 discriminator 1
   51 0020 8091 E000 		lds r24,224
   52 0024 81FD      		sbrc r24,1
-  53 0026 00C0      		rjmp .L3
+  53 0026 00C0      		rjmp .L5
   54               	/* epilogue start */
   50:../../LUFA-111009/LUFA/Drivers/USB/Core/AVR8/Device_AVR8.c **** }
   55               		.loc 1 50 0
@@ -501,14 +501,14 @@
   58               	.LFE81:
   60               		.text
   61               	.Letext0:
-  62               		.file 3 "/usr/lib/avr/include/stdint.h"
+  62               		.file 3 "/usr/local/CrossPack-AVR-20131216/avr/include/stdint.h"
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 Device_AVR8.c
-     /tmp/ccA0hilV.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccA0hilV.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccA0hilV.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccA0hilV.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccA0hilV.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccA0hilV.s:13     .text.USB_Device_SendRemoteWakeup:0000000000000000 USB_Device_SendRemoteWakeup
+                            *ABS*:00000000 Device_AVR8.c
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccccrWcf.s:2      *ABS*:0000003e __SP_H__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccccrWcf.s:3      *ABS*:0000003d __SP_L__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccccrWcf.s:4      *ABS*:0000003f __SREG__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccccrWcf.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccccrWcf.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccccrWcf.s:13     .text.USB_Device_SendRemoteWakeup:00000000 USB_Device_SendRemoteWakeup
 
 NO UNDEFINED SYMBOLS

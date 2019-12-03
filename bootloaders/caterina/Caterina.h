@@ -93,6 +93,8 @@
 
         void CDC_Task(void);
         void SetupHardware(void);
+        void CheckBatteryVoltage(void);
+        void AlertFatalError(void);
 
         void EVENT_USB_Device_ConfigurationChanged(void);
 
