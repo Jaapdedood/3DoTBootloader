@@ -30,7 +30,7 @@ v3.0.0 (03/03/20)
 * Default current limit set to max (0 pot steps)
 * Board version defined
 * LED pins corrected
-* ReadBatteryVoltage corrected
+* ReadBatteryVoltage commented out for now
 
 v2.1.0 (07/11/19)
 * SetupCurrentLimit and accompanying TWI functions added to set MCP4017
