@@ -25,11 +25,16 @@ https://www.arxterra.com/getting-started-with-3dot-initial-arduino-setup/
 Version History
 ===============
 ```
+v3.0.0 (03/03/20)
+* Obtained pid/vid from Atmel, updated in boards,descriptors, makefile
+* Default current limit set to max (0 pot steps)
+* Board version defined
+* LED pins corrected
+* ReadBatteryVoltage corrected
+
 v2.1.0 (07/11/19)
 * SetupCurrentLimit and accompanying TWI functions added to set MCP4017
 resistance via I2C before starting a sketch.
-* Bug: need to wait a few seconds before being able to upload a sketch with
-switch in "program" position (bug always existed).
 
 v2.0.0 (11/14/18)
 * Code overhaul. v1.0.0 was not working on v7 3DoT board. Continuously doing a

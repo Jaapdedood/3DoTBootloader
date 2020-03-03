@@ -61,6 +61,10 @@ This file was modified by Pololu from the original Arduino Caterina
 bootloader to support the A-Star 32U4.
 */
 
+/*
+This file was then modified again by Jaap de Dood to support the Arxterra 3DoT board.
+*/
+
 /** \file
  *
  *  USB Device Descriptors, for library use when in USB device mode. Descriptors are special
@@ -224,9 +228,9 @@ const USB_Descriptor_String_t LanguageString =
  */
 const USB_Descriptor_String_t ProductString =
 {
-	#if DEVICE_VID == 0x1FFB && DEVICE_PID == 0x0101
-	.Header        = {.Size = USB_STRING_LEN(29), .Type = DTYPE_String},
-	.UnicodeString = L"Pololu A-Star 32U4 Bootloader"
+	#if DEVICE_VID == 0x04D8 && DEVICE_PID == 0xEC2E
+	.Header        = {.Size = USB_STRING_LEN(13), .Type = DTYPE_String},
+	.UnicodeString = L"Arxterra 3DoT"
 	#else
 	.Header        = {.Size = USB_STRING_LEN(13), .Type = DTYPE_String},
 	.UnicodeString = L"USB I/O board"
@@ -235,9 +239,9 @@ const USB_Descriptor_String_t ProductString =
 
 const USB_Descriptor_String_t ManufNameString = 
 {
-	#if DEVICE_VID == 0x1FFB
+	#if DEVICE_VID == 0x04D8
 	.Header        = {.Size = USB_STRING_LEN(18), .Type = DTYPE_String},
-	.UnicodeString = L"Pololu Corporation"
+	.UnicodeString = L"Arxterra"
 	#else
 	.Header        = {.Size = USB_STRING_LEN(7), .Type = DTYPE_String},
 	.UnicodeString = L"Unknown"

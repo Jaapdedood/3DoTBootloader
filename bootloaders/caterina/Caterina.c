@@ -101,7 +101,7 @@ uint16_t RxLEDPulse = 0; // time remaining for Rx LED pulse
 uint16_t Timeout = 0;
 
 /* MCP4017 current limit R = 100k(POT_STEPS/128), see TPS2553 datasheet for R/Ilim graph */
-#define POT_STEPS 0x73 // ~250mA
+#define POT_STEPS 0x00 
 #define SLA_W 0x5E // SLA = 0x2F, MSB transmitted first, W = 0
 
 void StartSketch(void)
@@ -131,6 +131,7 @@ void TWIInit(void)
     /* Set SCL frequency to ~200kHz */
     TWSR = 0x00;
     TWBR = 0x0C;
+
     /* Enable TWI */
     TWCR = (1<<TWEN);
 }
@@ -169,6 +170,54 @@ void SetupCurrentLimit(void)
     TWIWrite(POT_STEPS);
 
     TWIStop();
+}
+
+uint16_t ReadBatteryVoltage(void)
+{
+    /* Set PINF0 to Input */
+    DDRF &= ~(1 << PF0);
+    PORTF |= (1 << PF0);
+
+    uint8_t low, high;
+
+    /* Set the analog reference to Internal 2.56V */
+    ADMUX |= (1 << REFS1) | (1 << REFS0);
+    /* Set ADC Mux to ADC0 */
+    ADMUX &= ~0b00011111;
+    _delay_ms(1); // Just to be safe
+
+    /* Start Conversion */
+    ADCSRA |= (1<<ADSC);
+
+    /* Wait for Conversion to finish. ADSC is cleared when the conversion finishes */
+    while (bit_is_set(ADCSRA, ADSC));
+
+    /* we read ADCL first; doing so locks both ADCL
+     * and ADCH until ADCH is read. reading ADCL second would
+     * cause the results of each conversion to be discarded,
+     * as ADCL and ADCH would be locked when it completed. */
+    low = ADCL;
+    high = ADCH;
+
+    // combine the two bytes
+    return (high << 8) | low;
+}
+
+void AlertFatalError(void)
+{
+    /* Blink like mad */
+    while(1)
+    {
+        TX_LED_ON();
+        RX_LED_ON();
+        L_LED_ON();
+        _delay_ms(100);
+        TX_LED_OFF();
+        RX_LED_OFF();
+        L_LED_OFF();
+        _delay_ms(100);
+    }
+    /* When Buzzer is implemented in hardware, buzzer will beep here */
 }
 
 /*	Breathing animation on L LED indicates bootloader is running */
@@ -217,11 +266,17 @@ int main(void)
             LEDPulse();
         }
     }
-/* Disconnect from the host - USB interface will be reset later along with the AVR */
+    /* Disconnect from the host - USB interface will be reset later along with the AVR */
     USB_Detach();
 
     SetupCurrentLimit();
-/* Jump to beginning of application space to run the sketch - do not reset */
+
+    /* Check battery voltage is above 3.3V   
+    if(ReadBatteryVoltage() < 740) {
+        AlertFatalError();
+    }*/
+
+    /* Jump to beginning of application space to run the sketch - do not reset */
     StartSketch();
 }
 

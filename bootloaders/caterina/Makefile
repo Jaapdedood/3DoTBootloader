@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #----------------------------------------------------------------------------
-# WinAVR Makefile Template written by Eric B. Weddington, Jörg Wunsch, et al.
+# WinAVR Makefile Template written by Eric B. Weddington, Jï¿½rg Wunsch, et al.
 #  >> Modified for use with the LUFA project. <<
 #
 # Released to the Public Domain
@@ -47,14 +47,12 @@
 #----------------------------------------------------------------------------
 
 # USB vendor ID (VID)
+# USB VID/PID Subleased by Microchip
 # reuse of this VID by others is forbidden by USB-IF
-# official Arduino LLC VID
-VID = 0x2341
-
+VID = 0x04D8
 
 # USB product ID (PID)
-# official Leonardo PID
-PID = 0x0036
+PID = 0xEC2E
 # official Micro PID
 # PID = 0x0037
 # official Esplora PID

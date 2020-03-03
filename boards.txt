@@ -1,8 +1,8 @@
 3DoT.name=Arxterra 3DoT
-3DoT.vid.0=0x1ffb
-3DoT.pid.0=0x0101
-3DoT.vid.1=0x1ffb
-3DoT.pid.1=0x2300
+3DoT.vid.0=0x04D8
+3DoT.pid.0=0xEC2E
+3DoT.vid.1=0x04D8
+3DoT.pid.1=0xEC2D
 3DoT.upload.tool=arduino:avrdude
 3DoT.upload.protocol=avr109
 3DoT.upload.maximum_size=28672
@@ -22,8 +22,8 @@
 
 3DoT.build.mcu=atmega32u4
 3DoT.build.f_cpu=8000000L
-3DoT.build.vid=0x1ffb
-3DoT.build.pid=0x2300
+3DoT.build.vid=0x04D8
+3DoT.build.pid=0xEC2D
 3DoT.build.usb_product="Arxterra 3DoT"
 3DoT.build.usb_manufacturer="Arxterra"
 3DoT.build.board=AVR_3DOT

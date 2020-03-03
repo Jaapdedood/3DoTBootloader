@@ -10,10 +10,10 @@
   10               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Host_AVR8.c
-     /tmp/ccevJlU3.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccevJlU3.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccevJlU3.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccevJlU3.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccevJlU3.s:6      *ABS*:0000000000000001 __zero_reg__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccxkbl4p.s:2      *ABS*:000000000000003e __SP_H__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccxkbl4p.s:3      *ABS*:000000000000003d __SP_L__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccxkbl4p.s:4      *ABS*:000000000000003f __SREG__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccxkbl4p.s:5      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/21/48xmffd55532bzn9lrp15kkc0000gn/T//ccxkbl4p.s:6      *ABS*:0000000000000001 __zero_reg__
 
 NO UNDEFINED SYMBOLS

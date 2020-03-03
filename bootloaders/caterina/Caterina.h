@@ -63,24 +63,27 @@
 
         /** Eight character bootloader firmware identifier reported to the host when requested */
         #define SOFTWARE_IDENTIFIER          "CATERINA"
+    /* 3DoT Version */
+        // v9.04 = 0x00, v9.05 texas = 0x01, incremented by 1 for each new version
+        #define BOARD_VERSION                 0x01
 
 #define CPU_PRESCALE(n)	(CLKPR = 0x80, CLKPR = (n))
 #define BootMode_Init() DDRE &= ~(1 << 2); PORTE |= (1 << 2);
 #define isBootMode() ((PINE & (1 << 2)) ^ (1 << 2))
-#define LED_SETUP()		DDRC |= (1<<7); DDRB |= (1<<0); DDRD |= (1<<5);
+#define LED_SETUP()		DDRC |= (1<<7); DDRD |= (1<<2); DDRD |= (1<<3);
 #define L_LED_OFF()		PORTC &= ~(1<<7)
 #define L_LED_ON()		PORTC |= (1<<7)
 #define L_LED_TOGGLE()	PORTC ^= (1<<7)
 #if DEVICE_PID == 0x0037	// polarity of the RX and TX LEDs is reversed on the Micro
-            #define TX_LED_OFF()	PORTD &= ~(1<<5)
-            #define TX_LED_ON()		PORTD |= (1<<5)
-            #define RX_LED_OFF()	PORTB &= ~(1<<0)
-            #define RX_LED_ON()		PORTB |= (1<<0)
+            #define TX_LED_OFF()	PORTD &= ~(1<<3)
+            #define TX_LED_ON()		PORTD |= (1<<3)
+            #define RX_LED_OFF()	PORTD &= ~(1<<2)
+            #define RX_LED_ON()		PORTD |= (1<<2)
         #else
-            #define TX_LED_OFF()	PORTD |= (1<<5)
-            #define TX_LED_ON()		PORTD &= ~(1<<5)
-            #define RX_LED_OFF()	PORTB |= (1<<0)
-            #define RX_LED_ON()		PORTB &= ~(1<<0)
+            #define TX_LED_OFF()	PORTD |= (1<<3)
+            #define TX_LED_ON()		PORTD &= ~(1<<3)
+            #define RX_LED_OFF()	PORTD |= (1<<2)
+            #define RX_LED_ON()		PORTD &= ~(1<<2)
         #endif
 
     /* Type Defines: */
@@ -93,6 +96,8 @@
 
         void CDC_Task(void);
         void SetupHardware(void);
+        void CheckBatteryVoltage(void);
+        void AlertFatalError(void);
 
         void EVENT_USB_Device_ConfigurationChanged(void);
 
