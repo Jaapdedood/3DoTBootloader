@@ -26,7 +26,7 @@
 3DoT.build.pid=0xEC2D
 3DoT.build.usb_product="Arxterra 3DoT"
 3DoT.build.usb_manufacturer="Arxterra"
-3DoT.build.board=AVR_3DOT
+3DoT.build.board=AVR_3DOT_9_1
 3DoT.build.core=arduino:arduino
 3DoT.build.variant=arduino:leonardo
 3DoT.build.extra_flags={build.usb_flags}
